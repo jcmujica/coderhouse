@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Ecommerce</title>
+</head>
+
+<body>
+    <h1>Ingrese un producto</h1>
+    <form id='form' action="/api/productos" method="POST" enctype="multipart/form-data">
+        <label for="name">Nombre</label>
+        <input id="name" type="text" name="name">
+        <label for="price">Precio</label>
+        <input id="price" type="number" name="price">
+        <label for="file">Imagen</label>
+        <input id="file" type="file" name="file">
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
