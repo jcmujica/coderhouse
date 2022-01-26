@@ -17,3 +17,28 @@ Utilizar iconfinder (https://www.iconfinder.com/free_icons) para obtener la url 
 
 ## Opcional:
 Utilizar bootstrap para maquetar la vista creada por dicho motor de plantillas y el formulario de ingreso de productos.
+
+
+```
+Productos iniciales:
+[
+    {
+        "id": 1,
+        "title": "The Shawshank Redemption",
+        "price": "9.99",
+        "thumbnail": "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UX182_CR0,0,182,268_AL_.jpg"
+    },
+    {
+        "id": 2,
+        "title": "The Godfather",
+        "price": "9.99",
+        "thumbnail": "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_UY268_CR3,0,182,268_AL_.jpg"
+    },
+    {
+        "id": 3,
+        "title": "The Dark Knight",
+        "price": "9.99",
+        "thumbnail": "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_UY268_CR3,0,182,268_AL_.jpg"
+    }
+]
+```
