@@ -7,7 +7,7 @@ const getId = (file) => {
 class Contenedor {
     constructor(name) {
         this.name = name;
-        this.route = './' + name + '.txt';
+        this.route = './src/' + name + '.txt';
     }
 
     read() {

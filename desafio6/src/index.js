@@ -1,32 +1,42 @@
 const express = require('express');
-const app = express();
-const multer = require('multer');
+const path = require('path');
 const PORT = process.env.PORT || 8080;
+const VIEW_ENGINE = process.env.VIEW_ENGINE || 'hbs';
 const Contenedor = require('./contenedor');
+const app = express();
 const productos = new Contenedor('productos');
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './uploads');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now());
-    }
-});
-
-const upload = multer({ storage });
+const utils = require('./utils');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.set('view engine', VIEW_ENGINE);
+app.engine(VIEW_ENGINE, utils.getSelectedEngine(VIEW_ENGINE));
+app.set('views', path.join(__dirname, `../views/${VIEW_ENGINE}`));
+
 app.get('/', (req, res) => {
-    res.send('<h1>Bienvenido a la app de express</h1>');
+    res.render('main', {
+        productos: productos.getAll(),
+        layout: 'index'
+    })
 });
 
-app.use('/static', express.static('public'));
+app.get('/productos', (req, res) => {
+    res.render('productos', {
+        productos: productos.getAll(),
+        layout: 'index',
+    })
+});
 
-
+app.post('/productos', (req, res) => {
+    console.log(req.body);
+    productos.save(req.body);
+    res.redirect('/');
+});
 
 app.listen(PORT, () => {
+    console.log(`Using view engine: ${VIEW_ENGINE}`);
     console.log(`Server listening on port ${PORT}`);
 });
+
+app.on('error', (err) => { console.error(err) });

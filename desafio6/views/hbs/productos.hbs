@@ -1,0 +1,39 @@
+<nav class="flex items-center justify-between flex-wrap bg-blue-500 p-6 fixed w-full">
+    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto ">
+        <div class="text-sm lg:flex-grow">
+            <a href="/" class="block lg:inline-block lg:mt-0 text-white hover:text-white mr-4 text-right">
+                IR A HOME
+            </a>
+        </div>
+    </div>
+</nav>
+<div class="w-full h-screen flex flex-col items-center justify-center">
+    <h1 class="font-bold text-3xl mb-10">Productos</h1>
+    {{#if productos.length}}
+        <table class="table-auto w-">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2">Nombre</th>
+                    <th class="px-4 py-2">Precio</th>
+                    <th class="px-4 py-2">Foto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each productos}}
+                    <tr>
+                        <td class="border px-4 py-2">{{{name}}}</td>
+                        <td class="border px-4 py-2">{{{price}}}</td>
+                        <td class="border px-4 py-2">
+                            <div class="rounded-full w-24 h-24 bg-[url({{thumbnail}})] bg-cover bg-no-repeat"></div>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{else}}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Ups!</strong>
+            <span class="block sm:inline">No hay productos.</span>
+        </div>
+    {{/if}}
+</div>
