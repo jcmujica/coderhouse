@@ -20,7 +20,9 @@ Utilizar bootstrap para maquetar la vista creada por dicho motor de plantillas y
 
 ## Resolucion:
 
-Crear un .env a partir del example.env y elegir un engine (opciones "hbs", "pug", "ejs"), prepare el proyecto para que funcionara con los 3 engines.
+1. Crear un .env a partir del example.env y elegir un engine (opciones "hbs", "pug", "ejs"), prepare el proyecto para que funcionara con los 3 engines.
+2. Correr el proyecto con yarn start
+3. Reiniciar el server al elegir un engine distinto en el .env
 
 En cuanto a cual me parece mejor, luego de probar los 3 me parecio mejor el EJS, el setup inicial es sencillo al igual que el de pug pero la sintaxis de pug lo vuelve bastante engorroso. En el caso de handlebars, el setup inicial me dio bastantes problemas pero luego la sintaxis fue facil de aplicar. Me parece que EJS tiene una buena mezcla de los 2, una sintaxis intuitiva (porque es como HTML+JS) y un setup sencillos.
 
