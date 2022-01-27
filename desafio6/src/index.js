@@ -11,22 +11,52 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', VIEW_ENGINE);
-app.engine(VIEW_ENGINE, utils.getSelectedEngine(VIEW_ENGINE));
-app.set('views', path.join(__dirname, `../views/${VIEW_ENGINE}`));
 
-app.get('/', (req, res) => {
-    res.render('main', {
-        productos: productos.getAll(),
-        layout: 'index'
-    })
-});
+if (VIEW_ENGINE === 'hbs') {
+    app.engine(VIEW_ENGINE, utils.getSelectedEngine(VIEW_ENGINE));
+    app.set('views', path.join(__dirname, `../views/${VIEW_ENGINE}`));
 
-app.get('/productos', (req, res) => {
-    res.render('productos', {
-        productos: productos.getAll(),
-        layout: 'index',
-    })
-});
+    app.get('/', (req, res) => {
+        res.render('main', {
+            productos: productos.getAll(),
+            layout: 'index'
+        })
+    });
+
+    app.get('/productos', (req, res) => {
+        res.render('productos', {
+            productos: productos.getAll(),
+            layout: 'index',
+        })
+    });
+}
+
+if (VIEW_ENGINE === 'pug') {
+    app.get("/", (req, res) => {
+        res.render('pug/main', {})
+    });
+
+    app.get("/productos", (req, res) => {
+        res.render('pug/productos', {
+            productos: productos.getAll(),
+        })
+    });
+};
+
+if (VIEW_ENGINE === 'ejs') {
+    app.get("/", (req, res) => {
+        res.render('ejs/index', {
+            page: 'index',
+        })
+    });
+
+    app.get("/productos", (req, res) => {
+        res.render('ejs/index', {
+            page: 'productos',
+            productos: productos.getAll(),
+        })
+    });
+};
 
 app.post('/productos', (req, res) => {
     console.log(req.body);
