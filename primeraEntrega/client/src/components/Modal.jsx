@@ -41,7 +41,7 @@ const fields = [
 ];
 
 export const Modal = (props) => {
-  const { product, show = false, setShow } = props;
+  const { product, show = false, setShow, getProducts } = props;
   const [form, setForm] = useState(product);
 
   const handleChange = (e) => {
@@ -58,6 +58,7 @@ export const Modal = (props) => {
   const handleUpdateProduct = async () => {
     const response = await axios.put(`/api/productos/${form.id}`, form);
     if (response.status === 200) {
+      getProducts();
       setShow(false);
     };
   };

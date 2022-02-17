@@ -1,11 +1,11 @@
 import React from 'react'
 import { Layout } from '../components/Layout'
-import { ProductsForm } from '../components/ProductsForm'
+import { Form } from '../components/Form'
 
-export const CreateProduct = () => {
+export const ProductForm = () => {
   return (
     <Layout>
-      <ProductsForm />
+      <Form />
     </Layout>
   )
 };

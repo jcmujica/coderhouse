@@ -8,22 +8,22 @@ const carrito = new Contenedor('carrito');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/api/productos/', (req, res, next) => {
+app.get('/api/auth/role', (req, res) => {
+    res.send({
+        isAdmin: true
+    });
+});
+
+app.get('/api/productos', (req, res, next) => {
     const products = productos.getAll();
     res.send(products);
 });
 
 app.get('/api/productos/:id', (req, res, next) => {
-    let response = null;
-    if (req.params.id) {
-        response = productos.getById(req.params.id);
-    } else {
-        response = productos.getAll();
-    }
-    res.send(response);
+    res.send(req.params.id ? productos.getById(req.params.id) : productos.getAll());
 });
 
-app.post('/api/productos/', (req, res, next) => {
+app.post('/api/productos', (req, res, next) => {
     const newProductID = productos.save(req.body);
     res.send(productos.getById(newProductID));
 });
@@ -44,7 +44,7 @@ app.delete('/api/productos/:id', (req, res, next) => {
 app.get('/api/carrito/:id/productos', (req, res, next) => {
     let response = null;
     if (req.params.id) {
-        response = carrito.getById(req.params.id);
+        response = carrito.getById(req.params.id).productos;
     } else {
         res.send("No se ha especificado el id del carrito");
     };
@@ -58,7 +58,6 @@ app.post('/api/carrito/:id/productos', (req, res, next) => {
 
 app.post('/api/carrito/', (req, res, next) => {
     const timestamp = new Date().getTime();
-    console.log(req.body)
     const newCarritoID = carrito.save({ productos: req.body.productos, timestamp });
     res.send(carrito.getById(newCarritoID));
 });

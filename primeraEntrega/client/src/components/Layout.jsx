@@ -6,7 +6,7 @@ export const Layout = ({ children }) => {
     <>
       <Navbar />
       <div className="flex min-h-screen h-full">
-        <div className="w-full flex items-center justify-center bg-slate-50 h-auto">
+        <div className="w-full flex items-start justify-center bg-slate-50 h-auto pt-36">
           {children}
         </div>
       </div>

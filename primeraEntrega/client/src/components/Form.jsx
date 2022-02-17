@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 const fields = [
     {
@@ -39,7 +40,7 @@ const fields = [
     }
 ];
 
-export const ProductsForm = () => {
+export const Form = () => {
     const [form, setForm] = useState({});
 
     const canSubmit = () => {
@@ -55,13 +56,13 @@ export const ProductsForm = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(form);
+        const product = await axios.post('/api/productos', form);
     };
 
     return (
-        <div className="h-screen w-full flex flex-col items-center justify-center bg-slate-100">
+        <div className="w-full flex flex-col items-center justify-center ">
             <h1 className="font-bold text-3xl mb-10">Ingrese Producto</h1>
             <div>
                 <form className="w-full max-w-lg p-6">
