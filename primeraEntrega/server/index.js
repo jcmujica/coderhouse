@@ -68,6 +68,11 @@ app.delete('/api/carrito/:id', (req, res, next) => {
     res.send(carrito.getAll());
 });
 
+app.get('*', function(req, res){
+    console.log(req)
+    res.send({ error : -2, descripcion: `ruta 'x' método 'y' no implementada`});
+  });
+
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 })
