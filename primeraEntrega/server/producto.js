@@ -7,7 +7,7 @@ const getId = (file) => {
 class Contenedor {
     constructor(name) {
         this.name = name;
-        this.route = './server/' + name + '.txt';
+        this.route = './server/static/' + name + '.txt';
     }
 
     read() {
@@ -67,7 +67,6 @@ class Contenedor {
     updateById(id, data) {
         try {
             const elements = this.read();
-            console.log(id, data)
             const element = elements.find(item => item.id == id);
             const index = elements.indexOf(element);
             elements[index] = { ...element, ...data };
