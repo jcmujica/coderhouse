@@ -5,11 +5,15 @@ const path = require('path');
 const PORT = 8000;
 const Contenedor = require('./contenedor');
 const { options: mariaDBOptions } = require('./db/mariaDB/config');
+const { options: sqLiteOptions } = require('./db/sqLite/config');
 const productos = new Contenedor({
     name: 'productos',
     options: mariaDBOptions
 });
-// const mensajes = new Contenedor({'mensajes'});
+const mensajes = new Contenedor({
+    name: 'mensajes',
+    options: sqLiteOptions
+});
 
 const app = express();
 const httpServer = new HttpServer(app);
@@ -27,17 +31,17 @@ app.get('/', (req, res) => {
 
 io.on('connection', async (socket) => {
     console.log('Cliente conectado');
-    socket.emit('listProducts',  await productos.getAll());
+    socket.emit('listProducts', await productos.getAll());
 
-    // socket.emit('listMessages', mensajes.getAll());
+    socket.emit('listMessages', await mensajes.getAll());
     socket.on('submitProduct', async (prod) => {
         await productos.save(prod);
         io.sockets.emit('listProducts', await productos.getAll());
     });
-    // socket.on('submitMessage', (msg) => {
-    //     mensajes.save(msg);
-    //     io.sockets.emit('listMessages', mensajes.getAll());
-    // });
+    socket.on('submitMessage', async (msg) => {
+        await mensajes.save(msg);
+        io.sockets.emit('listMessages', await mensajes.getAll());
+    });
 });
 
 const connectedServer = httpServer.listen(PORT, () => {

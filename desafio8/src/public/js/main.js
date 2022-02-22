@@ -3,7 +3,6 @@ let products = [];
 let messages = [];
 
 const initialize = async () => {
-    console.log('TRY THIS')
     const renderTemplate = async () => {
         const rawTemplate = await fetch('home.hbs');
         const template = await rawTemplate.text();
@@ -16,7 +15,6 @@ const initialize = async () => {
 
 
     socket.on('listProducts', (prods) => {
-        console.log('HERE', prods);
         products = prods;
         renderTemplate();
     });
