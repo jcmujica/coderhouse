@@ -1,7 +1,7 @@
 export const products = [
     {
         "name": "The Shawshank Redemption",
-        "price": 8,
+        "price": 100,
         "thumbnail": "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UX182_CR0,0,182,268_AL_.jpg",
         "description": "Two imprisoned",
         "sku": "ABC123",
@@ -9,7 +9,7 @@ export const products = [
     },
     {
         "name": "The Godfather",
-        "price": 5,
+        "price": 5000,
         "thumbnail": "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_UY268_CR3,0,182,268_AL_.jpg",
         "description": "The aging patriarch",
         "sku": "ABC124",
@@ -17,7 +17,7 @@ export const products = [
     },
     {
         "name": "The Dark Knight",
-        "price": 9,
+        "price": 900,
         "thumbnail": "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_UY268_CR3,0,182,268_AL_.jpg",
         "description": "The Joker",
         "sku": "ABC125",
@@ -25,7 +25,7 @@ export const products = [
     },
     {
         "name": "12 Angry",
-        "price": 9,
+        "price": 900,
         "thumbnail": "https://m.media-amazon.com/images/M/MV5BMTQwNTU3MzY4MF5BMl5BanBnXkFtZTcwNDA4MzgxMw@@._V1_UY268_CR3,0,182,268_AL_.jpg",
         "description": "The 12 Angry",
         "sku": "ABC126",
@@ -33,7 +33,7 @@ export const products = [
     },
     {
         "name": "The Godfather II",
-        "price": 10,
+        "price": 1500,
         "thumbnail": "https://m.media-amazon.com/images/M/MV5BMjZkNzU2ZDItM2UxOS00ZjIxLWEwNjctMWQyNTQ2ZjI4YjJmXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_UX182_CR0,0,182,268_AL_.jpg",
         "description": "The Godfather II",
         "sku": "ABC127",
@@ -41,7 +41,7 @@ export const products = [
     },
     {
         "name": "The Dark Knight Rises",
-        "price": 30,
+        "price": 3000,
         "thumbnail": "https://m.media-amazon.com/images/M/MV5BMTk4ODQzNDY3Ml5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_UX182_CR0,0,182,268_AL_.jpg",
         "description": "The Dark Knight Rises",
         "sku": "ABC128",
@@ -49,7 +49,7 @@ export const products = [
     },
     {
         "name": "The Lord of the Rings: The Fellowship of the Ring",
-        "price": 50,
+        "price": 5000,
         "thumbnail": "https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_UX182_CR0,0,182,268_AL_.jpg",
         "description": "The Lord of the Rings: The Fellowship of the Ring",
         "sku": "ABC129",
@@ -57,7 +57,7 @@ export const products = [
     },
     {
         "name": "The Lord of the Rings: The Two Towers",
-        "price": 45,
+        "price": 4500,
         "thumbnail": "https://m.media-amazon.com/images/M/MV5BNGE5MzIyNTAtNWFlMC00NDA2LWJiMjItMzY4N2E5ODQ1NjU2XkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_UX182_CR0,0,182,268_AL_.jpg",
         "description": "The Lord of the Rings: The Two Towers",
         "sku": "ABC130",
@@ -65,7 +65,7 @@ export const products = [
     },
     {
         "name": "The Lord of the Rings: The Return of the King",
-        "price": 76,
+        "price": 760,
         "thumbnail": "https://m.media-amazon.com/images/M/MV5BNzA5ZDNlZWMtM2NhNS00NDJjLTk4NDItYTRmY2EwMWZlMTY3XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_UX182_CR0,0,182,268_AL_.jpg",
         "description": "The Lord of the Rings: The Return of the King",
         "sku": "ABC131",
@@ -73,7 +73,7 @@ export const products = [
     },
     {
         "name": "Back to the future",
-        "price": 80,
+        "price": 2600,
         "thumbnail": "https://images-na.ssl-images-amazon.com/images/I/51aiHBWAV9L._SX218_BO1,204,203,200_QL40_FMwebp_.jpg",
         "description": "Back to the Future",
         "sku": "ABC132",
