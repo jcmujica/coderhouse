@@ -17,8 +17,8 @@ Utilizando Mongo Shell, crear una base de datos llamada ecommerce que contenga d
 
 ## Listar todos los documentos en cada colección.
 
-- Listar productos usando `db.getCollection('productos').find({})`
-- Listar mensajes usando `db.getCollection('mensajes').find({})`
+- Listar productos usando `db.productos.find({})`
+- Listar mensajes usando `db.mensajes.find({})`
 
 ## Mostrar la cantidad de documentos almacenados en cada una de ellas.
 
@@ -27,11 +27,46 @@ Utilizando Mongo Shell, crear una base de datos llamada ecommerce que contenga d
 ## Realizar un CRUD sobre la colección de productos:
 
 ### Agregar un producto más en la colección de productos
+
+Producto:
+```
+    {
+        "name": "Back to the Future II",
+        "price": 3500,
+        "thumbnail": "https://images-na.ssl-images-amazon.com/images/I/513GDptt9HL._SX315_BO1,204,203,200_.jpg",
+        "description": "Back to the Future II",
+        "sku": "ABC132",
+        "stock": 45
+    }
+
+```
+- Insertar el producto anterior usando `db.productos.insertOne([producto])
+
 ### Realizar una consulta por nombre de producto específico:
+
+- Encontrar el producto por nombre usando `db.productos.find({"name": "Back to the Future II"})`
+
 ### Listar los productos con precio menor a 1000 pesos.
+
+- Encontrar productos con precio menor a 1000 usando `db.productos.find({"price": {$lt: 1000}})`
+
 ### Listar los productos con precio entre los 1000 a 3000 pesos.
+
+- Encontrar productos en ese rango usando `db.productos.find({"price": {$in: [1000, 3000]}})`
+
 ### Listar los productos con precio mayor a 3000 pesos.
+
+- Encontrar productos con precio mayor a 3000 usando `db.productos.find({"price": {$gt: 3000}})`
+
 ### Realizar una consulta que traiga sólo el nombre del tercer producto más barato.
+
+- Encontrar este producto usando:
+```
+db.productos.find({
+
+})
+```
+
 ### Hacer una actualización sobre todos los productos, agregando el campo stock a todos ellos con un valor de 100.
 ### Cambiar el stock a cero de los productos con precios mayores a 4000 pesos.
 ### Borrar los productos con precio menor a 1000 pesos
