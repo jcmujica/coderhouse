@@ -23,10 +23,10 @@ Utilizando Mongo Shell, crear una base de datos llamada ecommerce que contenga d
 
 
 
-2. Definir las claves de los documentos en relación a los campos de las tablas de esa base. En el caso de los productos, poner valores al campo precio entre los 100 y 5000 pesos(eligiendo valores intermedios, ej: 120, 580, 900, 1280, 1700, 2300, 2860, 3350, 4320, 4990).
-3. Listar todos los documentos en cada colección.
-4. Mostrar la cantidad de documentos almacenados en cada una de ellas.
-5. Realizar un CRUD sobre la colección de productos:
+## Definir las claves de los documentos en relación a los campos de las tablas de esa base. En el caso de los productos, poner valores al campo precio entre los 100 y 5000 pesos(eligiendo valores intermedios, ej: 120, 580, 900, 1280, 1700, 2300, 2860, 3350, 4320, 4990).
+## Listar todos los documentos en cada colección.
+## Mostrar la cantidad de documentos almacenados en cada una de ellas.
+## Realizar un CRUD sobre la colección de productos:
 
     - Agregar un producto más en la colección de productos
     - Realizar una consulta por nombre de producto específico:
