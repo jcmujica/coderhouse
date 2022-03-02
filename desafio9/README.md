@@ -1,9 +1,9 @@
 # Consigna:
 Utilizando Mongo Shell, crear una base de datos llamada ecommerce que contenga dos colecciones: mensajes y productos.
 
-1. Agregar 10 documentos con valores distintos a las colecciones mensajes y productos. El formato de los documentos debe estar en correspondencia con el que venimos utilizando en el entregable con base de datos MariaDB.
+## Agregar 10 documentos con valores distintos a las colecciones mensajes y productos. El formato de los documentos debe estar en correspondencia con el que venimos utilizando en el entregable con base de datos MariaDB.
 
-## Respuesta
+## Respuesta 1
 - Abrir 2 terminales, en una ejecutar `mongod --dbpath [ruta a la carpeta db]` en la otra abrir el shell de mongo ejecutando `mongo`
 - En adelante los comandos se ejecutaran en el terminal donde se ejecuto el comando `mongo`
 - Ejecutar `use ecommerce`
