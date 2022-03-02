@@ -7,15 +7,15 @@ Utilizando Mongo Shell, crear una base de datos llamada ecommerce que contenga d
 4. Mostrar la cantidad de documentos almacenados en cada una de ellas.
 5. Realizar un CRUD sobre la colección de productos:
 
-    5.1. Agregar un producto más en la colección de productos
-    5.2. Realizar una consulta por nombre de producto específico:
-    5.3. Listar los productos con precio menor a 1000 pesos.
-    5.4. Listar los productos con precio entre los 1000 a 3000 pesos.
-    5.5. Listar los productos con precio mayor a 3000 pesos.
-    5.6. Realizar una consulta que traiga sólo el nombre del tercer producto más barato.
-    5.7. Hacer una actualización sobre todos los productos, agregando el campo stock a todos ellos con un valor de 100.
-    5.8. Cambiar el stock a cero de los productos con precios mayores a 4000 pesos.
-    5.9. Borrar los productos con precio menor a 1000 pesos
+    - Agregar un producto más en la colección de productos
+    - Realizar una consulta por nombre de producto específico:
+    - Listar los productos con precio menor a 1000 pesos.
+    - Listar los productos con precio entre los 1000 a 3000 pesos.
+    - Listar los productos con precio mayor a 3000 pesos.
+    - Realizar una consulta que traiga sólo el nombre del tercer producto más barato.
+    - Hacer una actualización sobre todos los productos, agregando el campo stock a todos ellos con un valor de 100.
+    - Cambiar el stock a cero de los productos con precios mayores a 4000 pesos.
+    - Borrar los productos con precio menor a 1000 pesos
 
 7. Crear un usuario 'pepe' clave: 'asd456' que sólo pueda leer la base de datos ecommerce. Verificar que pepe no pueda cambiar la información.
 
