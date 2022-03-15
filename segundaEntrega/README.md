@@ -8,3 +8,11 @@ Basándose en los contenedores ya desarrollados (memoria, archivos) desarrollar 
 
 ## Opcional:
 Hacer lo mismo para bases de datos relacionales: MariaDB/SQLite3.
+
+
+# Para iniciar el proyecto
+- Renombrar el archivo .env.example
+- Setear la variable DB a `mongo` o `firebase` dependiendo del caso
+- Ejecutar `npm i`
+- Ejecutar `npm start`
+- Usar postman para probar los endpoints
