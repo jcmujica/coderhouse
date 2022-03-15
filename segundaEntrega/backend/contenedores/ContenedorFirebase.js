@@ -101,7 +101,7 @@ export class ContenedorFirebase {
             const doc = this.query.doc(id);
             const snapshot = await doc.get();
             const cart = snapshot.data();
-            let product = cart.products.find(product => product.id === productId);
+            let product = cart.products.find(product => product.id === parseInt(productId));
 
             if (product) {
                 let indexOfProduct = cart.products.indexOf(product);
