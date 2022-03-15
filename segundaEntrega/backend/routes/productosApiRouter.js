@@ -1,41 +1,39 @@
 import { Router } from 'express';
+import { config } from 'dotenv';
 import { ProductosDaoFirebase } from '../daos/productos/ProductosDaoFirebase.js';
-const productos = process.env.DB === 'firebase' ? ProductosDaoFirebase : 'import mongodb';
+config();
+const productos = process.env.DB === 'firebase' ? ProductosDaoFirebase : ProductosDaoFirebase;
 
 const productosApiRouter = new Router();
 
 productosApiRouter.get('/:id', (req, res, next) => {
-    res.send(productos.getById(req.params.id));
+    productos.getById(req.params.id).then(producto => {
+        res.send(producto);
+    })
 });
 
-// productosApiRouter.post('/', (req, res, next) => {
-//     if (isAdmin) {
-//         const newProductID = productos.save(req.body);
-//         res.send(productos.getById(newProductID));
-//     } else {
-//         res.send({ error: 401, descripcion: `Solo disponible para administradores` });
-//     };
-// });
+productosApiRouter.get('/', (req, res, next) => {
+    productos.getAll().then(productos => {
+        res.send(productos);
+    });
+});
 
-// productosApiRouter.put('/:id', (req, res, next) => {
-//     if (isAdmin) {
-//         const productId = req.params.id;
-//         const inputData = req.body;
-//         productos.updateById(productId, inputData);
-//         res.send(productos.getAll());
-//     } else {
-//         res.send({ error: 401, descripcion: `Solo disponible para administradores` });
-//     };
-// });
+productosApiRouter.post('/', (req, res, next) => {
+    productos.create(req.body).then(result => {
+        res.send(result);
+    });
+});
 
-// productosApiRouter.delete('/:id', (req, res, next) => {
-//     if (isAdmin) {
-//         const productId = req.params.id;
-//         productos.deleteById(productId);
-//         res.send(productos.getAll());
-//     } else {
-//         res.send({ error: 401, descripcion: `Solo disponible para administradores` });
-//     }
-// });
+productosApiRouter.put('/:id', (req, res, next) => {
+    productos.updateById(req.params.id, req.body).then(result => {
+        res.send(result);
+    });
+});
+
+productosApiRouter.delete('/:id', (req, res, next) => {
+    productos.deleteById(req.params.id).then(result => {
+        res.send(result);
+    });
+});
 
 export default productosApiRouter;

@@ -1,87 +1,76 @@
 import admin from "firebase-admin";
-
-export const initFirebase = () => admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-});
-
 export class ContenedorFirebase {
     constructor(config, name) {
         this.name = name;
         this.firebase = admin.initializeApp({
             credential: admin.credential.cert(config)
         });
+        this.query = this.firebase.firestore().collection(this.name);
     }
 
-    read() {
+    async create(data) {
         try {
-
+            const doc = await this.query.doc();
+            await doc.set(data);
+            return { _id: doc.id };
         } catch (e) {
             console.log(e);
             return null;
         }
     }
 
-    write(data) {
+    async getById(id) {
         try {
-
+            const doc = this.query.doc(id);
+            const snapshot = await doc.get();
+            const response = snapshot.data();
+            return response;
         } catch (e) {
             console.log(e);
             return null;
         }
     }
 
-    save(data) {
+    async getAll() {
         try {
-
+            let snapshot = await this.query.get();
+            let docs = snapshot.docs.map(doc => doc.data());
+            return docs;
         } catch (e) {
             console.log(e);
             return null;
         }
     }
 
-    getById(id) {
+    async updateById(id, data) {
         try {
-
+            const doc = this.query.doc(id);
+            await doc.update(data);
+            return await (await doc.get()).data();
         } catch (e) {
             console.log(e);
             return null;
         }
     }
 
-    getAll() {
+    async deleteById(id) {
         try {
-            return this.read();
+            const doc = this.query.doc(id);
+            return await doc.delete();
         } catch (e) {
             console.log(e);
             return null;
         }
     }
 
-    updateById(id, data) {
+    async deleteAll() {
         try {
-
+            const docs = this.query.get();
+            docs.forEach(doc => doc.delete());
+            return true;
         } catch (e) {
             console.log(e);
             return null;
         }
     }
-
-    deleteById(id) {
-        try {
-
-        } catch (e) {
-            console.log(e);
-            return null;
-        }
-    }
-
-    deleteAll() {
-        try {
-
-        } catch (e) {
-            console.log(e);
-            return null;
-        }
-    }
-
 };
