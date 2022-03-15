@@ -12,7 +12,7 @@ Hacer lo mismo para bases de datos relacionales: MariaDB/SQLite3.
 
 # Para iniciar el proyecto
 - Renombrar el archivo .env.example
-- Setear la variable DB a `mongo` o `firebase` dependiendo del caso
+- Setear la variable DB a `mongo`, `firebase` o `fs` dependiendo del caso
 - Ejecutar `npm i`
 - Ejecutar `npm start`
 - Usar postman para probar los endpoints

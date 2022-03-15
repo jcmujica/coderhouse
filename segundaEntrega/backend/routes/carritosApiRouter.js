@@ -2,8 +2,9 @@ import { Router } from 'express';
 import { config } from 'dotenv';
 import { CarritosDaoFirebase } from '../daos/carritos/CarritosDaoFirebase.js';
 import { CarritosDaoMongoDb } from '../daos/carritos/CarritosDaoMongoDb.js';
+import { CarritosDaoArchivo } from '../daos/carritos/CarritosDaoArchivo.js';
 config();
-const carritos = process.env.DB === 'firebase' ? CarritosDaoFirebase : CarritosDaoMongoDb;
+const carritos = process.env.DB === 'firebase' ? CarritosDaoFirebase : process.env.DB === 'fs' ? CarritosDaoArchivo : CarritosDaoMongoDb;
 
 const carritosApiRouter = new Router();
 
