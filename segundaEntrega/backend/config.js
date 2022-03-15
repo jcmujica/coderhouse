@@ -1,7 +1,11 @@
 export default {
     PORT: process.env.PORT || 8080,
-    mongo: {
-
+    mongoDb: {
+        cnxStr: 'mongodb+srv://admin:admin@coderhouse.bbjyk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+        params: {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }
     },
     firebase: {
         type: "service_account",

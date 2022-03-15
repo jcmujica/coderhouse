@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import { config } from 'dotenv';
 import { ProductosDaoFirebase } from '../daos/productos/ProductosDaoFirebase.js';
+import { ProductosDaoMongoDb } from '../daos/productos/ProductosDaoMongoDb.js';
 config();
-const productos = process.env.DB === 'firebase' ? ProductosDaoFirebase : ProductosDaoFirebase;
+const productos = process.env.DB === 'firebase' ? ProductosDaoFirebase : ProductosDaoMongoDb;
 
 const productosApiRouter = new Router();
 
