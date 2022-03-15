@@ -7,10 +7,10 @@ const getId = (file) => {
 export class ContenedorArchivo {
     constructor(name) {
         this.name = name;
-        this.route = './server/static/' + name + '.txt';
+        this.route = './backend/static/' + name + '.txt';
     }
 
-    read() {
+    async read() {
         try {
             const file = fs.readFileSync(this.route, 'utf8');
             const fileObject = JSON.parse(file);
@@ -21,7 +21,7 @@ export class ContenedorArchivo {
         }
     }
 
-    write(data) {
+    async write(data) {
         try {
             const stringData = JSON.stringify(data);
             fs.writeFileSync(this.route, stringData);
@@ -32,22 +32,22 @@ export class ContenedorArchivo {
         }
     }
 
-    save(data) {
+    async create(data) {
         try {
-            const file = this.read();
+            const file = await this.read();
             data.id = getId(file);
             file.push(data);
-            this.write(file);
-            return data.id;
+            await this.write(file);
+            return { _id: data.id };
         } catch (e) {
             console.log(e);
             return null;
         }
     }
 
-    getById(id) {
+    async getById(id) {
         try {
-            const file = this.read();
+            const file = await this.read();
             return file.find(item => item.id == id) || { error: 'producto no encontrado' };
         } catch (e) {
             console.log(e);
@@ -55,18 +55,18 @@ export class ContenedorArchivo {
         }
     }
 
-    getAll() {
+    async getAll() {
         try {
-            return this.read();
+            return await this.read();
         } catch (e) {
             console.log(e);
             return null;
         }
     }
 
-    updateById(id, data) {
+    async updateById(id, data) {
         try {
-            const elements = this.read();
+            const elements = await this.read();
             const element = elements.find(item => item.id == id);
             const index = elements.indexOf(element);
             elements[index] = { ...element, ...data };
@@ -77,9 +77,9 @@ export class ContenedorArchivo {
         }
     }
 
-    deleteById(id) {
+    async deleteById(id) {
         try {
-            const file = this.read();
+            const file = await this.read();
             const newFile = file.filter(item => item.id != id);
             this.write(newFile);
         } catch (e) {
@@ -88,18 +88,18 @@ export class ContenedorArchivo {
         }
     }
 
-    deleteAll() {
+    async deleteAll() {
         try {
-            this.write([]);
+            await this.write([]);
         } catch (e) {
             console.log(e);
             return null;
         }
     }
 
-    updateCartProductsById(id, data) {
+    async updateCartProductsById(id, data) {
         try {
-            const elements = this.read();
+            const elements = await this.read();
             const element = elements.find(item => item.id == id);
             const index = elements.indexOf(element);
             console.log('data', data);
@@ -111,9 +111,9 @@ export class ContenedorArchivo {
         }
     }
 
-    deleteCartProductById(id, productId) {
+    async deleteCartProductById(id, productId) {
         try {
-            const elements = this.read();
+            const elements = await this.read();
             const element = elements.find(item => item.id == id);
             const index = elements.indexOf(element);
             const newProducts = element.productos.filter(item => item.id != productId);

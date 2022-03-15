@@ -15,5 +15,5 @@ app.get('*', function (req, res) {
 });
 
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
+    console.log(`Servidor corriendo en el puerto ${PORT} con configuracion para: ${process.env.DB}`);
 });
