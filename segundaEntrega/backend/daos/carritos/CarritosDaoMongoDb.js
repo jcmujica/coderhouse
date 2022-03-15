@@ -1,5 +1,5 @@
 import config from "../../config.js";
 import { ContenedorMongoDb } from "../../contenedores/ContenedorMongoDb.js";
-import { productosModel } from '../../models/productosModel.js';
+import { carritosModel } from '../../models/carritosModel.js';
 
-export const ProductosDaoMongoDb = new ContenedorMongoDb(config.mongoDb, productosModel, 'productos');
+export const CarritosDaoMongoDb = new ContenedorMongoDb(config.mongoDb, carritosModel, 'carritos');

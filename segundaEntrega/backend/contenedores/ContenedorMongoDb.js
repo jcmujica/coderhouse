@@ -82,7 +82,7 @@ export class ContenedorMongoDb {
         }
     }
 
-    async deleteCartProductById(id, productId) {
+    async cartDeleteProductById(id, productId) {
         try {
             let cart = await this.model.findById(id);
             cart.products = cart.products.filter(product => product.id !== productId);

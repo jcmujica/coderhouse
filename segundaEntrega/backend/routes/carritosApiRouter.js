@@ -1,35 +1,44 @@
-const express = require('express');
-const router = express.Router();
-const Carrito = require('../carrito');
-const carrito = new Carrito('carrito');
-require('dotenv').config();
+import { Router } from 'express';
+import { config } from 'dotenv';
+import { CarritosDaoFirebase } from '../daos/carritos/CarritosDaoFirebase.js';
+import { CarritosDaoMongoDb } from '../daos/carritos/CarritosDaoMongoDb.js';
+config();
+const carritos = process.env.DB === 'firebase' ? CarritosDaoFirebase : CarritosDaoMongoDb;
 
-router.get('/:id/productos', (req, res, next) => {
-    res.send(carrito.getById(req.params.id).productos);
+const carritosApiRouter = new Router();
+
+carritosApiRouter.get('/:id/productos', (req, res, next) => {
+    carritos.getById(req.params.id).then(carrito => {
+        res.send(carrito.productos);
+    })
 });
 
-router.post('/', (req, res, next) => {
-    const timestamp = new Date().getTime();
-    const newCarritoID = carrito.save({ productos: req.body.productos, timestamp });
-    res.send(carrito.getById(newCarritoID));
+carritosApiRouter.post('/', (req, res, next) => {
+    const carrito = {
+        timestamp: new Date().getTime(),
+        productos: []
+    };
+    carritos.create(carrito).then(result => {
+        res.send(result);
+    });
 });
 
-router.post('/:id/productos', (req, res, next) => {
-    carrito.updateCartProductsById(req.params.id, req.body);
-    res.send(carrito.getById(req.params.id));
+carritosApiRouter.post('/:id/productos', (req, res, next) => {
+    cattitos.cartUpdateProductById(req.params.id, req.body).then(result => {
+        res.send(result);
+    });
 });
 
-router.delete('/:id', (req, res, next) => {
-    const carritoId = req.params.id;
-    carrito.deleteById(carritoId);
-    res.send(carrito.getAll());
+carritosApiRouter.delete('/:id', (req, res, next) => {
+    carritos.deleteById(req.params.id).then(result => {
+        res.send(result);
+    });
 });
 
-router.delete('/:id/productos/:id_prod', (req, res, next) => {
-    const carritoId = req.params.id;
-    const productoId = req.params.id_prod;
-    carrito.deleteCartProductById(carritoId, productoId);
-    res.send(carrito.getAll());
+carritosApiRouter.delete('/:id/productos/:id_prod', (req, res, next) => {
+    carritos.cartDeleteProductById(req.params.id, req.body).then(result => {
+        res.send(result);
+    });
 });
 
-module.exports = router;
+export default carritosApiRouter;

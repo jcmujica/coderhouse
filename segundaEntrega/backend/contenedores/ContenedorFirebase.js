@@ -2,9 +2,9 @@ import admin from "firebase-admin";
 export class ContenedorFirebase {
     constructor(config, name) {
         this.name = name;
-        this.firebase = admin.initializeApp({
+        this.firebase = (admin.apps.length === 0) ? admin.initializeApp({
             credential: admin.credential.cert(config)
-        });
+        }) : admin.app();
         this.query = this.firebase.firestore().collection(this.name);
     }
 
