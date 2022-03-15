@@ -12,7 +12,7 @@ export class ContenedorArchivo {
 
     async read() {
         try {
-            const file = fs.readFileSync(this.route, 'utf8');
+            const file = await fs.readFileSync(this.route, 'utf8');
             const fileObject = JSON.parse(file);
             return fileObject;
         } catch (e) {
@@ -48,7 +48,7 @@ export class ContenedorArchivo {
     async getById(id) {
         try {
             const file = await this.read();
-            return file.find(item => item.id == id) || { error: 'producto no encontrado' };
+            return file.find(item => item.id === parseInt(id)) || { error: 'producto no encontrado' };
         } catch (e) {
             console.log(e);
             return null;
@@ -97,28 +97,39 @@ export class ContenedorArchivo {
         }
     }
 
-    async updateCartProductsById(id, data) {
+    async cartUpdateProductById(id, data) {
         try {
-            const elements = await this.read();
-            const element = elements.find(item => item.id == id);
-            const index = elements.indexOf(element);
-            console.log('data', data);
-            elements[index] = { ...element, ...data };
-            this.write(elements);
+            const carts = await this.read();
+            const cart = carts.find(item => item.id == id);
+            const index = carts.indexOf(cart);
+
+            const hasProduct = cart.products.find(item => item.id == data.id);
+
+            if (hasProduct) {
+                const productIndex = cart.products.indexOf(hasProduct);
+                cart.products[productIndex] = { ...hasProduct, ...data };
+            } else {
+                cart.products.push(data);
+            }
+
+            let updatedCarts = [...carts];
+            updatedCarts[index] = cart;
+
+            this.write(updatedCarts);
         } catch (e) {
             console.log(e);
             return null;
         }
     }
 
-    async deleteCartProductById(id, productId) {
+    async cartDeleteProductById(id, productId) {
         try {
-            const elements = await this.read();
-            const element = elements.find(item => item.id == id);
-            const index = elements.indexOf(element);
-            const newProducts = element.productos.filter(item => item.id != productId);
-            elements[index] = { ...element, productos: newProducts };
-            this.write(elements);
+            const carts = await this.read();
+            const cart = carts.find(item => item.id == id);
+            const index = carts.indexOf(cart);
+            const newProducts = cart.products.filter(item => item.id != productId);
+            carts[index] = { ...cart, products: newProducts };
+            this.write(carts);
         } catch (e) {
             console.log(e);
             return null;
