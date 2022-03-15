@@ -3,13 +3,12 @@ import { initFirebase } from './db/firebase/index.js';
 const PORT = process.env.PORT || 8080;
 const app = express();
 const admin = initFirebase();
+import productosApiRouter from './routes/productosApiRouter.js';
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/api/auth/role', (req, res) => {
-    res.send({ isAdmin: process.env.IS_ADMIN });
-});
+app.use('api/productos', productosApiRouter);
 
 app.get('*', function (req, res) {
     res.send({ error: -2, descripcion: `ruta 'x' método 'y' no implementada` });
