@@ -73,4 +73,46 @@ export class ContenedorFirebase {
             return null;
         }
     }
+
+    async cartUpdateProductById(id, data) {
+        try {
+            const doc = this.query.doc(id);
+            const snapshot = await doc.get();
+            const cart = snapshot.data();
+            let product = cart.products.find(product => product.id === data.id);
+
+            if (product) {
+                let indexOfProduct = cart.products.indexOf(product);
+                cart.products[indexOfProduct] = data;
+            } else {
+                cart.products.push(data);
+            };
+
+            await doc.update(cart);
+            return await (await doc.get()).data();
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
+    }
+
+    async cartDeleteProductById(id, productId) {
+        try {
+            const doc = this.query.doc(id);
+            const snapshot = await doc.get();
+            const cart = snapshot.data();
+            let product = cart.products.find(product => product.id === productId);
+
+            if (product) {
+                let indexOfProduct = cart.products.indexOf(product);
+                cart.products.splice(indexOfProduct, 1);
+                await doc.update(cart);
+            }
+
+            return await (await doc.get()).data();
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
+    }
 };

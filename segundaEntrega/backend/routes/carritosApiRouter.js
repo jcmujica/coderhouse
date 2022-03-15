@@ -9,7 +9,6 @@ const carritosApiRouter = new Router();
 
 carritosApiRouter.get('/:id/productos', (req, res, next) => {
     carritos.getById(req.params.id).then(carrito => {
-        console.log('carrito', carrito);
         res.send(carrito.products);
     })
 });
@@ -17,7 +16,7 @@ carritosApiRouter.get('/:id/productos', (req, res, next) => {
 carritosApiRouter.post('/', (req, res, next) => {
     const carrito = {
         timestamp: new Date().getTime(),
-        productos: []
+        products: []
     };
     carritos.create(carrito).then(result => {
         res.send(result);
