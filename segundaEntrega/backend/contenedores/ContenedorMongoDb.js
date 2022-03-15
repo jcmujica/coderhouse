@@ -71,8 +71,13 @@ export class ContenedorMongoDb {
         try {
             let cart = await this.model.findById(id);
             let product = cart.products.find(product => product.id === data.id);
-            let indexOfProduct = cart.products.indexOf(product);
-            cart.products[indexOfProduct] = data;
+
+            if (product) {
+                let indexOfProduct = cart.products.indexOf(product);
+                cart.products[indexOfProduct] = data;
+            } else {
+                cart.products.push(data);
+            };
             await cart.save();
             let updatedCart = await this.model.findById(id);
             return updatedCart;
@@ -85,7 +90,7 @@ export class ContenedorMongoDb {
     async cartDeleteProductById(id, productId) {
         try {
             let cart = await this.model.findById(id);
-            cart.products = cart.products.filter(product => product.id !== productId);
+            cart.products = cart.products.filter(product => product.id !== parseInt(productId));
             await cart.save();
             let updatedCart = await this.model.findById(id);
             return updatedCart;
