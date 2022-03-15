@@ -1,8 +1,6 @@
 import express from 'express';
-import { initFirebase } from './db/firebase/index.js';
 const PORT = process.env.PORT || 8080;
 const app = express();
-const admin = initFirebase();
 import productosApiRouter from './routes/productosApiRouter.js';
 
 app.use(express.json());

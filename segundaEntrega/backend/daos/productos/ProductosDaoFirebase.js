@@ -1,6 +1,4 @@
-import config from "../../config";
-import { ContenedorFirebase } from "../../contenedores/ContenedorFirebase";
+import config from "../../config.js";
+import { ContenedorFirebase } from "../../contenedores/ContenedorFirebase.js";
 
-const productosApi = new ContenedorFirebase(config.firebase, 'productos');
-
-export default productosApi;
+export const ProductosDaoFirebase = new ContenedorFirebase(config.firebase, 'productos');
