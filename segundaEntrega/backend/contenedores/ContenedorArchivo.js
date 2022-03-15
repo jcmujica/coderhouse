@@ -5,9 +5,9 @@ const getId = (file) => {
 };
 
 export class ContenedorArchivo {
-    constructor(name) {
+    constructor(config, name) {
         this.name = name;
-        this.route = './backend/static/' + name + '.txt';
+        this.route = config.path + name + config.type;
     }
 
     async read() {
