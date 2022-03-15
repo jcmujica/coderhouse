@@ -13,7 +13,7 @@ app.get('/api/auth/role', (req, res) => {
 });
 
 app.use('/api/productos', productos);
-app.use('/api/carrito', carritos);
+app.use('/api/carritos', carritos);
 
 app.get('*', function (req, res) {
     res.send({ error: -2, descripcion: `ruta 'x' método 'y' no implementada` });

@@ -66,4 +66,32 @@ export class ContenedorMongoDb {
             return null;
         }
     }
+
+    async cartUpdateProductById(id, data) {
+        try {
+            let cart = await this.model.findById(id);
+            let product = cart.products.find(product => product.id === data.id);
+            let indexOfProduct = cart.products.indexOf(product);
+            cart.products[indexOfProduct] = data;
+            await cart.save();
+            let updatedCart = await this.model.findById(id);
+            return updatedCart;
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
+    }
+
+    async deleteCartProductById(id, productId) {
+        try {
+            let cart = await this.model.findById(id);
+            cart.products = cart.products.filter(product => product.id !== productId);
+            await cart.save();
+            let updatedCart = await this.model.findById(id);
+            return updatedCart;
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
+    }
 };
