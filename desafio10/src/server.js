@@ -6,14 +6,15 @@ const PORT = 8000;
 const Productos = require('./productos');
 const Mensajes = require('./mensajes');
 const { options: mariaDBOptions } = require('./db/mariaDB/config');
-const { options: sqLiteOptions } = require('./db/sqLite/config');
+const { default: firebaseConfig } = require('./db/firebase/config');
+
 const productos = new Productos({
     name: 'productos',
     options: mariaDBOptions
 });
 const mensajes = new Mensajes({
     name: 'mensajes',
-    options: sqLiteOptions
+    options: firebaseConfig
 });
 
 const app = express();

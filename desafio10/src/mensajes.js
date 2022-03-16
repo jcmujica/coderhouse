@@ -1,67 +1,118 @@
-
-
-class Productos {
-    constructor({ name, options }) {
+const admin = require("firebase-admin");
+export class Mensajes {
+    constructor({name, config}) {
         this.name = name;
-        this.knex = require('knex')(options);
+        this.firebase = (admin.apps.length === 0) ? admin.initializeApp({
+            credential: admin.credential.cert(config)
+        }) : admin.app();
+        this.query = this.firebase.firestore().collection(this.name);
     }
 
-    save(data) {
-        return new Promise((resolve, reject) => {
-            this.knex.insert(data)
-                .into(this.name)
-                .then((data) => resolve(data))
-                .catch(e => reject(e));
-        });
+    async create(data) {
+        try {
+            const doc = await this.query.doc();
+            await doc.set(data);
+            return { _id: doc.id };
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
     }
 
-    getById(id) {
-        return new Promise((resolve, reject) => {
-            this.knex.table(this.name)
-                .where('id', id)
-                .then((data) => resolve(data))
-                .catch(e => reject(e));
-        });
+    async getById(id) {
+        try {
+            const doc = this.query.doc(id);
+            const snapshot = await doc.get();
+            const response = snapshot.data();
+            return response;
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
     }
 
-    getAll() {
-        return new Promise((resolve, reject) => {
-            this.knex.select('*')
-                .from(this.name)
-                .then(data => resolve(data))
-                .catch(e => reject({ message: 'opetation failed', error: e }));
-        });
+    async getAll() {
+        try {
+            let snapshot = await this.query.get();
+            let docs = snapshot.docs.map(doc => doc.data());
+            return docs;
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
     }
 
-    updateById(id, data) {
-        return new Promise((resolve, reject) => {
-            this.knex.table(this.name)
-                .where('id', id)
-                .update(data)
-                .then((data) => resolve(data))
-                .catch(e => reject(e));
-        });
+    async updateById(id, data) {
+        try {
+            const doc = this.query.doc(id);
+            await doc.update(data);
+            return await (await doc.get()).data();
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
     }
 
-    deleteById(id) {
-        return new Promise((resolve, reject) => {
-            this.knex.table(this.name)
-                .where('id', id)
-                .del()
-                .then((data) => resolve(data))
-                .catch(e => reject(e));
-        });
+    async deleteById(id) {
+        try {
+            const doc = this.query.doc(id);
+            return await doc.delete();
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
     }
 
-    deleteAll() {
-        return new Promise((resolve, reject) => {
-            this.knex.table(this.name)
-                .del()
-                .then((data) => resolve(data))
-                .catch(e => reject(e));
-        });
+    async deleteAll() {
+        try {
+            const docs = this.query.get();
+            docs.forEach(doc => doc.delete());
+            return true;
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
     }
 
-}
+    async cartUpdateProductById(id, data) {
+        try {
+            const doc = this.query.doc(id);
+            const snapshot = await doc.get();
+            const cart = snapshot.data();
+            let product = cart.products.find(product => product.id === data.id);
 
-module.exports = Productos;
+            if (product) {
+                let indexOfProduct = cart.products.indexOf(product);
+                cart.products[indexOfProduct] = data;
+            } else {
+                cart.products.push(data);
+            };
+
+            await doc.update(cart);
+            return await (await doc.get()).data();
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
+    }
+
+    async cartDeleteProductById(id, productId) {
+        try {
+            const doc = this.query.doc(id);
+            const snapshot = await doc.get();
+            const cart = snapshot.data();
+            let product = cart.products.find(product => product.id === parseInt(productId));
+
+            if (product) {
+                let indexOfProduct = cart.products.indexOf(product);
+                cart.products.splice(indexOfProduct, 1);
+                await doc.update(cart);
+            }
+
+            return await (await doc.get()).data();
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
+    }
+};
