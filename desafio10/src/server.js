@@ -3,14 +3,15 @@ const { Server: HttpServer } = require('http');
 const { Server: IOServer } = require('socket.io');
 const path = require('path');
 const PORT = 8000;
-const Contenedor = require('./contenedor');
+const Productos = require('./productos');
+const Mensajes = require('./mensajes');
 const { options: mariaDBOptions } = require('./db/mariaDB/config');
 const { options: sqLiteOptions } = require('./db/sqLite/config');
-const productos = new Contenedor({
+const productos = new Productos({
     name: 'productos',
     options: mariaDBOptions
 });
-const mensajes = new Contenedor({
+const mensajes = new Mensajes({
     name: 'mensajes',
     options: sqLiteOptions
 });

@@ -1,6 +1,6 @@
 
 
-class Contenedor {
+class Productos {
     constructor({ name, options }) {
         this.name = name;
         this.knex = require('knex')(options);
@@ -64,4 +64,4 @@ class Contenedor {
 
 }
 
-module.exports = Contenedor;
+module.exports = Productos;
