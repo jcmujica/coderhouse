@@ -7,6 +7,7 @@ const Productos = require('./productos');
 const Mensajes = require('./mensajes');
 const { options: mariaDBOptions } = require('./db/mariaDB/config');
 const config = require('./db/firebase/config');
+const generateProductsData = require('./utils/generateProductsData');
 
 const productos = new Productos({
     name: 'productos',
@@ -30,6 +31,11 @@ app.use(express.static(publicPath));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(publicPath, 'index.html'));
+});
+
+app.get('/api/productos-test', (req, res) => {
+    const products = generateProductsData(6)
+    res.send(products);
 });
 
 io.on('connection', async (socket) => {
