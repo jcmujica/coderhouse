@@ -8,6 +8,7 @@ const Mensajes = require('./mensajes');
 const { options: mariaDBOptions } = require('./db/mariaDB/config');
 const config = require('./db/firebase/config');
 const generateProductsData = require('./utils/generateProductsData');
+const normalizeMessages = require('./utils/normalizeMessages');
 
 const productos = new Productos({
     name: 'productos',
@@ -42,13 +43,15 @@ io.on('connection', async (socket) => {
     console.log('Cliente conectado');
     socket.emit('listProducts', await productos.getAll());
 
+    const chat = await mensajes.getAll();
+    const normalizedChat = normalizeMessages(chat);
     socket.emit('listMessages', await mensajes.getAll());
     socket.on('submitProduct', async (prod) => {
         await productos.save(prod);
         io.sockets.emit('listProducts', await productos.getAll());
     });
     socket.on('submitMessage', async (msg) => {
-        await mensajes.save(msg);
+        await mensajes.create(msg);
         io.sockets.emit('listMessages', await mensajes.getAll());
     });
 });

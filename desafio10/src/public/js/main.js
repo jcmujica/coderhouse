@@ -42,10 +42,33 @@ const submitProduct = () => {
 const submitMessage = (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
-    const messageText = document.getElementById('message').value;
+    const text = document.getElementById('message').value;
+    const name = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const age = document.getElementById('age').value;
+    const alias = document.getElementById('alias').value;
+    const avatar = document.getElementById('avatar').value;
     const date = new Date().toLocaleString('en-GB');
-    const message = { email, message: messageText, date };
-    if (!email || !messageText) return;
+    const error = document.getElementById('error');
+    const message = {
+        author: {
+            id: email,
+            name: name,
+            lastName: lastName,
+            age: age,
+            alias: alias,
+            avatar: avatar,
+            date: date
+        },
+        text: text
+    };
+
+    if (!email || !text || !name || !lastName || !age || !alias || !avatar) {
+        error.classList.remove('hidden');
+        return
+    } else {
+        error.classList.add('hidden');
+    }
 
     socket.emit('submitMessage', message);
 };

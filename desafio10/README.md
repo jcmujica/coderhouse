@@ -5,7 +5,7 @@ Sobre el desafío entregable de la clase 8 (sql y node: nuestra primera base de 
 Ahora, vamos a reformar el formato de los mensajes y la forma de comunicación del chat (centro de mensajes).
 El nuevo formato de mensaje será:
 
-´´´
+```
 {
     author: {
         id: 'mail del usuario',
@@ -17,7 +17,7 @@ El nuevo formato de mensaje será:
     },
     text: 'mensaje del usuario'
 }
-´´´
+```
 
 ## Aspectos a incluir en el entregable:
 1. Modificar la persistencia de los mensajes para que utilicen un contenedor que permita guardar objetos anidados (archivos, mongodb, firebase).
