@@ -1,9 +1,9 @@
 const admin = require("firebase-admin");
-export class Mensajes {
-    constructor({name, config}) {
+class Mensajes {
+    constructor({name, options}) {
         this.name = name;
         this.firebase = (admin.apps.length === 0) ? admin.initializeApp({
-            credential: admin.credential.cert(config)
+            credential: admin.credential.cert(options)
         }) : admin.app();
         this.query = this.firebase.firestore().collection(this.name);
     }
@@ -116,3 +116,5 @@ export class Mensajes {
         }
     }
 };
+
+module.exports = Mensajes;
