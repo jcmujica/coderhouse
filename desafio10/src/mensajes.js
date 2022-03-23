@@ -1,6 +1,6 @@
 const admin = require("firebase-admin");
 class Mensajes {
-    constructor({name, options}) {
+    constructor({ name, options }) {
         this.name = name;
         this.firebase = (admin.apps.length === 0) ? admin.initializeApp({
             credential: admin.credential.cert(options)
@@ -11,7 +11,7 @@ class Mensajes {
     async create(data) {
         try {
             const doc = await this.query.doc();
-            await doc.set(data);
+            await doc.set({ ...data, id: doc.id });
             return { _id: doc.id };
         } catch (e) {
             console.log(e);
@@ -115,6 +115,6 @@ class Mensajes {
             return null;
         }
     }
-};
+}
 
 module.exports = Mensajes;

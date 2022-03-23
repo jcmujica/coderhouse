@@ -41,19 +41,24 @@ app.get('/api/productos-test', (req, res) => {
 
 io.on('connection', async (socket) => {
     console.log('Cliente conectado');
-    socket.emit('listProducts', await productos.getAll());
+    try {
+        socket.emit('listProducts', await productos.getAll());
 
-    const chat = await mensajes.getAll();
-    const normalizedChat = normalizeMessages(chat);
-    socket.emit('listMessages', await mensajes.getAll());
-    socket.on('submitProduct', async (prod) => {
-        await productos.save(prod);
-        io.sockets.emit('listProducts', await productos.getAll());
-    });
-    socket.on('submitMessage', async (msg) => {
-        await mensajes.create(msg);
-        io.sockets.emit('listMessages', await mensajes.getAll());
-    });
+        const chat = await mensajes.getAll();
+        const normalizedChat = normalizeMessages(chat);
+        socket.emit('listMessages', await mensajes.getAll());
+        socket.on('submitProduct', async (prod) => {
+            await productos.save(prod);
+            io.sockets.emit('listProducts', await productos.getAll());
+        });
+        socket.on('submitMessage', async (msg) => {
+            await mensajes.create(msg);
+            io.sockets.emit('listMessages', normalizedChat);
+        });
+    } catch (e) {
+        console.log(e)
+    }
+
 });
 
 const connectedServer = httpServer.listen(PORT, () => {

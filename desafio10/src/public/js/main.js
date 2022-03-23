@@ -13,7 +13,6 @@ const initialize = async () => {
         submitMessageButton.addEventListener('click', submitMessage);
     };
 
-
     socket.on('listProducts', (prods) => {
         products = prods;
         renderTemplate();
@@ -21,6 +20,7 @@ const initialize = async () => {
 
     socket.on('listMessages', (msgs) => {
         messages = msgs;
+        console.log(messages);
         renderTemplate();
     });
 };
@@ -52,7 +52,7 @@ const submitMessage = (e) => {
     const error = document.getElementById('error');
     const message = {
         author: {
-            id: email,
+            email: email,
             name: name,
             lastName: lastName,
             age: age,

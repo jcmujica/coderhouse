@@ -33,3 +33,7 @@ En este schema cambia el nombre del id con que se normaliza el nombre de los aut
 ### Nota:
 incluir en el frontend el script de normalizr de la siguiente cdn: https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js
 Así podremos utilizar los mismos métodos de normalizr que en el backend. Por ejemplo:  new normalizr.schema.Entity , normalizr.denormalize(...,...,...)
+
+## Pasos para correr el proyecto
+- Iniciar XAMPP.
+- Ejecutar npm start
