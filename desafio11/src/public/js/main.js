@@ -10,7 +10,7 @@ const initialize = async () => {
         const body = document.querySelector('body');
         body.innerHTML = templateFunction({ products: products, messages: messages });
         const submitMessageButton = document.getElementById('submitMessageButton');
-        submitMessageButton.addEventListener('click', submitMessage);
+        submitMessageButton?.addEventListener('click', submitMessage);
     };
 
     socket.on('listProducts', (prods) => {
@@ -20,7 +20,6 @@ const initialize = async () => {
 
     socket.on('listMessages', (msgs) => {
         messages = msgs;
-        console.log(messages);
         renderTemplate();
     });
 };
