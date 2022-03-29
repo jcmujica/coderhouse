@@ -60,19 +60,35 @@ app.use(session({
             useNewUrlParser: true,
             useUnifiedTopology: true
         }
-    })
+    }),
+    cookie: {
+        maxAge: 1000 * 60
+    }
 }));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(publicPath, 'index.html'));
+    console.log('req.session', req.session);
+    if (!req.session.user) {
+        res.sendFile(path.join(publicPath, 'index.html'));
+    } else {
+        res.redirect('/login');
+    };
 });
 
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(publicPath, 'register.html'));
+    if (req.session.user) {
+        res.redirect('/');
+    } else {
+        res.sendFile(path.join(publicPath, 'register.html'));
+    };
 });
 
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(publicPath, 'login.html'));
+    if (req.session.user) {
+        res.redirect('/');
+    } else {
+        res.sendFile(path.join(publicPath, 'login.html'));
+    };
 });
 
 app.post('/api/register', async (req, res) => {
@@ -96,8 +112,10 @@ app.post('/api/login', async (req, res) => {
     res.send(result);
 });
 
-app.get('/logout', (req, res) => {
-
+app.get('/api/logout', (req, res) => {
+    req.session.destroy();
+    res.clearCookie('connect.sid');
+    res.send(true);
 });
 
 app.get('/api/productos-test', (req, res) => {

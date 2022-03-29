@@ -1,9 +1,13 @@
 <nav class="flex items-center justify-between flex-wrap bg-blue-500 p-6 fixed w-full">
-    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto ">
-        <div class="text-sm lg:flex-grow justify-end">
+    <div class="flex items-center w-full justify-end">
+        <div class="text-sm flex">
             <a href="/register"
                 class="block lg:inline-block lg:mt-0 text-white hover:text-white hover:bg-blue-700 mr-4 text-right py-2 px-6 rounded">
                 Registro
+            </a>
+            <a href="/login"
+                class="block lg:inline-block lg:mt-0 text-white hover:text-white hover:bg-blue-700 mr-4 text-right py-2 px-6 rounded">
+                Login
             </a>
         </div>
     </div>
@@ -17,8 +21,9 @@
             </svg></div>
         <div class="flex justify-between items-center w-full">
             <p class="font-bold">Bienvenido</p>
-            <button id="logout"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Desloguearse</button>
+            <button id="logout" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="logout">
+                Desloguearse
+            </button>
         </div>
     </div>
 </div>

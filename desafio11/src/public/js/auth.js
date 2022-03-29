@@ -14,7 +14,7 @@ const register = async () => {
     });
 
     const res = await result.json();
-    
+
     if (res?._id) {
         window.location.href = '/';
     }
@@ -37,7 +37,7 @@ const login = async () => {
     });
 
     const res = await result.json();
-    
+
     if (res?._id) {
         window.location.href = '/';
 

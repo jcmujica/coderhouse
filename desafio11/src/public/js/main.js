@@ -11,6 +11,9 @@ const initialize = async () => {
         body.innerHTML = templateFunction({ products: products, messages: messages });
         const submitMessageButton = document.getElementById('submitMessageButton');
         submitMessageButton?.addEventListener('click', submitMessage);
+
+        const logoutButton = document.getElementById('logout');
+        logoutButton?.addEventListener('click', logout);
     };
 
     socket.on('listProducts', (prods) => {
@@ -70,6 +73,18 @@ const submitMessage = (e) => {
     }
 
     socket.emit('submitMessage', message);
+};
+
+const logout = async () => {
+    const result = await fetch('/api/logout', {
+        method: 'GET'
+    });
+
+    const res = await result.json();
+
+    if (res) {
+        window.location.href = '/';
+    }
 };
 
 initialize();
