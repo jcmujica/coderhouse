@@ -14,3 +14,5 @@
 ## Pasos para correr el proyecto
 - Iniciar XAMPP.
 - Ejecutar npm start
+- Usuario de prueba `user: user`, `password: 123456`
+- De igual manera de puede registrar un suaurio nuevo y hacer login
