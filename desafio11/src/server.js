@@ -62,16 +62,15 @@ app.use(session({
         }
     }),
     cookie: {
-        maxAge: 1000 * 60
+        maxAge: 1000 * 60 * 10
     }
 }));
 
 app.get('/', (req, res) => {
     console.log('req.session', req.session);
     if (!req.session.user) {
-        res.sendFile(path.join(publicPath, 'index.html'));
-    } else {
         res.redirect('/login');
+        res.sendFile(path.join(publicPath, 'index.html'));
     };
 });
 
@@ -89,6 +88,10 @@ app.get('/login', (req, res) => {
     } else {
         res.sendFile(path.join(publicPath, 'login.html'));
     };
+});
+
+app.get('/logout', (req, res) => {
+    res.sendFile(path.join(publicPath, 'logout.html'));
 });
 
 app.post('/api/register', async (req, res) => {
@@ -117,6 +120,10 @@ app.get('/api/logout', (req, res) => {
     res.clearCookie('connect.sid');
     res.send(true);
 });
+
+app.get('/api/check-session', (req, res) => {
+    res.send(req.session);
+})
 
 app.get('/api/productos-test', (req, res) => {
     const products = generateProductsData(6)

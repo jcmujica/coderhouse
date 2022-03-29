@@ -4,11 +4,16 @@ let messages = [];
 
 const initialize = async () => {
     const renderTemplate = async () => {
-        const rawTemplate = await fetch('home.hbs');
+        const user = await checkSession();
+        if (!user) return;
+        const path = window.location.pathname;
+        const rawTemplate = path.includes('logout') ? await fetch('logout.hbs') : await fetch('home.hbs');
         const template = await rawTemplate.text();
         const templateFunction = Handlebars.compile(template);
         const body = document.querySelector('body');
-        body.innerHTML = templateFunction({ products: products, messages: messages });
+        console.log(user);
+        body.innerHTML = templateFunction({ products: products, messages: messages, user: user });
+
         const submitMessageButton = document.getElementById('submitMessageButton');
         submitMessageButton?.addEventListener('click', submitMessage);
 
@@ -83,8 +88,22 @@ const logout = async () => {
     const res = await result.json();
 
     if (res) {
-        window.location.href = '/';
+        window.location.href = '/logout';
     }
+};
+
+const checkSession = async () => {
+    const result = await fetch('/api/check-session');
+    const res = await result.json();
+
+    if (!res || res?.expires < Date.now() || !res?.user) {
+        logout();
+        window.location.href = '/login';
+        return false;
+    } else {
+        console.log('res?.user?._doc', res?.user?._doc)
+        return res?.user?._doc;
+    };
 };
 
 initialize();
