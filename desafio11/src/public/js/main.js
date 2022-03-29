@@ -36,7 +36,7 @@ const submitProduct = () => {
 
     socket.emit('submitProduct', product);
     return false;
-}
+};
 
 const submitMessage = (e) => {
     e.preventDefault();

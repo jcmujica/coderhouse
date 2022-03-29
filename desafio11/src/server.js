@@ -71,24 +71,29 @@ app.get('/register', (req, res) => {
     res.sendFile(path.join(publicPath, 'register.html'));
 });
 
-app.get('/api/register', async (req, res) => {
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(publicPath, 'login.html'));
+});
+
+app.post('/api/register', async (req, res) => {
     const { username, password } = req.body;
     const result = await usuarios.register({ username, password });
 
-    if (result.success) {
-        req.session.user = result.user;
-    }
+    if (result._id) {
+        req.session.user = result;
+    };
+    res.send(result);
 });
 
-app.get('/login', async (req, res) => {
-    const { username, password } = req.query;
+app.post('/api/login', async (req, res) => {
+    const { username, password } = req.body;
     const result = await usuarios.login({ username, password });
-    if (result) {
-        req.session.user = result;
-        res.send('ok');
-    } else {
-        res.send('error');
-    }
+    console.log(result)
+
+    if (result._id) {
+        req.session.user = result
+    };
+    res.send(result);
 });
 
 app.get('/logout', (req, res) => {

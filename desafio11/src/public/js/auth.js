@@ -5,13 +5,19 @@ const register = async () => {
         username: username,
         password: password,
     };
-    await fetch('/api/register', {
+    const result = await fetch('/api/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(user)
     });
+
+    const res = await result.json();
+    
+    if (res?._id) {
+        window.location.href = '/';
+    }
 
 };
 
@@ -22,17 +28,25 @@ const login = async () => {
         username: username,
         password: password,
     };
-    await fetch('/api/login', {
+    const result = await fetch('/api/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(user)
     });
+
+    const res = await result.json();
+    
+    if (res?._id) {
+        window.location.href = '/';
+
+    }
 };
 
 const renderTemplate = async () => {
-    const rawTemplate = await fetch('register.hbs');
+    const path = window.location.pathname;
+    const rawTemplate = path.includes("register") ? await fetch('register.hbs') : await fetch('login.hbs');
     const template = await rawTemplate.text();
     const templateFunction = Handlebars.compile(template);
     const body = document.querySelector('body');
