@@ -146,7 +146,6 @@ io.on('connection', async (socket) => {
     } catch (e) {
         console.log(e)
     }
-
 });
 
 const connectedServer = httpServer.listen(PORT, () => {
