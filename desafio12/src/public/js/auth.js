@@ -1,3 +1,5 @@
+let response = null;
+
 const register = async () => {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -17,8 +19,10 @@ const register = async () => {
 
     if (res?._id) {
         window.location.href = '/';
-    }
-
+    } else if (res.error) {
+        response = res;
+        renderTemplate();
+    };
 };
 
 const login = async () => {
@@ -40,8 +44,10 @@ const login = async () => {
 
     if (res?._id) {
         window.location.href = '/';
-
-    }
+    } else if (res.error) {
+        response = res;
+        renderTemplate();
+    };
 };
 
 const renderTemplate = async () => {
@@ -50,7 +56,8 @@ const renderTemplate = async () => {
     const template = await rawTemplate.text();
     const templateFunction = Handlebars.compile(template);
     const body = document.querySelector('body');
-    body.innerHTML = templateFunction();
+
+    body.innerHTML = templateFunction(response);
 
     const registerButton = document.getElementById("register");
     registerButton?.addEventListener("click", register);

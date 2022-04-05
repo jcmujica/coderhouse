@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 class Usuarios {
     constructor(config, model, name) {
@@ -12,13 +14,19 @@ class Usuarios {
             const { username, password } = data;
             let item = await this.model.findOne({ username: `${username}` });
 
-            if (item.password === password) {
-                return {
-                    ...item,
-                    _id: item._id.toString()
+            if (item) {
+                let isValid = await bcrypt.compare(password, item.password);
+                if (isValid) {
+                    const { password, ...user } = item;
+                    return {
+                        ...user,
+                        _id: item._id.toString()
+                    };
+                } else {
+                    return { error: "invalid password" };
                 };
             } else {
-                return { error: "invalid password" };
+                return { error: "invalid username" };
             };
         } catch (e) {
             console.log(e);
@@ -29,7 +37,9 @@ class Usuarios {
     async register(data) {
         try {
             const { username, password } = data;
-            let item = await this.model.create({ username, password });
+            const encryptedPassword = await bcrypt.hash(password, saltRounds);
+            console.log("encryptedPassword", encryptedPassword);
+            let item = await this.model.create({ username, password: encryptedPassword });
 
             if (item) {
                 return {

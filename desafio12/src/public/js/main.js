@@ -11,7 +11,6 @@ const initialize = async () => {
         const template = await rawTemplate.text();
         const templateFunction = Handlebars.compile(template);
         const body = document.querySelector('body');
-        console.log(user);
         body.innerHTML = templateFunction({ products: products, messages: messages, user: user });
 
         const submitMessageButton = document.getElementById('submitMessageButton');
