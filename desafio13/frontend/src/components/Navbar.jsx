@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from 'contexts/authContext';
 
 const allLinks = [
     {
@@ -13,15 +14,29 @@ const allLinks = [
     {
         name: 'Register',
         path: '/register'
+    },
+    {
+        name: 'Logout',
+        path: '/logout'
     }
 ];
 
 export const Navbar = () => {
     const location = useLocation();
     const [links, setLinks] = useState([]);
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        const linksToShow = allLinks.filter(link => link.path !== location.pathname);
+        let linksToShow = allLinks.filter(link => link.path !== location.pathname);
+
+        console.log("user", user);
+
+        if (user) {
+            linksToShow = linksToShow.filter(link => link.name !== 'Login' && link.name !== 'Register');
+        } else if (!user || user.error) {
+            linksToShow = linksToShow.filter(link => link.name !== 'Logout');
+        };
+
         setLinks(linksToShow);
 
     }, [location]);

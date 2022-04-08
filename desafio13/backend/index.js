@@ -47,7 +47,6 @@ const publicPath = path.join(__dirname, './public')
 dotEnvConfig();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(publicPath));
 app.use(cookieParser());
 app.use(session({
     secret: process.env.SECRET,
@@ -66,32 +65,16 @@ app.use(session({
     }
 }));
 
-app.get('/', (req, res) => {
-    console.log('req.session', req.session);
-    if (!req.session.user) {
-        res.redirect('/login');
-        res.sendFile(path.join(publicPath, 'index.html'));
-    };
-});
-
-app.get('/register', (req, res) => {
+app.get('/api/user', (req, res) => {
     if (req.session.user) {
-        res.redirect('/');
+        const { _doc } = req.session.user;
+        res.send({
+            username: _doc.username,
+            _id: _doc._id
+        });
     } else {
-        res.sendFile(path.join(publicPath, 'register.html'));
+        res.send({ error: 'No user logged in' });
     };
-});
-
-app.get('/login', (req, res) => {
-    if (req.session.user) {
-        res.redirect('/');
-    } else {
-        res.sendFile(path.join(publicPath, 'login.html'));
-    };
-});
-
-app.get('/logout', (req, res) => {
-    res.sendFile(path.join(publicPath, 'logout.html'));
 });
 
 app.post('/api/register', async (req, res) => {
@@ -107,7 +90,6 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
     const result = await usuarios.login({ username, password });
-    console.log(result)
 
     if (result._id) {
         req.session.user = result
@@ -119,15 +101,6 @@ app.get('/api/logout', (req, res) => {
     req.session.destroy();
     res.clearCookie('connect.sid');
     res.send(true);
-});
-
-app.get('/api/check-session', (req, res) => {
-    res.send(req.session);
-})
-
-app.get('/api/productos-test', (req, res) => {
-    const products = generateProductsData(6)
-    res.send(products);
 });
 
 io.on('connection', async (socket) => {

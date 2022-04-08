@@ -1,34 +1,42 @@
 import { useState, useEffect } from 'react'
-import { Layout } from 'components/Layout'
+import { Layout } from 'components/Layout';
+import socketIOClient from "socket.io-client";
+import { useNavigate } from 'react-router';
 
 export const Home = () => {
+    const navigate = useNavigate();
     const [user, setUser] = useState({});
     const [messages, setMessages] = useState([]);
     const [products, setProducts] = useState([]);
 
-    const getUser = async () => {
-        const response = await fetch('/api/user');
-        const data = await response.json();
-        setUser(data);
-    };
-
     const getMessages = async () => {
-        const response = await fetch('/api/messages');
-        const data = await response.json();
-        setMessages(data);
+        const socket = socketIOClient('/api/messages');
+        socket.on('listMessages', (msgs) => {
+            setMessages(msgs);
+        });
     };
 
     const getProducts = async () => {
-        const response = await fetch('/api/products');
-        const data = await response.json();
-        setProducts(data);
+        const socket = socketIOClient('/api/products');
+        socket.on('listProducts', (prods) => {
+            setProducts(prods);
+        });
+    };
+
+    const submitProduct = async (e) => {
+        e.preventDefault()
+
+
     };
 
     useEffect(() => {
-        getUser();
         getMessages();
         getProducts();
     }, []);
+
+    if (user.error) {
+        navigate('/login');
+    };
 
     return (
         <Layout>
@@ -47,14 +55,14 @@ export const Home = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex min-h-screen h-full" onsubmit="return submitProduct(this)">
+            <div className="flex min-h-screen h-full" onSubmit={submitProduct}>
                 <div className="w-full h-full flex flex-col items-center bg-slate-50 pt-36">
                     <h1 className="font-bold text-3xl mb-10">Ingrese Producto</h1>
                     <div>
                         <form className="w-full max-w-lg p-6">
                             <div className="flex flex-wrap -mx-3 mb-6">
                                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
+                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="name">
                                         Nombre
                                     </label>
                                     <input
@@ -62,7 +70,7 @@ export const Home = () => {
                                         id="name" type="text" name="name" />
                                 </div>
                                 <div className="w-full md:w-1/2 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="price">
+                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="price">
                                         Precio
                                     </label>
                                     <input
@@ -72,7 +80,7 @@ export const Home = () => {
                             </div>
                             <div className="flex flex-wrap -mx-3 mb-6">
                                 <div className="w-full px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="image">
+                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="image">
                                         Foto URL
                                     </label>
                                     <input
@@ -91,7 +99,7 @@ export const Home = () => {
                     <div className="w-full max-w-lg p-6">
                         <div className="flex flex-wrap -mx-3 mb-6">
                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstName">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="firstName">
                                     Nombre
                                 </label>
                                 <input
@@ -99,7 +107,7 @@ export const Home = () => {
                                     id="firstName" type="text" name="firstName" />
                             </div>
                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="lastName">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="lastName">
                                     Apellido
                                 </label>
                                 <input
@@ -107,7 +115,7 @@ export const Home = () => {
                                     id="lastName" type="text" name="lastName" />
                             </div>
                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="age">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="age">
                                     Edad
                                 </label>
                                 <input
@@ -115,7 +123,7 @@ export const Home = () => {
                                     id="age" type="text" name="age" />
                             </div>
                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="alias">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="alias">
                                     Alias
                                 </label>
                                 <input
@@ -123,7 +131,7 @@ export const Home = () => {
                                     id="alias" type="text" name="alias" />
                             </div>
                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="avatar">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="avatar">
                                     Avatar
                                 </label>
                                 <input
@@ -131,7 +139,7 @@ export const Home = () => {
                                     id="avatar" type="text" name="avatar" />
                             </div>
                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="email">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="email">
                                     Email
                                 </label>
                                 <input
@@ -141,7 +149,7 @@ export const Home = () => {
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">
                             <div className="w-full px-3">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="message">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="message">
                                     Mensaje
                                 </label>
                                 <div className="flex">

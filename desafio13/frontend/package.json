@@ -1,5 +1,6 @@
 {
   "name": "ecommerce",
+  "proxy": "http://localhost:8000",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,6 +12,7 @@
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
+    "socket.io-client": "^4.4.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
