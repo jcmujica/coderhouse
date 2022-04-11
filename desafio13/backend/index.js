@@ -6,19 +6,16 @@ const MongoStore = require('connect-mongo');
 const { config: dotEnvConfig } = require('dotenv');
 const { Server: HttpServer } = require('http');
 const { Server: IOServer } = require('socket.io');
-const path = require('path');
 const PORT = 8000;
 const Productos = require('./productos');
 const Mensajes = require('./mensajes');
 const Usuarios = require('./usuarios');
-const { options: mariaDBOptions } = require('./db/mariaDB/config');
 const { options: mongoOptions } = require('./db/mongo/config');
 const config = require('./db/firebase/config');
-const generateProductsData = require('./utils/generateProductsData');
 
 const productos = new Productos({
     name: 'productos',
-    options: mariaDBOptions
+    options: config
 });
 
 const mensajes = new Mensajes({
@@ -41,8 +38,6 @@ const usuarios = new Usuarios({
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
-
-const publicPath = path.join(__dirname, './public')
 
 dotEnvConfig();
 app.use(express.json());

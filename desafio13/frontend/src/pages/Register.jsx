@@ -54,10 +54,10 @@ export const Register = () => {
                         </button>
                     </div>
                     <div className="text-grey-dark mt-6">
-                        Ya tienes una cuenta?
+                        {"Ya tienes una cuenta? "}
                         <a className="no-underline border-b border-blue text-blue" href="/login">
                             Login
-                        </a>.
+                        </a>
                     </div>
                     {error &&
                         <div className="text-red-500 text-center mb-4" id="error">

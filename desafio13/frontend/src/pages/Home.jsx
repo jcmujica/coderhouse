@@ -1,17 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Layout } from 'components/Layout';
 import socketIOClient from "socket.io-client";
 import { useNavigate } from 'react-router';
+import { AuthContext } from 'contexts/authContext';
 
 export const Home = () => {
     const navigate = useNavigate();
-    const [user, setUser] = useState({});
     const [messages, setMessages] = useState([]);
     const [products, setProducts] = useState([]);
+    const { user } = useContext(AuthContext);
 
     const getMessages = async () => {
         const socket = socketIOClient('/api/messages');
         socket.on('listMessages', (msgs) => {
+            console.log("listMessages", msgs);
             setMessages(msgs);
         });
     };
@@ -34,13 +36,13 @@ export const Home = () => {
         getProducts();
     }, []);
 
-    if (user.error) {
+    if (user?.error) {
         navigate('/login');
     };
 
     return (
         <Layout>
-            <div className="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md pt-24" role="alert">
+            <div className="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
                 <div className="flex">
                     <div className="py-1"><svg className="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20">
@@ -48,10 +50,7 @@ export const Home = () => {
                             d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
                     </svg></div>
                     <div className="flex justify-between items-center w-full">
-                        <p className="font-bold">Bienvenido {user.username}</p>
-                        <button id="logout" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Desloguearse
-                        </button>
+                        <p className="font-bold">Bienvenido {user?.username || ''}</p>
                     </div>
                 </div>
             </div>
@@ -94,7 +93,6 @@ export const Home = () => {
                             </button>
                         </form>
                     </div>
-
                     <h1 className="font-bold text-3xl mb-10">Chat</h1>
                     <div className="w-full max-w-lg p-6">
                         <div className="flex flex-wrap -mx-3 mb-6">

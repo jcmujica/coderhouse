@@ -53,7 +53,7 @@ export const Login = () => {
                         </button>
                     </div>
                     <div className="text-grey-dark mt-6">
-                        No tienes una cuenta?
+                        {"No tienes una cuenta? "}
                         <a className="no-underline border-b border-blue text-blue" href="/register">
                             Registro
                         </a>

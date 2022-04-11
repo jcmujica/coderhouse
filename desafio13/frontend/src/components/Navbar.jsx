@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from 'contexts/authContext';
 
 const allLinks = [
@@ -29,17 +29,15 @@ export const Navbar = () => {
     useEffect(() => {
         let linksToShow = allLinks.filter(link => link.path !== location.pathname);
 
-        console.log("user", user);
-
-        if (user) {
+        if (user?._id) {
             linksToShow = linksToShow.filter(link => link.name !== 'Login' && link.name !== 'Register');
         } else if (!user || user.error) {
-            linksToShow = linksToShow.filter(link => link.name !== 'Logout');
+            linksToShow = linksToShow.filter(link => link.name !== 'Logout' && link.name !== 'Home');
         };
 
         setLinks(linksToShow);
 
-    }, [location]);
+    }, [location, user?._id]);
 
     return (
         <nav className="flex items-center justify-between flex-wrap bg-blue-500 p-6 fixed w-full">
@@ -49,7 +47,7 @@ export const Navbar = () => {
                         <Link
                             key={link.name}
                             to={link.path}
-                            className="block lg:inline-block lg:mt-0 text-white hover:text-white hover:bg-blue-700 mr-4 text-right py-2 px-6 rounded"
+                            className="block lg:inline-block lg:mt-0 text-white font-bold hover:text-white hover:bg-blue-700 mr-4 text-right py-2 px-6 rounded"
                         >
                             {link.name}
                         </Link>
