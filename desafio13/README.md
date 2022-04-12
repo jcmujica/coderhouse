@@ -23,8 +23,5 @@ Observación: utilizar routers y apis separadas para esta funcionalidad.
 
 
 ## Pasos para correr el proyecto
-- Iniciar XAMPP.
 - Ejecutar npm start en la carpeta backend
 - Ejecutar npm start en la carpeta frontend
-- Usuario de prueba `user: user`, `password: 123456`
-- De igual manera de puede registrar un suaurio nuevo y hacer login

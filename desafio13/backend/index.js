@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+var cors = require('cors')
 const MongoStore = require('connect-mongo');
 const { config: dotEnvConfig } = require('dotenv');
 const { Server: HttpServer } = require('http');
@@ -39,9 +40,11 @@ const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 
+
 dotEnvConfig();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 app.use(cookieParser());
 app.use(session({
     secret: process.env.SECRET,

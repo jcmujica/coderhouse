@@ -40,7 +40,7 @@ export const Navbar = () => {
     }, [location, user?._id]);
 
     return (
-        <nav className="flex items-center justify-between flex-wrap bg-blue-500 p-6 fixed w-full">
+        <nav className="flex items-center justify-between flex-wrap bg-blue-500 p-6 fixed w-full z-10">
             <div className="flex items-center w-full justify-end">
                 <div className="text-sm flex">
                     {links.map(link => (
