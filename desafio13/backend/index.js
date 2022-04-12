@@ -7,12 +7,14 @@ const MongoStore = require('connect-mongo');
 const { config: dotEnvConfig } = require('dotenv');
 const { Server: HttpServer } = require('http');
 const { Server: IOServer } = require('socket.io');
-const PORT = 8000;
 const Productos = require('./productos');
 const Mensajes = require('./mensajes');
 const Usuarios = require('./usuarios');
 const { options: mongoOptions } = require('./db/mongo/config');
+const argv = require('minimist')(process.argv.slice(2));
+const PORT = argv.port || 8080;
 const config = require('./db/firebase/config');
+const childProcess = require('child_process');
 
 const productos = new Productos({
     name: 'productos',
@@ -99,6 +101,31 @@ app.get('/api/logout', (req, res) => {
     req.session.destroy();
     res.clearCookie('connect.sid');
     res.send(true);
+});
+
+app.get('/info', (req, res) => {
+    const info = {
+        args: process.argv.slice(2),
+        platform: process.platform,
+        version: process.version,
+        memoryUsage: process.memoryUsage().rss,
+        path: process.cwd(),
+        pid: process.pid,
+        projectFolder: __dirname,
+    };
+    res.send(info);
+});
+
+app.get('/api/randoms', (req, res) => {
+    const { cant } = req.query;
+    const child = childProcess.fork('./randoms.js');
+
+    child.send({ cant });
+
+    child.on('message', (data) => {
+        res.send(data);
+    });
+
 });
 
 io.on('connection', async (socket) => {

@@ -23,5 +23,6 @@ Observación: utilizar routers y apis separadas para esta funcionalidad.
 
 
 ## Pasos para correr el proyecto
+- Renombrear el .env.example a .env
 - Ejecutar npm start en la carpeta backend
 - Ejecutar npm start en la carpeta frontend

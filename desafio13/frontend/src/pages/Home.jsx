@@ -22,26 +22,13 @@ const initialProductForm = {
 };
 
 export const Home = () => {
-    const socket = io({ protocols: ["http"] });
+    let socket = null;
     const navigate = useNavigate();
     const [messages, setMessages] = useState([]);
     const [products, setProducts] = useState([]);
     const [productForm, setProductForm] = useState(initialProductForm);
     const [messageForm, setMessageForm] = useState(initialMessageForm);
     const { user } = useContext(AuthContext);
-
-    const getMessages = async () => {
-        socket.on('listMessages', (msgs) => {
-            console.log("listMessages", msgs);
-            setMessages(msgs);
-        });
-    };
-
-    const getProducts = async () => {
-        socket.on('listProducts', (prods) => {
-            setProducts(prods);
-        });
-    };
 
     const submitProduct = async (e) => {
         e.preventDefault();
@@ -83,6 +70,20 @@ export const Home = () => {
     };
 
     useEffect(() => {
+        socket = io({ protocols: ["http"] });
+        const getMessages = async () => {
+            socket.on('listMessages', (msgs) => {
+                console.log("listMessages", msgs);
+                setMessages(msgs);
+            });
+        };
+
+        const getProducts = async () => {
+            socket.on('listProducts', (prods) => {
+                setProducts(prods);
+            });
+        };
+
         getMessages();
         getProducts();
     }, []);
@@ -294,10 +295,13 @@ export const Home = () => {
                             ))}
                         </tbody>
                     </table>
-                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative z-0" role="alert">
-                        <strong className="font-bold">Ups!</strong>
-                        <span className="block sm:inline">No hay productos.</span>
-                    </div>
+                    {
+                        products?.length <= 0 &&
+                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative z-0" role="alert">
+                            <strong className="font-bold">Ups!</strong>
+                            <span className="block sm:inline">No hay productos.</span>
+                        </div>
+                    }
                 </div>
             </div>
         </Layout>

@@ -1,5 +1,8 @@
+const {config} = require("dotenv");
+config();
+
 const options = {
-    url: 'mongodb+srv://admin:admin@coderhouse.bbjyk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+    url: process.env.MONGO_URL,
 }
 
 module.exports = {
