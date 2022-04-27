@@ -1,12 +1,27 @@
 {
   "name": "desafio14",
   "version": "1.0.0",
-  "description": "- Tomando con base el proyecto que vamos realizando, agregar un parámetro más en la ruta de comando que permita ejecutar al servidor en modo fork o cluster. Dicho parámetro será 'FORK' en el primer caso y 'CLUSTER' en el segundo, y de no pasarlo, el servidor iniciará en modo fork. - Agregar en la vista info, el número de procesadores presentes en el servidor. - Ejecutar el servidor (modos FORK y CLUSTER) con nodemon verificando el número de procesos tomados por node. - Ejecutar el servidor (con los parámetros adecuados) utilizando Forever, verificando su correcta operación. Listar los procesos por Forever y por sistema operativo. - Ejecutar el servidor (con los parámetros adecuados: modo FORK) utilizando PM2 en sus modos modo fork y cluster. Listar los procesos por PM2 y por sistema operativo. - Tanto en Forever como en PM2 permitir el modo escucha, para que la actualización del código del servidor se vea reflejado inmediatamente en todos los procesos. - Hacer pruebas de finalización de procesos fork y cluster en los casos que corresponda.",
+  "description": "desafio14",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server1": "pm2 start ./backend/server1/index.js",
+    "server2": "pm2 start ./backend/server2/index.js",
+    "stop": "pm2 stop ./backend/server1/index.js ./backend/server2/index.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cluster": "^0.7.7",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "http": "^0.0.1-security",
+    "minimist": "^1.2.6",
+    "mongoose": "^6.3.1",
+    "nodemon": "^2.0.15",
+    "pm2": "^5.2.0"
+  }
 }
