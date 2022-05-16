@@ -38,9 +38,12 @@ export class ContenedorUsuarios extends ContenedorMongoDb {
 
     async register(data) {
         try {
-            const { username, password } = data;
+            const { password } = data;
             const encryptedPassword = await bcrypt.hash(password, saltRounds);
-            let item = await this.model.create({ username, password: encryptedPassword });
+            console.log('...data, password: encryptedPassword', { ...data, password: encryptedPassword })
+            let item = await this.model.create({ ...data, password: encryptedPassword });
+
+            console.log('item', item)
 
             if (item) {
                 return {
@@ -56,7 +59,7 @@ export class ContenedorUsuarios extends ContenedorMongoDb {
             }
         } catch (e) {
             console.log(e);
-            return { error: "error in register" };
+            return { error: "error in register catch", message: e.message };
         }
     }
 }

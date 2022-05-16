@@ -13,23 +13,24 @@ const UsuariosSchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required: false
+        required: true
     },
     address: {
         type: String,
-        required: false
+        required: true
     },
     age: {
         type: Number,
-        required: false
+        required: true
     },
     phone: {
         type: String,
-        required: false
+        match: /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/,
+        required: true
     },
     avatar: {
         type: String,
-        required: false
+        required: true
     }
 });
 

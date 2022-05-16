@@ -19,8 +19,7 @@ usuariosApiRouter.get('/', (req, res) => {
 });
 
 usuariosApiRouter.post('/register', async (req, res) => {
-    const { username, password } = req.body;
-    const result = await usuarios.register({ username, password });
+    const result = await usuarios.register(req.body);
 
     if (result._id) {
         req.session.user = result;
