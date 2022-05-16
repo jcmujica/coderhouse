@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { config } from 'dotenv';
-import { CarritosDaoMongoDb } from '../daos/carritos/CarritosDaoMongoDb.js';
+import { CarritosDaoMongoDb } from '../daos/CarritosDao.js';
 config();
 const carritos = CarritosDaoMongoDb;
 

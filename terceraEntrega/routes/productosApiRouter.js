@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { config } from 'dotenv';
-import { ProductosDaoMongoDb } from '../daos/productos/ProductosDaoMongoDb.js';
+import { ProductosDaoMongoDb } from '../daos/ProductosDao.js';
 config();
 const productos = ProductosDaoMongoDb;
 
