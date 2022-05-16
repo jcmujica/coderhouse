@@ -40,7 +40,6 @@ export class ContenedorUsuarios extends ContenedorMongoDb {
         try {
             const { password } = data;
             const encryptedPassword = await bcrypt.hash(password, saltRounds);
-            console.log('...data, password: encryptedPassword', { ...data, password: encryptedPassword })
             let item = await this.model.create({ ...data, password: encryptedPassword });
 
             console.log('item', item)
