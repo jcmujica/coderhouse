@@ -5,6 +5,7 @@ import session from 'express-session';
 import config from './config.js';
 import productosApiRouter from './routes/productosApiRouter.js';
 import carritosApiRouter from './routes/carritosApiRouter.js';
+import usuariosApiRouter from './routes/usuariosApiRouter.js';
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use(session(config.session));
 
+app.use('/api/user', usuariosApiRouter);
 app.use('/api/productos', productosApiRouter);
 app.use('/api/carritos', carritosApiRouter);
 

@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { config } from 'dotenv';
-import { UsuariosDaoMongoDb } from '../daos/UsuariosDao.js';
+import { UsuariosDao } from '../daos/UsuariosDao.js';
 config();
-const usuarios = UsuariosDaoMongoDb;
+const usuarios = UsuariosDao;
 
 const usuariosApiRouter = new Router();
 
-usuariosApiRouter.get('/api/user', (req, res) => {
+usuariosApiRouter.get('/', (req, res) => {
     if (req.session.user) {
         const { _doc } = req.session.user;
         res.send({
@@ -18,7 +18,7 @@ usuariosApiRouter.get('/api/user', (req, res) => {
     };
 });
 
-usuariosApiRouter.post('/api/register', async (req, res) => {
+usuariosApiRouter.post('/register', async (req, res) => {
     const { username, password } = req.body;
     const result = await usuarios.register({ username, password });
 
@@ -28,7 +28,7 @@ usuariosApiRouter.post('/api/register', async (req, res) => {
     res.send(result);
 });
 
-usuariosApiRouter.post('/api/login', async (req, res) => {
+usuariosApiRouter.post('/login', async (req, res) => {
     const { username, password } = req.body;
     const result = await usuarios.login({ username, password });
 
@@ -38,7 +38,7 @@ usuariosApiRouter.post('/api/login', async (req, res) => {
     res.send(result);
 });
 
-usuariosApiRouter.get('/api/logout', (req, res) => {
+usuariosApiRouter.get('/logout', (req, res) => {
     req.session.destroy();
     res.clearCookie('connect.sid');
     res.send(true);
