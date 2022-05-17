@@ -6,17 +6,16 @@ const from = process.env.TWILIO_FROM;
 
 const client = twilio(accountSid, authToken)
 
-export const sendMessage = async ({to, body}) => {
+export const sendMessage = async ({ to, body }) => {
     try {
         if (!to || !body) return null;
-        const message = await client.messages.create({
+        await client.messages.create({
             body: body,
             from: from,
             to: to
         });
-        console.log(message)
-    } catch (error) {
-        console.log(error)
+    } catch (e) {
+        console.log(e)
     }
 };
 

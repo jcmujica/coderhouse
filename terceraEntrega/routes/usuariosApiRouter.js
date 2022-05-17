@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { config as dotEnvConfig } from 'dotenv';
 import { transporter } from '../utils/index.js';
-import { twilio } from '../utils/index.js';
+import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import config from '../config.js';
@@ -15,6 +15,11 @@ const isAuth = (req, res, next) => {
         return next();
     }
     res.status(401).send('No autorizado');
+};
+
+const generateToken = (user) => {
+    const token = jwt.sign({ data: user }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    return token;
 };
 
 const userToHtmlBody = (user) => {
@@ -32,11 +37,13 @@ const userToHtmlBody = (user) => {
 
 /* PASSPORT */
 
-passport.use('login', new LocalStrategy(
-    async (username, password, done) => {
+passport.use('login', new LocalStrategy({ passReqToCallback: true },
+    async (req, username, password, done) => {
         const user = await UsuariosDao.findByUsername(username);
 
         if (user) {
+            const token = await generateToken(user);
+            user.token = token;
             return done(null, user);
         }
 
@@ -51,8 +58,6 @@ passport.use('register', new LocalStrategy({ passReqToCallback: true },
     async (req, username, password, done) => {
         const data = req.body;
         const user = await UsuariosDao.findOrCreate(data);
-
-        console.log('USER', user);
 
         if (!user.error) {
             return done(null, user);
@@ -78,11 +83,12 @@ usuariosApiRouter.post('/login', passport.authenticate('login', {
 }));
 
 usuariosApiRouter.get('/login-success', (req, res) => {
-    res.send('Login success');
+    const { user } = req;
+    res.send({ message: 'Login success', token: user.token });
 });
 
 usuariosApiRouter.get('/login-failure', (req, res) => {
-    res.send('Login failure');
+    res.send({ message: 'Login failure' });
 });
 
 /* REGISTER */
@@ -106,7 +112,6 @@ usuariosApiRouter.get('/register-success', async (req, res) => {
 });
 
 usuariosApiRouter.get('/register-failure', (req, res) => {
-    console.log('first', res);
     res.send('Register failure');
 });
 
