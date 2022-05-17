@@ -108,7 +108,7 @@ productosApiRouter.post('/purchase', async (req, res) => {
         });
         res.send(true);
     } catch (e) {
-        console.log(e);
+        logger.error(e);
         res.send({ error: 'error in message', message: e.message });
     }
 });

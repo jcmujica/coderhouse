@@ -27,3 +27,8 @@
 - TWILIO_SID: SID de twilio
 - TWILIO_AUTH_TOKEN: Auth token de twilio
 - TWILIO_FROM: Numero desde el que twilio enviara los mensajes
+- JWT_SECRET: Secret de jwt
+- USE_CLUSTER: Define si usar modo cluster o no
+
+## Coleccion de postman
+Para cotribuir con las pruebas ajunte una colleccion de postman con los requests y bodies que espera el backend

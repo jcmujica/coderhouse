@@ -16,7 +16,7 @@ export class ContenedorArchivo {
             const fileObject = JSON.parse(file);
             return fileObject;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -27,7 +27,7 @@ export class ContenedorArchivo {
             fs.writeFileSync(this.route, stringData);
             return true;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -40,7 +40,7 @@ export class ContenedorArchivo {
             await this.write(file);
             return { _id: data.id };
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -50,7 +50,7 @@ export class ContenedorArchivo {
             const file = await this.read();
             return file.find(item => item.id === parseInt(id)) || { error: 'producto no encontrado' };
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -59,7 +59,7 @@ export class ContenedorArchivo {
         try {
             return await this.read();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -72,7 +72,7 @@ export class ContenedorArchivo {
             elements[index] = { ...element, ...data };
             this.write(elements);
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -83,7 +83,7 @@ export class ContenedorArchivo {
             const newFile = file.filter(item => item.id != id);
             this.write(newFile);
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -92,7 +92,7 @@ export class ContenedorArchivo {
         try {
             await this.write([]);
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -117,7 +117,7 @@ export class ContenedorArchivo {
 
             this.write(updatedCarts);
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -131,7 +131,7 @@ export class ContenedorArchivo {
             carts[index] = { ...cart, products: newProducts };
             this.write(carts);
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }

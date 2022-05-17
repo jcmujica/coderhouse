@@ -5,6 +5,7 @@ import session from 'express-session';
 import passport from 'passport';
 import cluster from 'cluster';
 import os from 'os';
+import winston from 'winston';
 import config from './config.js';
 import productosApiRouter from './routes/productosApiRouter.js';
 import carritosApiRouter from './routes/carritosApiRouter.js';
@@ -12,15 +13,24 @@ import usuariosApiRouter from './routes/usuariosApiRouter.js';
 
 const USE_CLUSTER = config.USE_CLUSTER;
 const PORT = process.env.PORT || 8080;
-const cpus = os.cpus().length;
 
-console.log('cpus: ', USE_CLUSTER);
+const logger = winston.createLogger({
+    level: 'warn',
+    transports: [
+        new winston.transports.Console({ level: 'verbose' }),
+        new winston.transports.File({ filename: 'info.log', level: 'error' }),
+    ]
+})
 
 if (cluster.isPrimary && USE_CLUSTER) {
-    console.log('HERE')
+    const cpus = os.cpus().length;
     for (var i = 0; i < cpus; i++) {
         cluster.fork();
     }
+
+    cluster.on('exit', worker => {
+        cluster.fork()
+    });
 } else {
     const app = express();
 
@@ -41,6 +51,7 @@ if (cluster.isPrimary && USE_CLUSTER) {
     });
 
     app.listen(PORT, () => {
-        console.log(`Servidor corriendo en el puerto ${PORT}`);
+        logger.info(`Servidor corriendo en modo:  ${USE_CLUSTER ? 'cluster' : 'single'}`);
+        logger.info(`Servidor corriendo en el puerto ${PORT}`);
     });
 }

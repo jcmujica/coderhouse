@@ -11,7 +11,7 @@ export class ContenedorMongoDb {
             let item = await this.model.create(data);
             return item;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -21,7 +21,7 @@ export class ContenedorMongoDb {
             let item = await this.model.findById(id);
             return item;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -31,7 +31,7 @@ export class ContenedorMongoDb {
             let items = await this.model.find();
             return items;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -42,7 +42,7 @@ export class ContenedorMongoDb {
             let updatedItem = await this.model.findById(id);
             return updatedItem;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -52,7 +52,7 @@ export class ContenedorMongoDb {
             let item = await this.model.findByIdAndDelete(id);
             return item;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -62,7 +62,7 @@ export class ContenedorMongoDb {
             let items = await this.model.deleteMany({});
             return items;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -82,7 +82,7 @@ export class ContenedorMongoDb {
             let updatedCart = await this.model.findById(id);
             return updatedCart;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }
@@ -95,7 +95,7 @@ export class ContenedorMongoDb {
             let updatedCart = await this.model.findById(id);
             return updatedCart;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return null;
         }
     }

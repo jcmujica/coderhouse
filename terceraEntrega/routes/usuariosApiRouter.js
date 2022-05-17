@@ -106,7 +106,7 @@ usuariosApiRouter.get('/register-success', async (req, res) => {
             html: userToHtmlBody(user),
         });
     } catch (e) {
-        console.log(e);
+        logger.error(e);
     }
     res.send('Register success');
 });
@@ -150,7 +150,7 @@ usuariosApiRouter.get('/logout', (req, res) => {
 //         });
 //         res.send(true);
 //     } catch (e) {
-//         console.log(e);
+//         logger.error(e);
 //         res.send({ error: 'error in message', message: e.message });
 //     }
 // });

@@ -15,7 +15,7 @@ export const sendMessage = async ({ to, body }) => {
             to: to
         });
     } catch (e) {
-        console.log(e)
+        logger.error(e)
     }
 };
 

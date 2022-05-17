@@ -13,7 +13,7 @@ export class ContenedorUsuarios {
             const user = await this.model.findOne({ username: `${username}` });
             return user;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return { error: "error in findByUsername" };
         }
     }
@@ -34,7 +34,7 @@ export class ContenedorUsuarios {
                 }
             }
         } catch (e) {
-            console.log(e);
+            logger.error(e);
             return { error: "error in findOrCreate" };
         }
     }
