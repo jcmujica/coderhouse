@@ -24,6 +24,7 @@ const logger = winston.createLogger({
 
 if (cluster.isPrimary && USE_CLUSTER) {
     const cpus = os.cpus().length;
+    logger.info('CPUS: ', cpus);
     for (var i = 0; i < cpus; i++) {
         cluster.fork();
     }
@@ -45,6 +46,9 @@ if (cluster.isPrimary && USE_CLUSTER) {
     app.use('/api/user', usuariosApiRouter);
     app.use('/api/productos', productosApiRouter);
     app.use('/api/carritos', carritosApiRouter);
+    app.use('/', (req, res) => {
+        res.send('Hola mundo!');
+    });
 
     app.get('*', function (req, res) {
         res.send({ error: -2, descripcion: `ruta $${req.path} o método ${req.method} no implementado` });
