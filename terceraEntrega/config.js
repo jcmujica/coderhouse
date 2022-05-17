@@ -32,7 +32,7 @@ export default {
     },
     emailer: {
         config: {
-            host: 'smtp.ethereal.email',
+            service: 'gmail',
             port: 587,
             auth: {
                 user: process.env.SENDER_EMAIL,
@@ -40,9 +40,9 @@ export default {
             }
         },
         options: {
-            from: 'Servidor Node.js',
+            from: process.env.SENDER_EMAIL,
             to: process.env.RECIPIENT_EMAIL,
-            subject: 'Mail de prueba desde Node.js',
+            subject: 'Hola!',
             html: '<h1 style="color: blue;">Contenido de prueba desde <span style="color: green;">Node.js con Nodemailer</span></h1>'
         }
     }
