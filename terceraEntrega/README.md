@@ -32,3 +32,4 @@
 
 ## Coleccion de postman
 Para cotribuir con las pruebas ajunte una colleccion de postman con los requests y bodies que espera el backend
+`CH Testing.postman_collection.json`
