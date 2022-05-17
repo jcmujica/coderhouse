@@ -1,7 +1,9 @@
 import { Router } from 'express';
-import { config } from 'dotenv';
+import { config as dotEnvConfig } from 'dotenv';
+import { transporter } from '../utils/index.js';
+import config from '../config.js';
 import { UsuariosDao } from '../daos/UsuariosDao.js';
-config();
+dotEnvConfig();
 const usuarios = UsuariosDao;
 
 const usuariosApiRouter = new Router();
@@ -23,6 +25,11 @@ usuariosApiRouter.post('/register', async (req, res) => {
 
     if (result._id) {
         req.session.user = result;
+        try {
+            await transporter.sendMail(config.emailer.options);
+        } catch (error) {
+            console.log(err)
+        }
     };
     res.send(result);
 });
