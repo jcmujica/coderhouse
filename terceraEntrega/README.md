@@ -18,3 +18,13 @@
 - Habilitar el modo cluster para el servidor, como opcional a través de una constante global.
 - Utilizar alguno de los loggers ya vistos y así reemplazar todos los mensajes a consola por logs eficientes hacia la misma consola. En el caso de errores moderados ó graves el log tendrá además como destino un archivo elegido.
 - Realizar una prueba de performance en modo local, con y sin cluster, utilizando Artillery en el endpoint del listado de productos (con el usuario vez logueado). Verificar los resultados.
+
+## Variables .env
+- MONGO_URL: URL de mongo
+- SECRET: Salt para encriptar contrasenas
+- SENDER_EMAIL: Email desde el cual es server enviara las notificaciones
+- SENDER_EMAIL_PASSWORD: Contrasena del email desde el cual es server enviara las notificaciones
+- RECIPIENT_EMAIL: Email que recibira el correo enviado por el servidor
+- TWILIO_SID: SID de twilio
+- TWILIO_AUTH_TOKEN: Auth token de twilio
+- TWILIO_FROM: Numero desde el que twilio enviara los mensajes

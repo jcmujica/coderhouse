@@ -1,62 +1,41 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-import { ContenedorMongoDb } from './ContenedorMongoDb.js';
 const saltRounds = 10;
-
-export class ContenedorUsuarios extends ContenedorMongoDb {
+export class ContenedorUsuarios {
     constructor(config, model, name) {
-        super(config, model, name);
         this.name = name;
         this.mongoose = mongoose.connect(config.cnxStr, config.params);
         this.model = model;
     }
 
-    async login(data) {
+    async findByUsername(username) {
         try {
-            const { username, password } = data;
-            let item = await this.model.findOne({ username: `${username}` });
-
-            if (item) {
-                let isValid = await bcrypt.compare(password, item.password);
-                if (isValid) {
-                    const { password, ...user } = item;
-                    return {
-                        ...user,
-                        _id: item._id.toString()
-                    };
-                } else {
-                    return { error: "invalid password" };
-                };
-            } else {
-                return { error: "invalid username" };
-            };
+            const user = await this.model.findOne({ username: `${username}` });
+            return user;
         } catch (e) {
             console.log(e);
-            return { error: "error in login" };
+            return { error: "error in findByUsername" };
         }
     }
 
-    async register(data) {
+    async findOrCreate(data) {
         try {
-            const { password } = data;
-            const encryptedPassword = await bcrypt.hash(password, saltRounds);
-            let item = await this.model.create({ ...data, password: encryptedPassword });
-
-            if (item) {
-                return {
-                    ...item,
-                    _id: item._id.toString(),
-                    _doc: {
-                        username: item._doc.username,
-                        _id: item._doc._id.toString()
-                    }
-                };
+            const user = await this.model.findOne({ username: `${data.username}` });
+            if (user) {
+                return { error: "user already exists" };
             } else {
-                return { error: "error in register" };
+                const { password } = data;
+                const encryptedPassword = await bcrypt.hash(password, saltRounds);
+                let item = await this.model.create({ ...data, password: encryptedPassword });
+                if (item._doc) {
+                    return { ...item._doc };
+                } else {
+                    return { error: "error in registry" };
+                }
             }
         } catch (e) {
             console.log(e);
-            return { error: "error in register catch", message: e.message };
+            return { error: "error in findOrCreate" };
         }
     }
 }
