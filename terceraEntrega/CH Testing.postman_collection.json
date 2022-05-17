@@ -1,0 +1,165 @@
+{
+	"info": {
+		"_postman_id": "8ad07abf-c9e3-48ae-b2e4-951f4a030751",
+		"name": "CH Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User Get",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"testUser2\",\n    \"password\": \"123456\",\n    \"name\": \"User2\",\n    \"address\": \"Address\",\n    \"phone\": \"+56973159779\",\n    \"age\": \"55\",\n    \"avatar\": \"https://gravatar.com/avatar/bc64696e46d8386ee85f0eddd88ab714?s=400&d=robohash&r=x\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/user/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"testUser2\",\n    \"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Logout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/user/logout",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Message User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"body\": \"HOLA!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/user/message/6283071b0262fadaada5a14f",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"message",
+						"6283071b0262fadaada5a14f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Purchase",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"testUser2\",\n    \"timestamp\": 1647368008132,\n    \"products\": [\n        {\n            \"id\": 4,\n            \"name\": \"The Pepe Redemption\",\n            \"price\": \"8.99\",\n            \"thumbnail\": \"https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UX182_CR0,0,182,268_AL_.jpg\",\n            \"description\": \"Two imprisoned\",\n            \"sku\": \"ABC123\",\n            \"stock\": 9\n        }\n    ],\n    \"id\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/productos/purchase",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"productos",
+						"purchase"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
