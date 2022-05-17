@@ -3,30 +3,44 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import passport from 'passport';
+import cluster from 'cluster';
+import os from 'os';
 import config from './config.js';
 import productosApiRouter from './routes/productosApiRouter.js';
 import carritosApiRouter from './routes/carritosApiRouter.js';
 import usuariosApiRouter from './routes/usuariosApiRouter.js';
 
+const USE_CLUSTER = config.USE_CLUSTER;
 const PORT = process.env.PORT || 8080;
-const app = express();
+const cpus = os.cpus().length;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
-app.use(cookieParser());
-app.use(session(config.session));
-app.use(passport.initialize());
-app.use(passport.session());
+console.log('cpus: ', USE_CLUSTER);
 
-app.use('/api/user', usuariosApiRouter);
-app.use('/api/productos', productosApiRouter);
-app.use('/api/carritos', carritosApiRouter);
+if (cluster.isPrimary && USE_CLUSTER) {
+    console.log('HERE')
+    for (var i = 0; i < cpus; i++) {
+        cluster.fork();
+    }
+} else {
+    const app = express();
 
-app.get('*', function (req, res) {
-    res.send({ error: -2, descripcion: `ruta $${req.path} o método ${req.method} no implementado` });
-});
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.use(cors());
+    app.use(cookieParser());
+    app.use(session(config.session));
+    app.use(passport.initialize());
+    app.use(passport.session());
 
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+    app.use('/api/user', usuariosApiRouter);
+    app.use('/api/productos', productosApiRouter);
+    app.use('/api/carritos', carritosApiRouter);
+
+    app.get('*', function (req, res) {
+        res.send({ error: -2, descripcion: `ruta $${req.path} o método ${req.method} no implementado` });
+    });
+
+    app.listen(PORT, () => {
+        console.log(`Servidor corriendo en el puerto ${PORT}`);
+    });
+}

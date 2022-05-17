@@ -11,6 +11,7 @@ const mongoConfig = {
 
 export default {
     PORT: process.env.PORT || 8080,
+    USE_CLUSTER: process.env.USE_CLUSTER === 'true',
     mongoDb: {
         ...mongoConfig
     },

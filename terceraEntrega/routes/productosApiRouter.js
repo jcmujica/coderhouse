@@ -46,7 +46,7 @@ const cartToTextBody = (cart, role) => {
     - ${item.name} - ${item.price}
     `).join('\n');
 
-    const title = role === ROLES.ADMIN ? 'Nueva compra de: ' : 'Pedido enviado: ';
+    const title = role === ROLES.ADMIN ? 'Nueva compra de: ' : 'Pedido recibido y en proceso: ';
 
     return `
         ${title} ${cart.username}
