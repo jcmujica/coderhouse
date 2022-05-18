@@ -10,13 +10,6 @@ dotEnvConfig();
 
 const usuariosApiRouter = new Router();
 
-const isAuth = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.status(401).send('No autorizado');
-};
-
 const generateToken = (user) => {
     const token = jwt.sign({ data: user }, process.env.JWT_SECRET, { expiresIn: '24h' });
     return token;
@@ -122,37 +115,5 @@ usuariosApiRouter.get('/logout', (req, res) => {
     res.clearCookie('connect.sid');
     res.send(true);
 });
-
-// usuariosApiRouter.get('/', (req, res) => {
-//     if (req.session.user) {
-//         const { _doc } = req.session.user;
-//         res.send({
-//             username: _doc.username,
-//             _id: _doc._id
-//         });
-//     } else {
-//         res.send({ error: 'No user logged in' });
-//     };
-// });
-
-
-// usuariosApiRouter.post('/message/:id', async (req, res) => {
-//     const { id } = req.params;
-//     const { body } = req.body;
-//     if (!id || !body) return null;
-//     try {
-//         const user = await usuarios.getById(id);
-//         const userPhone = "whatsapp:" + user.phone;
-//         await twilio.sendMessage({ to: userPhone, body });
-//         await transporter.sendMail({
-//             ...config.emailer.options,
-//             html: `<p>${body}</p>`
-//         });
-//         res.send(true);
-//     } catch (e) {
-//         logger.error(e);
-//         res.send({ error: 'error in message', message: e.message });
-//     }
-// });
 
 export default usuariosApiRouter;
