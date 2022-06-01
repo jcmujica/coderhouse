@@ -1,4 +1,5 @@
 import twilio from 'twilio';
+import { logger } from './logger.js';
 
 const accountSid = process.env.TWILIO_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;

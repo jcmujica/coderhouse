@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import { logger } from '../utils/logger.js';
 const saltRounds = 10;
 export class ContenedorUsuarios {
     constructor(config, model, name) {

@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { logger } from '../utils/logger.js';
 
 const getId = (file) => {
     return file && file.length ? file[file.length - 1].id + 1 : 1;

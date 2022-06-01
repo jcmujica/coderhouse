@@ -5,22 +5,14 @@ import session from 'express-session';
 import passport from 'passport';
 import cluster from 'cluster';
 import os from 'os';
-import winston from 'winston';
 import config from './config.js';
 import productosApiRouter from './routes/productosApiRouter.js';
 import carritosApiRouter from './routes/carritosApiRouter.js';
 import usuariosApiRouter from './routes/usuariosApiRouter.js';
+import { logger } from './utils/logger.js';
 
 const USE_CLUSTER = config.USE_CLUSTER;
 const PORT = process.env.PORT || 8080;
-
-const logger = winston.createLogger({
-    level: 'warn',
-    transports: [
-        new winston.transports.Console({ level: 'verbose' }),
-        new winston.transports.File({ filename: 'info.log', level: 'error' }),
-    ]
-})
 
 if (cluster.isPrimary && USE_CLUSTER) {
     const cpus = os.cpus().length;

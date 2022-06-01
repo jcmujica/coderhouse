@@ -4,6 +4,7 @@ import { ProductosDaoMongoDb } from '../daos/ProductosDao.js';
 import { transporter, twilio } from '../utils/index.js';
 import config from '../config.js';
 import { UsuariosDao } from '../daos/UsuariosDao.js';
+import { logger } from '../utils/logger.js';
 dotEnvConfig();
 const productos = ProductosDaoMongoDb;
 

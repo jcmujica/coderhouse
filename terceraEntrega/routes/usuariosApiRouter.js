@@ -6,6 +6,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import config from '../config.js';
 import { UsuariosDao } from '../daos/UsuariosDao.js';
+import { logger } from '../utils/logger.js';
 dotEnvConfig();
 
 const usuariosApiRouter = new Router();
