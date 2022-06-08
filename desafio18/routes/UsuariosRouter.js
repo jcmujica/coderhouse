@@ -19,8 +19,13 @@ class UsuariosRouter {
             res.json({ data })
         });
 
-        router.post('/', async (req, res, next) => {
-            const data = await this.controller.createUser(req.body)
+        router.post('/login', async (req, res, next) => {
+            const data = await this.controller.loginUser(req.body)
+            res.json({ data })
+        });
+
+        router.post('/register', async (req, res, next) => {
+            const data = await this.controller.registerUser(req.body)
             res.json({ data })
         });
 

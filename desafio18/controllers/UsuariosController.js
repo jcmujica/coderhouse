@@ -13,8 +13,12 @@ export default class UsuariosController {
         return await this.usuariosApi.getAllUsers();
     }
 
-    async createUser(data) {
-        return await this.usuariosApi.createUser(data);
+    async loginUser(data) {
+        return await this.usuariosApi.loginUser(data);
+    }
+
+    async registerUser(data) {
+        return await this.usuariosApi.registerUser(data);
     }
 
     async updateUser(id, data) {
