@@ -7,14 +7,15 @@ import cluster from 'cluster';
 import os from 'os';
 import config from './config.js';
 import ProductosRouter from './routes/ProductosRouter.js';
-import carritosApiRouter from './routes/carritosApiRouter.js';
-import usuariosApiRouter from './routes/usuariosApiRouter.js';
+import CarritosRouter from './routes/CarritosRouter.js';
+import UsuariosRouter from './routes/UsuariosRouter.js';
 import { logger } from './utils/logger.js';
 
 const USE_CLUSTER = config.USE_CLUSTER;
 const PORT = process.env.PORT || 8080;
 
-if (cluster.isPrimary && USE_CLUSTER) {
+// if (cluster.isPrimary && USE_CLUSTER) {
+if (false) {
     const cpus = os.cpus().length;
     logger.info('CPUS: ', cpus);
     for (var i = 0; i < cpus; i++) {
@@ -35,9 +36,9 @@ if (cluster.isPrimary && USE_CLUSTER) {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    app.use('/api/user', usuariosApiRouter);
+    // app.use('/api/user', new CarritosRouter);
     app.use('/api/productos', new ProductosRouter().start());
-    app.use('/api/carritos', carritosApiRouter);
+    app.use('/api/carritos', new CarritosRouter().start());
     app.use('/', (req, res) => {
         res.send('Hola mundo!');
     });

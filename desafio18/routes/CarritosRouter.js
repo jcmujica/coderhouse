@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import ProductosController from '../controllers/ProductosController.js';
+import CarritosController from '../controllers/CarritosController.js';
 
 const router = new Router();
 
-class ProductosRouter {
+class CarritosRouter {
     constructor() {
-        this.controller = new ProductosController();
+        this.controller = new CarritosController();
     }
 
     start() {
@@ -35,7 +35,7 @@ class ProductosRouter {
         });
 
         router.post('/purchase', async (req, res, next) => {
-            const data = await this.controller.purchase(req.body)
+            const data = await this.controller.purchaseCart(req.body)
             res.json({ data })
         });
 
@@ -43,4 +43,4 @@ class ProductosRouter {
     };
 };
 
-export default ProductosRouter;
+export default CarritosRouter;

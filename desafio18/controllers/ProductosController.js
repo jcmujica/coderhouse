@@ -10,7 +10,7 @@ export default class ProductosController {
     }
 
     async getAllProducts() {
-        return await this.productosApi.getAllProducts();
+        return this.productosApi.getAllProducts();
     }
 
     async createProduct(data) {
