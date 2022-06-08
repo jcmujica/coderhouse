@@ -36,7 +36,7 @@ if (false) {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    // app.use('/api/user', new CarritosRouter);
+    app.use('/api/user', new UsuariosRouter().start());
     app.use('/api/productos', new ProductosRouter().start());
     app.use('/api/carritos', new CarritosRouter().start());
     app.use('/', (req, res) => {

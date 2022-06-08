@@ -15,7 +15,10 @@ export default class GenericDAO {
             return item;
         } catch (e) {
             logger.error(e);
-            return null;
+            return {
+                error: e,
+                message: `Error al crear el item ${this.name}`
+            };
         }
     }
 
@@ -25,7 +28,10 @@ export default class GenericDAO {
             return item;
         } catch (e) {
             logger.error(e);
-            return null;
+            return {
+                error: e,
+                message: `Error al obtener el item ${this.name} con id ${id}`
+            };
         }
     }
 
@@ -35,7 +41,10 @@ export default class GenericDAO {
             return items;
         } catch (e) {
             logger.error(e);
-            return null;
+            return {
+                error: e,
+                message: `Error al obtener los items de tipo ${this.name}`
+            };
         }
     }
 
@@ -46,7 +55,10 @@ export default class GenericDAO {
             return updatedItem;
         } catch (e) {
             logger.error(e);
-            return null;
+            return {
+                error: e,
+                message: `Error al actualizar el item ${this.name} con id ${id}`
+            };
         }
     }
 
@@ -56,7 +68,10 @@ export default class GenericDAO {
             return item;
         } catch (e) {
             logger.error(e);
-            return null;
+            return {
+                error: e,
+                message: `Error al eliminar el item ${this.name} con id ${id}`
+            };
         }
     }
 
@@ -66,7 +81,10 @@ export default class GenericDAO {
             return items;
         } catch (e) {
             logger.error(e);
-            return null;
+            return {
+                error: e,
+                message: `Error al eliminar lost items ${this.name}`
+            };
         }
     }
 };

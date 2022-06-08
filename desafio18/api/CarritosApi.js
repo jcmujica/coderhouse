@@ -1,5 +1,13 @@
+import config from "../config.js";
 import CarritosDAO from "../models/daos/CarritosDAO.js";
 import UsuariosDAO from "../models/daos/UsuariosDAO.js";
+import {
+    completeWithWhatasappPrefix,
+    twilio,
+    cartToTextBody,
+    transporter,
+    cartToHtmlBody
+} from "../utils/index.js";
 
 export default class CarritosApi {
     constructor() {
@@ -11,7 +19,7 @@ export default class CarritosApi {
     }
 
     async getAllCarts() {
-        return await ßthis.carritosDAO.getAll();
+        return await this.carritosDAO.getAll();
     }
 
     async createCart(data) {
@@ -19,7 +27,7 @@ export default class CarritosApi {
     }
 
     async updateCart(id, data) {
-        return await this.carritosDAO.updateById(id, data);
+        return await this.carritosDAO.updateCart(id, data);
     }
 
     async deleteCart(id) {
@@ -46,11 +54,10 @@ export default class CarritosApi {
                 ...config.emailer.options,
                 html: cartToHtmlBody(body)
             });
-            res.send(true);
+            return true
         } catch (e) {
             logger.error(e);
-            res.send({ error: 'error in message', message: e.message });
+            return { error: 'error in message', message: e.message };
         }
-        return await this.carritosApi.purchaseCart(data);
     }
 }

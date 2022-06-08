@@ -10,7 +10,7 @@ export default class CarritosController {
     }
 
     async getAllCarts() {
-        return this.carritosApi.getAllCarts();
+        return await this.carritosApi.getAllCarts();
     }
 
     async createCart(data) {
