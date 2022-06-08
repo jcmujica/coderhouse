@@ -88,9 +88,9 @@ export default class GenericDAO {
         }
     }
 
-    async findByProperty(property) {
+    async findByProperty(property, value) {
         try {
-            let item = await this.model.findOne(property);
+            let item = await this.model.findOne({ [property]: value });
             return item;
         } catch (e) {
             logger.error(e);

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import UsuariosController from '../controllers/UsuariosController.js';
+import passport from '../middlewares/auth.js';
 
 const router = new Router();
 
@@ -19,13 +20,13 @@ class UsuariosRouter {
             res.json({ data })
         });
 
-        router.post('/login', async (req, res, next) => {
-            const data = await this.controller.loginUser(req.body)
+        router.post('/login', passport.authenticate('login') , async (req, res, next) => {
+            const data = await this.controller.loginUser(req.user)
             res.json({ data })
         });
 
-        router.post('/register', async (req, res, next) => {
-            const data = await this.controller.registerUser(req.body)
+        router.post('/register', passport.authenticate('register'), async (req, res, next) => {
+            const data = await this.controller.registerUser(req.user)
             res.json({ data })
         });
 

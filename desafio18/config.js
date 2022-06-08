@@ -47,6 +47,7 @@ export default {
             html: '<h1 style="color: blue;">Contenido de prueba desde <span style="color: green;">Node.js con Nodemailer</span></h1>'
         }
     },
-    RECIPIENT_PHONE: process.env.RECIPIENT_PHONE,
     JWT_SECRET: process.env.JWT_SECRET,
+    ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+    ADMIN_PHONE: process.env.ADMIN_PASSWORD,
 };
