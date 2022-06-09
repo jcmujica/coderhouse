@@ -18,4 +18,17 @@ export default class UsuariosDAO extends GenericDAO {
             };
         }
     }
+
+    async createAdmin(data) {
+        try {
+            let item = await this.create(data);
+            return item;
+        } catch (e) {
+            logger.error(e);
+            return {
+                error: e,
+                message: `Error al crear el item ${this.name}`
+            };
+        }
+    }
 }

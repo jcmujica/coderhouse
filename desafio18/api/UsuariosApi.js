@@ -37,10 +37,14 @@ export default class UsuariosApi {
     }
 
     async updateUser(id, data) {
-        return await this.usuariosDAO.updateUser(id, data);
+        return await this.usuariosDAO.updateById(id, data);
     }
 
     async deleteUser(id) {
         return await this.usuariosDAO.deleteById(id);
+    }
+
+    async createAdmin(data) {
+        return await this.usuariosDAO.createAdmin(data);
     }
 }

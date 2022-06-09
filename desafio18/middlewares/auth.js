@@ -4,6 +4,7 @@ import { logger } from '../utils/index.js';
 import bcrypt from "bcrypt";
 import UsuariosApi from '../api/UsuariosApi.js';
 import config from '../config.js';
+import { Unauthorized } from '../errors/index.js';
 
 const LocalStrategy = passportLocal.Strategy;
 
@@ -51,7 +52,7 @@ const register = async (req, username, password, done) => {
         const user = await usuariosApi.getByUsername(username);
 
         if (user) {
-            logger.warn(`Error, El usuario ${config.ADMIN_EMAIL} ya existe`);
+            logger.warn(`Error, El usuario ${req.body.username} ya existe`);
             logger.info(user);
             return done(null, false, {
                 message:
@@ -80,14 +81,36 @@ passport.deserializeUser(async (id, done) => {
     done(null, user);
 });
 
-export const isLoggedIn = (req, res, next,) => {
-    if (!req.isAuthenticated()) {
-        return {
-            error: 'No estás autenticado',
-        };
+const isLoggedIn = (req, res, next) => {
+    const isAuthenticated = req.isAuthenticated();
+    if (!isAuthenticated) {
+        throw new Unauthorized('El usuario no ha inciado sesion');
     }
 
     next();
 };
 
-export default passport;
+const isAdmin = (req, res, next) => {
+    const isAdmin = req.user.admin;
+    if (!isAdmin) {
+        throw new Unauthorized('No esta autorizado para realizar esta accion');
+    }
+
+    next();
+};
+
+const isSelf = (req, res, next) => {
+    const isSelf = req.user.id === req.params.id;
+    if (!isSelf) {
+        throw new Unauthorized('No esta autorizado para realizar esta accion');
+    }
+
+    next();
+};
+
+export {
+    passport,
+    isLoggedIn,
+    isAdmin,
+    isSelf,
+};

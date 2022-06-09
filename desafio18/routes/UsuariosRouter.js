@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import UsuariosController from '../controllers/UsuariosController.js';
-import passport from '../middlewares/auth.js';
+import { passport, isLoggedIn, isAdmin, isSelf } from '../middlewares/auth.js';
 
 const router = new Router();
 
@@ -20,7 +20,7 @@ class UsuariosRouter {
             res.json({ data })
         });
 
-        router.post('/login', passport.authenticate('login') , async (req, res, next) => {
+        router.post('/login', passport.authenticate('login'), async (req, res, next) => {
             const data = await this.controller.loginUser(req.user)
             res.json({ data })
         });
@@ -30,18 +30,18 @@ class UsuariosRouter {
             res.json({ data })
         });
 
-        router.put('/:id', async (req, res, next) => {
+        router.put('/:id', isLoggedIn, isSelf, async (req, res, next) => {
             const data = await this.controller.updateUser(req.params.id, req.body)
             res.json({ data })
         });
 
-        router.delete('/:id', async (req, res, next) => {
+        router.delete('/:id', isAdmin, async (req, res, next) => {
             const data = await this.controller.deleteUser(req.params.id)
             res.json({ data })
         });
 
-        router.post('/purchase', async (req, res, next) => {
-            const data = await this.controller.purchaseUser(req.body)
+        router.post('/createAdmin', isAdmin, async (req, res, next) => {
+            const data = await this.controller.createAdmin(req.body)
             res.json({ data })
         });
 

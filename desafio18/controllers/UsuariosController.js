@@ -6,7 +6,7 @@ export default class UsuariosController {
     }
 
     async getUser(id) {
-        return await this.usuariosApi.getUser(id);
+        return await this.usuariosApi.getById(id);
     }
 
     async getAllUsers() {
@@ -31,5 +31,9 @@ export default class UsuariosController {
 
     async purchaseUser(data) {
         return await this.usuariosApi.purchaseUser(data);
+    }
+
+    async createAdmin(data) {
+        return await this.usuariosApi.createAdmin(data);
     }
 }
