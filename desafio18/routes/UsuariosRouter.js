@@ -10,7 +10,7 @@ class UsuariosRouter {
     }
 
     start() {
-        router.get('/', async (req, res, next) => {
+        router.get('/', isAdmin , async (req, res, next) => {
             const data = await this.controller.getAllUsers()
             res.json({ data })
         });

@@ -1,4 +1,5 @@
 import UsuariosApi from "../api/UsuariosApi.js";
+import bcrypt from "bcrypt";
 
 export default class UsuariosController {
     constructor() {
@@ -18,6 +19,8 @@ export default class UsuariosController {
     }
 
     async registerUser(data) {
+        const { password } = data;
+        data.password = await bcrypt.hash(password, 10);
         return await this.usuariosApi.registerUser(data);
     }
 

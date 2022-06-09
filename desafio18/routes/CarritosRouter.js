@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import CarritosController from '../controllers/CarritosController.js';
+import { isAdmin, isSelf } from '../middlewares/auth.js';
 
 const router = new Router();
 
@@ -9,7 +10,7 @@ class CarritosRouter {
     }
 
     start() {
-        router.get('/', async (req, res, next) => {
+        router.get('/', isAdmin , async (req, res, next) => {
             const data = await this.controller.getAllCarts()
             res.json({ data })
         });
