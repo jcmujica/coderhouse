@@ -1,0 +1,37 @@
+{
+  "name": "terceraentrega",
+  "version": "1.0.0",
+  "description": "- Un menú de registro y autenticación de usuarios basado en passport local, guardando en la base de datos las credenciales y el resto de los datos ingresados al momento del registro.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "pm2 start server.js",
+    "dev": "nodemon server.js",
+    "server": "node server.js"
+  },
+  "author": "JC Mujica",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "bcrypt": "^5.0.1",
+    "chai": "^4.3.6",
+    "connect-mongo": "^4.6.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "mocha": "^10.0.0",
+    "mongo-store": "^0.0.2",
+    "mongoose": "^6.3.3",
+    "nodemailer": "^6.7.5",
+    "nodemon": "^2.0.16",
+    "passport": "^0.5.3",
+    "passport-local": "^1.0.0",
+    "pm2": "^5.2.0",
+    "twilio": "^3.77.0",
+    "winston": "^3.7.2"
+  }
+}
