@@ -59,9 +59,8 @@ const register = async (req, username, password, done) => {
                     'Ya existe un usuario registrado con ese email, por favor intenta con otro',
             });
         } else {
-            const newUser = await usuariosApi.registerUser(userData);
             logger.info(`Registro exitoso de usuario: ${config.ADMIN_EMAIL}`);
-            return done(null, newUser);
+            return done(null, userData);
         }
     } catch (e) {
         logger.warn(e);
@@ -73,7 +72,7 @@ passport.use('login', new LocalStrategy(strategyOptions, login));
 passport.use('register', new LocalStrategy(strategyOptions, register));
 
 passport.serializeUser((user, done) => {
-    done(null, user._id);
+    done(null, user);
 });
 
 passport.deserializeUser(async (id, done) => {

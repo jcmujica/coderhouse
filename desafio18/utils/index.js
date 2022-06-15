@@ -1,7 +1,8 @@
 import { transporter } from './transporter.js';
 import twilio from './twilio.js';
-import { isAuth } from './isAuth.js';
 import { logger } from './logger.js';
+import { hashPassword } from './hash.js';
+import { comparePassword } from './hash.js';
 
 const completeWithWhatasappPrefix = (phone) => {
     // if phone starts with +, add whatasapp prefix
@@ -46,9 +47,10 @@ const cartToTextBody = (cart, role) => {
 export {
     transporter,
     twilio,
-    isAuth,
     completeWithWhatasappPrefix,
     cartToHtmlBody,
     cartToTextBody,
-    logger
+    logger,
+    hashPassword,
+    comparePassword
 }

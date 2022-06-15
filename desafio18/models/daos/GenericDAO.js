@@ -24,6 +24,10 @@ export default class GenericDAO {
 
     async getById(id) {
         try {
+            if (typeof id === 'object') {
+                id = id._id;
+            }
+
             let item = await this.model.findById(id);
             return item;
         } catch (e) {

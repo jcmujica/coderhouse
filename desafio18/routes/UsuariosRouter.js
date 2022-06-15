@@ -10,7 +10,7 @@ class UsuariosRouter {
     }
 
     start() {
-        router.get('/', isAdmin , async (req, res, next) => {
+        router.get('/', isAdmin, async (req, res, next) => {
             const data = await this.controller.getAllUsers()
             res.json({ data })
         });
@@ -28,6 +28,11 @@ class UsuariosRouter {
         router.post('/register', passport.authenticate('register'), async (req, res, next) => {
             const data = await this.controller.registerUser(req.user)
             res.json({ data })
+        });
+
+        router.post('/logout', (req, res, next) => {
+            req.logout()
+            res.json({ data: true })
         });
 
         router.put('/:id', isLoggedIn, isSelf, async (req, res, next) => {
