@@ -30,6 +30,7 @@
     "nodemon": "^2.0.16",
     "passport": "^0.5.3",
     "passport-auth-token": "^1.0.1",
+    "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pm2": "^5.2.0",
     "twilio": "^3.77.0",
