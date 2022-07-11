@@ -31,9 +31,7 @@ class UsuariosRouter {
         });
 
         router.post('/register', register, async (req, res, next) => {
-            console.log('first', req.user)
-            const data = await this.controller.registerUser(req.user)
-            res.json({ data })
+            res.json({ data: req.user })
         });
 
         router.post('/logout', (req, res, next) => {

@@ -19,10 +19,15 @@ export const Register = () => {
         if (form.password !== form.password2) {
             setError('Las contraseñas no coinciden');
             return;
-        }
+        } else {
+            setError(null);
+        };
+
         const response = await register(form);
-        if (response.error) {
-            setError(response.error);
+        console.log({ response })
+        const error = response?.error || response?.data?.error || response?.response?.data?.error;
+        if (error) {
+            setError(error);
         } else {
             setError(null);
         };

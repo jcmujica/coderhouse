@@ -76,9 +76,10 @@ const register = async (req, res, next) => {
         const user = await getUser(username);
 
         if (user) {
-            logger.warn(`Error, El usuario ${username} ya existe`);
+            const error = `Error, El usuario ${username} ya existe`;
+            logger.warn(error);
             logger.info(user);
-            return next();
+            res.status(400).json({ error: error });
         } else {
             const hash = await bcrypt.hash(password, 10);
             userData = {
