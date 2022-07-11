@@ -37,11 +37,11 @@ if (false) {
     app.use('/api/productos', new ProductosRouter().start());
     app.use('/api/carritos', new CarritosRouter().start());
     app.use('/', (req, res) => {
-        res.send('Hola mundo!');
+        res.json({ message: 'Hola mundo!' });
     });
 
     app.get('*', function (req, res) {
-        res.send({ error: -2, descripcion: `ruta $${req.path} o método ${req.method} no implementado` });
+        res.json({ error: -2, descripcion: `ruta $${req.path} o método ${req.method} no implementado` });
     });
 
     app.listen(PORT, () => {

@@ -24,7 +24,7 @@ const getUser = async (username) => {
     return user;
 };
 
-export const login = async (req, res, next) => {
+const login = async (req, res, next) => {
     try {
         const { username, password } = req.body;
         const user = await getUser(username);
@@ -63,23 +63,35 @@ export const login = async (req, res, next) => {
     }
 };
 
-export const register = async (req, res, next) => {
+const register = async (req, res, next) => {
     try {
-        const userData = {
+        const { username, password } = req.body;
+        let userData = {
             ...req.body,
             admin: false,
         };
 
-        const user = await usuariosApi.getByUsername(username);
+        console.log(userData)
+
+        const user = await getUser(username);
 
         if (user) {
-            logger.warn(`Error, El usuario ${req.body.username} ya existe`);
+            logger.warn(`Error, El usuario ${username} ya existe`);
             logger.info(user);
             return next();
         } else {
-            const hash = await bcrypt.hash(req.body.password, 10);
-            userData.password = hash;
-            const newUser = await usuariosApi.create(userData);
+            const hash = await bcrypt.hash(password, 10);
+            userData = {
+                ...userData,
+                password: hash,
+            };
+            const newUser = await usuariosApi.registerUser(userData);
+
+            if (newUser.error) {
+                logger.warn(`Error, no se pudo crear el usuario ${username}`);
+                logger.info(newUser);
+                res.status(400).json({ error: newUser.error });
+            };
 
             const jwtPayload = {
                 id: newUser.id,
@@ -92,7 +104,7 @@ export const register = async (req, res, next) => {
                     return next(err);
                 };
 
-                req.user = { user: jwtPayload, token: `Bearer ${token}` };
+                req.user = { ...newUser, token: `Bearer ${token}` };
 
                 logger.info(`Registro exitoso de usuario: ${config.ADMIN_EMAIL}`);
 
@@ -104,6 +116,8 @@ export const register = async (req, res, next) => {
         return next();
     }
 };
+
+const isAuth = passport.authenticate('jwt', { session: false });
 
 passport.use(new Strategy(strategyOptions, async (jwt_payload, done) => {
     console.log({ jwt_payload })
@@ -131,15 +145,6 @@ passport.deserializeUser(async (id, done) => {
     done(null, user);
 });
 
-const isLoggedIn = (req, res, next) => {
-    const isAuthenticated = req.isAuthenticated();
-    if (!isAuthenticated) {
-        throw new Unauthorized('El usuario no ha inciado sesion');
-    }
-
-    next();
-};
-
 const isAdmin = (req, res, next) => {
     const isAdmin = req?.user?.admin;
     if (!isAdmin) {
@@ -160,7 +165,9 @@ const isSelf = (req, res, next) => {
 
 export {
     passport,
-    isLoggedIn,
+    isAuth,
     isAdmin,
     isSelf,
+    login,
+    register,
 };

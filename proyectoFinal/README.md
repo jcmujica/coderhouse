@@ -56,7 +56,7 @@ Implementar al menos estas colecciones:
     - Fecha y hora
     - Cuerpo del mensaje
 
-**Carrito:** orden temporal de compra
+- **Carrito:** orden temporal de compra
     - Email
     - Fecha y hora
     - Items con sus cantidades

@@ -57,13 +57,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            const jsonResponse = await fetch('/api/logout', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            const response = await jsonResponse.json();
+            const response = await axios.get('/api/user/logout');
             setUser(null);
             return response;
         } catch (e) {
@@ -73,14 +67,7 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (user) => {
         try {
-            const jsonResponse = await fetch('/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(user)
-            });
-            const response = await jsonResponse.json();
+            const response = await axios.post('/api/user/register', user);
             setUser(response);
             return response;
         } catch (e) {

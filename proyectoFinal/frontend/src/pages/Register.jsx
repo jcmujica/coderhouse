@@ -16,6 +16,10 @@ export const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (form.password !== form.password2) {
+            setError('Las contraseñas no coinciden');
+            return;
+        }
         const response = await register(form);
         if (response.error) {
             setError(response.error);
@@ -33,6 +37,20 @@ export const Register = () => {
                         <input
                             type="text"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
+                            name="name"
+                            placeholder="Nombre completo"
+                            onChange={handleChange}
+                        />
+                        <input
+                            type="text"
+                            className="block border border-grey-light w-full p-3 rounded mb-4"
+                            name="phone"
+                            placeholder="Telefono"
+                            onChange={handleChange}
+                        />
+                        <input
+                            type="text"
+                            className="block border border-grey-light w-full p-3 rounded mb-4"
                             name="username"
                             placeholder="Email"
                             onChange={handleChange}
@@ -41,6 +59,13 @@ export const Register = () => {
                             type="password"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
                             name="password"
+                            placeholder="Password"
+                            onChange={handleChange}
+                        />
+                        <input
+                            type="password"
+                            className="block border border-grey-light w-full p-3 rounded mb-4"
+                            name="password2"
                             placeholder="Password"
                             onChange={handleChange}
                         />

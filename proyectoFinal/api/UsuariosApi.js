@@ -30,7 +30,7 @@ export default class UsuariosApi {
     async registerUser(data) {
         try {
             const user = await this.usuariosDAO.create(data);
-            return { user: { ...user._doc, password: undefined } };
+            return user;
         } catch (e) {
             logger.log(e);
             return { error: -1, error: e, message: 'Error in register' };

@@ -19,6 +19,7 @@ export default class UsuariosController {
     }
 
     async registerUser(data) {
+        console.log(data)
         const { password } = data;
         data.password = await hashPassword(password, 10);
         return await this.usuariosApi.registerUser(data);
