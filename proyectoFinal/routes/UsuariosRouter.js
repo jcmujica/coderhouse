@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import UsuariosController from '../controllers/UsuariosController.js';
-import { passport, isLoggedIn, isAdmin, isSelf } from '../middlewares/auth.js';
+import { passport, isLoggedIn, isAdmin, isSelf, login } from '../middlewares/auth.js';
 
 const router = new Router();
 
@@ -10,22 +10,21 @@ class UsuariosRouter {
     }
 
     start() {
-        router.get('/', isAdmin, async (req, res, next) => {
+        router.get('/', async (req, res, next) => {
             const data = await this.controller.getAllUsers()
             res.json({ data })
         });
 
-        router.get('/:id', async (req, res, next) => {
+        router.get('/:id', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
             const data = await this.controller.getUser(req.params.id)
             res.json({ data })
         });
 
-        router.post('/login', passport.authenticate('login'), async (req, res, next) => {
-            const data = await this.controller.loginUser(req.user)
-            res.json({ data })
+        router.post('/login', login, async (req, res, next) => {
+            res.json({ data: req.user });
         });
 
-        router.post('/register', passport.authenticate('register'), async (req, res, next) => {
+        router.post('/register', async (req, res, next) => {
             const data = await this.controller.registerUser(req.user)
             res.json({ data })
         });

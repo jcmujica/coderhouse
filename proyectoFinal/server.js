@@ -1,8 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import session from 'express-session';
-import passport from 'passport';
+import { passport } from './middlewares/auth.js';
 import cluster from 'cluster';
 import os from 'os';
 import config from './config.js';
@@ -32,9 +31,7 @@ if (false) {
     app.use(express.urlencoded({ extended: true }));
     app.use(cors());
     app.use(cookieParser());
-    app.use(session(config.session));
     app.use(passport.initialize());
-    app.use(passport.session());
 
     app.use('/api/user', new UsuariosRouter().start());
     app.use('/api/productos', new ProductosRouter().start());

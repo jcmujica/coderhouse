@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router';
+import axios from 'axios';
 
 export const AuthContext = createContext()
 
@@ -10,18 +11,26 @@ export const AuthProvider = ({ children }) => {
 
     const getUser = async () => {
         try {
-            const response = await fetch('/api/user');
+            const userId = localStorage.getItem('userId');
+            const token = localStorage.getItem('token');
+            if (!userId || !token) {
+                return;
+            };
+            const response = await axios.get(`/api/user/${userId}`, {
+                headers: {
+                    'Autorization': token
+                }
+            });
+            console.log({ response });
+            setUser(response);
 
-            const data = await response.json();
-            setUser(data);
-
-            if (data.error) {
+            if (response.error) {
                 if (location.pathname !== '/login' && location.pathname !== '/register') {
                     navigate('/login');
                 };
-            } else if (!data.error && (location.pathname === '/login' || location.pathname === '/register')) {
+            } else if (!response.error && (location.pathname === '/login' || location.pathname === '/register')) {
                 navigate('/');
-            } else if (!data && location.pathname === '/logout') {
+            } else if (!response && location.pathname === '/logout') {
                 navigate('/login');
             };
 
@@ -32,18 +41,13 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         getUser();
-    }, [user?._id]);
+    }, []);
 
     const login = async (user) => {
         try {
-            const jsonResponse = await fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(user)
-            });
-            const response = await jsonResponse.json();
+            const response = await axios.post('/api/user/login', user);
+            localStorage.setItem('token', response?.data?.data?.token);
+            localStorage.setItem('userId', response?.data?.data?.user?.id);
             setUser(response);
             return response;
         } catch (e) {

@@ -48,6 +48,8 @@ export default {
         }
     },
     JWT_SECRET: process.env.JWT_SECRET,
+    JWT_EXPIRATION_TIME: process.env.JWT_EXPIRATION_TIME,
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
     ADMIN_PHONE: process.env.ADMIN_PASSWORD,
+
 };

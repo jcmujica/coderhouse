@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import UsuariosApi from '../api/UsuariosApi.js';
 import config from '../config.js';
 import { Unauthorized } from '../errors/index.js';
+import jwt from 'jsonwebtoken';
 
 const Strategy = passportJwt.Strategy;
 const ExtractJwt = passportJwt.ExtractJwt;
@@ -12,20 +13,25 @@ const ExtractJwt = passportJwt.ExtractJwt;
 const strategyOptions = {
     usernameField: 'username',
     passwordField: 'password',
-    passReqToCallback: true,
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: config.JWT_SECRET,
 };
 
 const usuariosApi = new UsuariosApi();
 
-const login = async (req, username, password, done) => {
+const getUser = async (username) => {
+    const user = await usuariosApi.getByUsername(username);
+    return user;
+};
+
+export const login = async (req, res, next) => {
     try {
-        const user = await usuariosApi.getByUsername(username);
+        const { username, password } = req.body;
+        const user = await getUser(username);
 
         if (!user) {
             logger.warn(`Login fallido para usuario ${username}: El usuario no existe`);
-            return done(null, false);
+            return next();
         }
 
         const match = await bcrypt.compare(password, user.password);
@@ -33,19 +39,31 @@ const login = async (req, username, password, done) => {
             logger.warn(
                 `Login fallido para usuario ${username}: La contraseña es incorrecta`,
             );
-            return done(null, false);
-        }
+            return next();
+        };
 
-        logger.warn(`Login exitoso de usuario ${username}, ${new Date()}`);
-        return done(null, user);
+        const jwtPayload = {
+            id: user.id,
+            username: user.username
+        };
 
+        jwt.sign(jwtPayload, config.JWT_SECRET, { expiresIn: config.JWT_EXPIRATION_TIME }, (err, token) => {
+            if (err) {
+                logger.error(err);
+                return next(err);
+            };
+
+            req.user = { user: jwtPayload, token: `Bearer ${token}` };
+
+            return next();
+        });
     } catch (e) {
         logger.warn(e);
-        return done(e);
+        return next(e);
     }
 };
 
-const register = async (req, username, password, done) => {
+export const register = async (req, res, next) => {
     try {
         const userData = {
             ...req.body,
@@ -57,22 +75,52 @@ const register = async (req, username, password, done) => {
         if (user) {
             logger.warn(`Error, El usuario ${req.body.username} ya existe`);
             logger.info(user);
-            return done(null, false, {
-                message:
-                    'Ya existe un usuario registrado con ese email, por favor intenta con otro',
-            });
+            return next();
         } else {
-            logger.info(`Registro exitoso de usuario: ${config.ADMIN_EMAIL}`);
-            return done(null, userData);
+            const hash = await bcrypt.hash(req.body.password, 10);
+            userData.password = hash;
+            const newUser = await usuariosApi.create(userData);
+
+            const jwtPayload = {
+                id: newUser.id,
+                username: newUser.username
+            };
+
+            jwt.sign(jwtPayload, config.JWT_SECRET, { expiresIn: config.JWT_EXPIRATION_TIME }, (err, token) => {
+                if (err) {
+                    logger.error(err);
+                    return next(err);
+                };
+
+                req.user = { user: jwtPayload, token: `Bearer ${token}` };
+
+                logger.info(`Registro exitoso de usuario: ${config.ADMIN_EMAIL}`);
+
+                return next();
+            });
         }
+    } catch (e) {
+        logger.warn(e);
+        return next();
+    }
+};
+
+passport.use(new Strategy(strategyOptions, async (jwt_payload, done) => {
+    console.log({ jwt_payload })
+    try {
+        const user = await getUser(jwt_payload.username);
+        if (!user) {
+            const error = `Usuario no autorizado`;
+            logger.warn(error);
+            return done(error, false);
+        } else {
+            return done(null, user);
+        };
     } catch (e) {
         logger.warn(e);
         return done(e);
     }
-};
-
-passport.use('login', new Strategy(strategyOptions, login));
-passport.use('register', new Strategy(strategyOptions, register));
+}));
 
 passport.serializeUser((user, done) => {
     done(null, user);
@@ -93,7 +141,7 @@ const isLoggedIn = (req, res, next) => {
 };
 
 const isAdmin = (req, res, next) => {
-    const isAdmin = req.user.admin;
+    const isAdmin = req?.user?.admin;
     if (!isAdmin) {
         throw new Unauthorized('No esta autorizado para realizar esta accion');
     }
