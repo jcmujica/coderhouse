@@ -1,24 +1,27 @@
 import passport from 'passport';
-import passportLocal from 'passport-local';
+import passportJwt from 'passport-jwt';
 import { logger } from '../utils/index.js';
 import bcrypt from "bcrypt";
 import UsuariosApi from '../api/UsuariosApi.js';
 import config from '../config.js';
 import { Unauthorized } from '../errors/index.js';
 
-const LocalStrategy = passportLocal.Strategy;
+const Strategy = passportJwt.Strategy;
+const ExtractJwt = passportJwt.ExtractJwt;
 
 const strategyOptions = {
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true,
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: config.JWT_SECRET,
 };
 
 const usuariosApi = new UsuariosApi();
 
 const login = async (req, username, password, done) => {
     try {
-        const user = (await usuariosApi.getByUsername(username));
+        const user = await usuariosApi.getByUsername(username);
 
         if (!user) {
             logger.warn(`Login fallido para usuario ${username}: El usuario no existe`);
@@ -68,8 +71,8 @@ const register = async (req, username, password, done) => {
     }
 };
 
-passport.use('login', new LocalStrategy(strategyOptions, login));
-passport.use('register', new LocalStrategy(strategyOptions, register));
+passport.use('login', new Strategy(strategyOptions, login));
+passport.use('register', new Strategy(strategyOptions, register));
 
 passport.serializeUser((user, done) => {
     done(null, user);
