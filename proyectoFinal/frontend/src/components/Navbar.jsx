@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from 'contexts/authContext';
 import { CartContext } from 'contexts/cartContext';
+import { MdOutlineShoppingCart } from 'react-icons/md';
 
 const allLinks = [
     {
@@ -27,11 +28,8 @@ export const Navbar = () => {
     const [links, setLinks] = useState([]);
     const { user } = useContext(AuthContext);
     const { cart } = useContext(CartContext);
-    console.log({cart})
-
-    useEffect(() => {
-
-    }, []);
+    console.log({ cart })
+    console.log(cart?.products?.length)
 
     useEffect(() => {
         let linksToShow = allLinks.filter(link => link.path !== location.pathname);
@@ -64,7 +62,12 @@ export const Navbar = () => {
                             to="/cart"
                             className="block lg:inline-block lg:mt-0 text-white font-bold hover:text-white hover:bg-blue-700 mr-4 text-right py-2 px-6 rounded"
                         >
-                            Cart
+                            <span
+                                className='flex items-center gap-2 justify-center'
+                            >
+                                <MdOutlineShoppingCart />
+                                {cart?.products?.length}
+                            </span>
                         </Link>
                     )}
                 </div>

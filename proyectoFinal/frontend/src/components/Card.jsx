@@ -47,8 +47,8 @@ export const Card = (props) => {
                 products: updatedProducts
             };
 
-            const newCart = await axios.post(
-                `/api/carritos/${cart?._id}/products`,
+            const newCart = await axios.put(
+                `/api/carritos/${cart?._id}`,
                 updatedCart,
                 {
                     headers: {
@@ -56,9 +56,8 @@ export const Card = (props) => {
                     }
                 }
             );
-
-            console.log(newCart);
-            setCart(newCart.data);
+            setCart(newCart?.data?.data);
+            setAmount(0);
         } else {
             const body = {
                 user: user._id,
@@ -71,7 +70,8 @@ export const Card = (props) => {
                     'Authorization': localStorage.getItem('token')
                 }
             });
-            setCart(cart.data);
+            setCart(cart?.data?.data);
+            setAmount(0);
         };
     };
 
@@ -101,7 +101,7 @@ export const Card = (props) => {
     const handleRemoveFromCart = async () => {
         const updatedCart = cart.products.filter(product => product._id !== props.product._id);
         const response = await axios.put(
-            `/api/carritos/${cart?._id}/products`,
+            `/api/carritos/${cart?._id}`,
             { products: updatedCart },
             {
                 headers: {
@@ -185,7 +185,7 @@ export const Card = (props) => {
                                 href="#"
                                 className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 disabled:opacity-50 disabled:cursor-not-allowed'
                                 style={{
-                                    visibility: role === ROLES.ADMIN ? 'visible' : 'hidden'
+                                    visibility: user?.isAdmin ? 'visible' : 'hidden'
                                 }}
                                 onClick={handleEdit}
                             >
@@ -195,7 +195,7 @@ export const Card = (props) => {
                                 href="#"
                                 className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 disabled:opacity-50 disabled:cursor-not-allowed'
                                 style={{
-                                    visibility: role === ROLES.ADMIN ? 'visible' : 'hidden'
+                                    visibility: user?.isAdmin ? 'visible' : 'hidden'
                                 }}
                                 onClick={handleDelete}
                             >
