@@ -28,8 +28,6 @@ export const Navbar = () => {
     const [links, setLinks] = useState([]);
     const { user } = useContext(AuthContext);
     const { cart } = useContext(CartContext);
-    console.log({ cart })
-    console.log(cart?.products?.length)
 
     useEffect(() => {
         let linksToShow = allLinks.filter(link => link.path !== location.pathname);

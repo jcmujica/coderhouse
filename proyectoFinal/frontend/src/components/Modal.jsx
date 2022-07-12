@@ -37,11 +37,23 @@ const fields = [
     label: 'Stock',
     type: 'text',
     placeholder: 'Stock del producto',
+  },
+  {
+    name: 'category',
+    label: 'Categoría',
+    type: 'text',
+    placeholder: 'Categoria del producto',
   }
 ];
 
 export const Modal = (props) => {
-  const { product, show = false, setShow, getProducts } = props;
+  const {
+    product,
+    show = false,
+    setShow,
+    getProducts,
+    mode = 'edit'
+  } = props;
   const [form, setForm] = useState(product);
 
   const handleChange = (e) => {
@@ -55,15 +67,27 @@ export const Modal = (props) => {
 
   const canSubmit = () => Object.keys(form).length >= fields.length;
 
-  const handleUpdateProduct = async () => {
-    const response = await axios.put(`/api/productos/${form._id}`, form, {
-      headers: {
-        'Authorization': localStorage.getItem('token')
-      }
-    });
-    if (response.status === 200) {
-      getProducts();
-      setShow(false);
+  const handleSubmitProduct = async () => {
+    if (mode === 'edit') {
+      const response = await axios.put(`/api/productos/${form._id}`, form, {
+        headers: {
+          'Authorization': localStorage.getItem('token')
+        }
+      });
+      if (response.status === 200) {
+        getProducts();
+        setShow(false);
+      };
+    } else {
+      const response = await axios.post('/api/productos/', form, {
+        headers: {
+          'Authorization': localStorage.getItem('token')
+        }
+      });
+      if (response.status === 200) {
+        getProducts();
+        setShow(false);
+      };
     };
   };
 
@@ -78,7 +102,7 @@ export const Modal = (props) => {
           <div className="relative bg-white rounded-lg shadow ">
             <div className="flex justify-between items-start p-5 rounded-t border-b ">
               <h3 className="text-xl font-semibold text-gray-900 lg:text-2xl ">
-                Editando Producto
+                {mode === 'edit' ? 'Editando Producto' : 'Agregando Producto'}
               </h3>
               <button
                 type="button"
@@ -114,9 +138,9 @@ export const Modal = (props) => {
                 type="button"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
                 disabled={!canSubmit()}
-                onClick={handleUpdateProduct}
+                onClick={handleSubmitProduct}
               >
-                Actualizar
+                {mode === 'edito' ? 'Actualizar' : 'Agregar'}
               </button>
               <button
                 data-modal-toggle="defaultModal"
