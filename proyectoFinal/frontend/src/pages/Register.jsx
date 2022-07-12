@@ -26,7 +26,7 @@ export const Register = () => {
         const response = await register(form);
         console.log({ response })
         const error = response?.error || response?.data?.error || response?.response?.data?.error;
-        if (error) {
+        if (error && typeof error === 'string') {
             setError(error);
         } else {
             setError(null);

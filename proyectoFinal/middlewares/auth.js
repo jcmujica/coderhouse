@@ -105,7 +105,7 @@ const register = async (req, res, next) => {
                     return next(err);
                 };
 
-                req.user = { ...newUser, token: `Bearer ${token}` };
+                req.user = { ...jwtPayload, token: `Bearer ${token}` };
 
                 logger.info(`Registro exitoso de usuario: ${config.ADMIN_EMAIL}`);
 
