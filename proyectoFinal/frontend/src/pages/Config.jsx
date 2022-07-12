@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from 'contexts/authContext';
+import { Layout } from 'components/Layout';
 
 export const Config = () => {
     const [config, setConfig] = useState({});
@@ -26,17 +27,19 @@ export const Config = () => {
 
     console.log({ config })
     return (
-        <pre
-            style={{
-                backgroundColor: '#f5f5f5',
-                padding: '1rem',
-                margin: '1rem',
-                borderRadius: '0.5rem'
-            }}
-        >
-            <code>
-                {handleConfigDisplay(config)}
-            </code>
-        </pre>
+        <Layout>
+            <pre
+                style={{
+                    backgroundColor: '#f5f5f5',
+                    padding: '1rem',
+                    margin: '1rem',
+                    borderRadius: '0.5rem'
+                }}
+            >
+                <code>
+                    {handleConfigDisplay(config)}
+                </code>
+            </pre>
+        </Layout>
     )
 }

@@ -48,6 +48,11 @@ export const Navbar = () => {
         <nav className="flex items-center justify-between flex-wrap bg-blue-500 p-6 w-full z-10">
             <div className="flex items-center w-full justify-end">
                 <div className="text-sm flex">
+                    {user?.isAdmin && (
+                        <Link to="/config" className="block lg:inline-block lg:mt-0 text-white font-bold hover:text-white hover:bg-blue-700 mr-4 text-right py-2 px-6 rounded">
+                            Config
+                        </Link>
+                    )}
                     {links.map(link => (
                         <Link
                             key={link.name}
