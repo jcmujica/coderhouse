@@ -20,6 +20,11 @@ class ProductosRouter {
             res.json({ data })
         });
 
+        router.get('/categoria/:categoria', isAuth, async (req, res, next) => {
+            const data = await this.controller.getProductByCategory(req.params.categoria)
+            res.json({ data })
+        });
+
         router.post('/', isAuth, isAdmin, async (req, res, next) => {
             const data = await this.controller.createProduct(req.body)
             res.json({ data })

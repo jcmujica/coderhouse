@@ -3,7 +3,7 @@ import { Modal } from './Modal'
 import axios from 'axios'
 import { CartContext } from '../contexts/cartContext'
 import { AuthContext } from '../contexts/authContext'
-import { MdDelete } from 'react-icons/md';
+import { MdAddShoppingCart, MdDelete } from 'react-icons/md';
 import { ROLES } from '../constants/auth'
 import { useNavigate } from 'react-router-dom'
 
@@ -190,6 +190,9 @@ export const Card = (props) => {
                         <p className="font-bold text-gray-700 mb-3">
                             {`USD: ${product.price}`}
                         </p>
+                        {product?.category && <span>
+                            {product?.category}
+                        </span>}
                     </div>
                     <div
                         className='flex'
@@ -227,7 +230,7 @@ export const Card = (props) => {
                                     onClick={handleAdd}
                                     disabled={amount > 0 ? false : true}
                                 >
-                                    Agregar al carritos
+                                    Agregar al carrito <MdAddShoppingCart />
                                 </button>
                             </div>
                         </div>

@@ -24,4 +24,8 @@ export default class ProductosApi {
     async deleteProduct(id) {
         return await this.productosDAO.deleteById(id);
     }
+
+    async getProductByCategory(category) {
+        return await this.productosDAO.getByCategory(category);
+    }
 }

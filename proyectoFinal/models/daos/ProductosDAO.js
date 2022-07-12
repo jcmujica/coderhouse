@@ -5,4 +5,8 @@ export default class ProductosDAO extends GenericDAO {
     constructor() {
         super(productosModel, "productos");
     }
+
+    async getByCategory(category) {
+        return await this.findByPropertyArray("category", category);
+    }
 }

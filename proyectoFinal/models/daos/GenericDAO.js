@@ -105,4 +105,17 @@ export default class GenericDAO {
             };
         }
     }
+
+    async findByPropertyArray(property, value) {
+        try {
+            let items = await this.model.find({ [property]: value });
+            return items;
+        } catch (e) {
+            logger.error(e);
+            return {
+                error: e,
+                message: `Error al buscar los items ${this.name} con propiedad ${property}`
+            };
+        }
+    }
 };

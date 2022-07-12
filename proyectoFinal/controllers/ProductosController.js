@@ -9,6 +9,10 @@ export default class ProductosController {
         return await this.productosApi.getProduct(id);
     }
 
+    async getProductByCategory(category) {
+        return await this.productosApi.getProductByCategory(category);
+    }
+
     async getAllProducts() {
         return this.productosApi.getAllProducts();
     }
