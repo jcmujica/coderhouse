@@ -12,6 +12,7 @@ import CarritosRouter from './routes/CarritosRouter.js';
 import UsuariosRouter from './routes/UsuariosRouter.js';
 import ConfigRouter from './routes/ConfigRouter.js';
 import { logger } from './utils/logger.js';
+import MensajesApi from './api/MensajesApi.js';
 
 const USE_CLUSTER = config.USE_CLUSTER;
 const PORT = process.env.PORT || 8080;
@@ -36,20 +37,21 @@ if (cluster.isPrimary && USE_CLUSTER) {
     app.use(cors());
     app.use(cookieParser());
     app.use(passport.initialize());
-    app.set('socketio', io);
 
     app.use('/api/user', new UsuariosRouter().start());
     app.use('/api/config', new ConfigRouter().start());
     app.use('/api/productos', new ProductosRouter().start());
     app.use('/api/carritos', new CarritosRouter().start());
 
-    io.on('connection', (socket) => {
-        logger.info('Cliente conectado');
+    io.on('connection', async (socket) => {
+        logger.info('Cliente WS conectado');
         try {
-            socket.emit('listMessages', { message: 'Bienvenido al chat' });
-            socket.on('submitMessage', (data) => {
+            const messagesApi = new MensajesApi();
+            socket.emit('listMessages', await messagesApi.getMessages());
+            socket.on('submitMessage', async (data) => {
                 logger.info('Mensaje recibido: ', data);
-                io.emit('newMessage', { message: data.message });
+                io.emit('newMessage', await messagesApi.createMessage(data));
+                io.sockets.emit('listMessages', await messagesApi.getMessages());
             });
         } catch (e) {
             logger.error(e);
@@ -60,7 +62,7 @@ if (cluster.isPrimary && USE_CLUSTER) {
         res.json({ error: -2, descripcion: `ruta $${req.path} o método ${req.method} no implementado` });
     });
 
-    app.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
         logger.info(`Servidor corriendo en modo: ${USE_CLUSTER ? 'cluster' : 'single'} en puerto ${PORT}`);
     });
 }

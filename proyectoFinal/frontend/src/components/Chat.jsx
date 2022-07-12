@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { io } from "socket.io-client";
 import { MdChat } from 'react-icons/md';
+import { AuthContext } from 'contexts/authContext';
 
-const socket = io('ws://localhost:8080');
+const socket = io();
 
 export const Chat = () => {
+    const { user } = useContext(AuthContext);
     const [show, setShow] = useState(false);
     const [messages, setMessages] = useState([]);
     const handleClick = () => setShow(!show);
@@ -28,7 +30,13 @@ export const Chat = () => {
     }, []);
 
     const submitMessage = async (message) => {
-        socket.emit('submitMessage', message);
+        const formattedMessage = {
+            message: message,
+            user: user?._id,
+            userName: user?.name,
+            timestamp: new Date().getTime()
+        }
+        socket.emit('submitMessage', formattedMessage);
     };
 
     const ChatLine = (props) => {
