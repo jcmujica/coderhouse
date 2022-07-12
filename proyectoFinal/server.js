@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import { Server as HttpServer } from 'http';
+import { Server as IOServer } from 'socket.io';
 import { passport } from './middlewares/auth.js';
 import cluster from 'cluster';
 import os from 'os';
@@ -14,8 +16,7 @@ import { logger } from './utils/logger.js';
 const USE_CLUSTER = config.USE_CLUSTER;
 const PORT = process.env.PORT || 8080;
 
-// if (cluster.isPrimary && USE_CLUSTER) {
-if (false) {
+if (cluster.isPrimary && USE_CLUSTER) {
     const cpus = os.cpus().length;
     logger.info('CPUS: ', cpus);
     for (var i = 0; i < cpus; i++) {
@@ -27,19 +28,32 @@ if (false) {
     });
 } else {
     const app = express();
+    const httpServer = new HttpServer(app);
+    const io = new IOServer(httpServer);
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(cors());
     app.use(cookieParser());
     app.use(passport.initialize());
+    app.set('socketio', io);
 
     app.use('/api/user', new UsuariosRouter().start());
     app.use('/api/config', new ConfigRouter().start());
     app.use('/api/productos', new ProductosRouter().start());
     app.use('/api/carritos', new CarritosRouter().start());
-    app.use('/', (req, res) => {
-        res.json({ message: 'Hola mundo!' });
+
+    io.on('connection', (socket) => {
+        logger.info('Cliente conectado');
+        try {
+            socket.emit('listMessages', { message: 'Bienvenido al chat' });
+            socket.on('submitMessage', (data) => {
+                logger.info('Mensaje recibido: ', data);
+                io.emit('newMessage', { message: data.message });
+            });
+        } catch (e) {
+            logger.error(e);
+        }
     });
 
     app.get('*', function (req, res) {

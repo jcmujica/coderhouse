@@ -1,30 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { io } from "socket.io-client";
 import { MdChat } from 'react-icons/md';
+
+const socket = io('ws://localhost:8080');
 
 export const Chat = () => {
     const [show, setShow] = useState(false);
+    const [messages, setMessages] = useState([]);
     const handleClick = () => setShow(!show);
+    console.log(socket)
 
-    const messages = [
-        {
-            id: 1,
-            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            user: {
-                id: 1,
-                name: 'Juan',
-                avatar: 'https://avatars.dicebear.com/api/adventurer/your-custom-seed.svg'
-            },
-        },
-        {
-            id: 2,
-            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            user: {
-                id: 2,
-                name: 'Juan',
-                avatar: 'https://avatars.dicebear.com/api/adventurer/hola.svg'
-            },
-        },
-    ];
+    useEffect(() => {
+        const getMessages = async () => {
+            socket.on('listMessages', (msgs) => {
+                console.log("listMessages", msgs);
+                console.log({ msgs })
+                setMessages(msgs);
+            });
+        };
+        getMessages();
+
+        return () => {
+            socket.off('connect');
+            socket.off('disconnect');
+            socket.off('pong');
+        };
+    }, []);
+
+    const submitMessage = async (message) => {
+        socket.emit('submitMessage', message);
+    };
 
     const ChatLine = (props) => {
         const { message } = props;
@@ -47,13 +52,13 @@ export const Chat = () => {
 
     return (
         <>
-            <div 
-            className='absolute bottom-20 right-2 w-72 h-2/4
-             flex items-center border-dashed border-2 bg-white overflow-y-auto shadow-md flex-col overflow-x-hidden py-2'
-             style={{
+            <div
+                className='absolute bottom-20 right-2 w-72 h-2/4
+             flex items-center border-dashed border-2 bg-white overflow-y-auto shadow-md flex-col overflow-x-hidden p-2'
+                style={{
                     display: show ? 'block' : 'none',
-             }}
-             >
+                }}
+            >
                 <div className='w-full'>
                     {messages.map(message => <ChatLine key={message.id} message={message} />)}
                 </div>
@@ -61,6 +66,12 @@ export const Chat = () => {
                     className='w-full h-10 px-4 border-slate-300 bg-white outline-none'
                     placeholder='Escribe un mensaje'
                     type="text"
+                    onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                            submitMessage(e.target.value);
+                            e.target.value = '';
+                        }
+                    }}
                 />
             </div>
             <div
