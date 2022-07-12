@@ -7,7 +7,7 @@ export const ProductsList = () => {
 
     const getProducts = async () => {
         const products = await axios.get('/api/productos/');
-        setProducts(products.data);
+        setProducts(products?.data?.data);
     };
 
     useEffect(() => {
