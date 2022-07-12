@@ -1,9 +1,12 @@
 import UsuariosDAO from "../models/daos/UsuariosDAO.js";
-import { logger } from "../utils/logger.js";
 
 export default class UsuariosApi {
     constructor() {
         this.usuariosDAO = new UsuariosDAO();
+    }
+
+    async createUser(data) {
+        return await this.usuariosDAO.create(data);
     }
 
     async getByUsername(username) {

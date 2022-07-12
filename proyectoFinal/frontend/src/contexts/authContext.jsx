@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 
             const user = response.data?.data;
             const error = response.data?.data?.error;
-            console.log({error})
+            console.log({ error })
             setUser(user);
 
             if (error) {
@@ -65,10 +65,15 @@ export const AuthProvider = ({ children }) => {
             if (error) {
                 return { error };
             }
-            localStorage.setItem('token', token);
-            localStorage.setItem('userId', resUser?.id);
-            setUser(resUser);
-            return response;
+
+            if (token && resUser?.id) {
+                localStorage.setItem('token', token);
+                localStorage.setItem('userId', resUser?.id);
+                setUser(resUser);
+                return response;
+            } else {
+                return { error: 'Error al iniciar sesión' };
+            };
         } catch (e) {
             console.log(e);
         }
@@ -92,15 +97,20 @@ export const AuthProvider = ({ children }) => {
             const resUser = response?.data?.data?.user,
                 token = response?.data?.data?.token,
                 error = response?.data?.error;
+            console.log(response)
 
             if (error) {
                 return { error };
             }
 
-            localStorage.setItem('token', token);
-            localStorage.setItem('userId', resUser?.id);
-            setUser(resUser);
-            return response.data;
+            if (token && resUser?.id) {
+                localStorage.setItem('token', token);
+                localStorage.setItem('userId', resUser?.id);
+                setUser(resUser);
+                return response;
+            } else {
+                return { error: 'Error al registrarse' };
+            }
         } catch (e) {
             console.log(e);
             return e

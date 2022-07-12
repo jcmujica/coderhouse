@@ -27,7 +27,6 @@ const getUser = async (username) => {
 const login = async (req, res, next) => {
     try {
         const { username = '', password = '' } = req.body;
-        console.log({ body: req.body })
         const user = await getUser(username);
 
         if (!user) {
@@ -58,6 +57,8 @@ const login = async (req, res, next) => {
 
             req.user = { user: jwtPayload, token: `Bearer ${token}` };
 
+            logger.info(`Login exitoso de usuario: ${username}`);
+
             return next();
         });
     } catch (e) {
@@ -68,13 +69,11 @@ const login = async (req, res, next) => {
 
 const register = async (req, res, next) => {
     try {
-        const { username, password } = req.body;
+        const { username = '', password = '' } = req.body;
         let userData = {
             ...req.body,
             admin: false,
         };
-
-        console.log(userData)
 
         const user = await getUser(username);
 
@@ -89,12 +88,15 @@ const register = async (req, res, next) => {
                 ...userData,
                 password: hash,
             };
-            const newUser = await usuariosApi.registerUser(userData);
+
+            const newUser = await usuariosApi.createUser(userData);
 
             if (newUser.error) {
                 logger.warn(`Error, no se pudo crear el usuario ${username}`);
                 logger.info(newUser);
                 res.status(400).json({ error: newUser.error });
+
+                return next();
             };
 
             const jwtPayload = {
@@ -110,7 +112,7 @@ const register = async (req, res, next) => {
 
                 req.user = { user: jwtPayload, token: `Bearer ${token}` };
 
-                logger.info(`Registro exitoso de usuario: ${config.ADMIN_EMAIL}`);
+                logger.info(`Registro exitoso de usuario: ${username}`);
 
                 return next();
             });
