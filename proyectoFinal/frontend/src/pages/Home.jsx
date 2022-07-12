@@ -1,5 +1,7 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom';
+import { Layout } from '../components/Layout'
+import { ProductsList } from '../components/ProductsList'
 
 export const Home = () => {
     const token = localStorage.getItem('token')
@@ -11,6 +13,8 @@ export const Home = () => {
     }
 
     return (
-        <div>Home</div>
+        <Layout>
+            <ProductsList />
+        </Layout>
     )
-}
+};
