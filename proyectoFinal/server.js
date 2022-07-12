@@ -8,6 +8,7 @@ import config from './config.js';
 import ProductosRouter from './routes/ProductosRouter.js';
 import CarritosRouter from './routes/CarritosRouter.js';
 import UsuariosRouter from './routes/UsuariosRouter.js';
+import ConfigRouter from './routes/ConfigRouter.js';
 import { logger } from './utils/logger.js';
 
 const USE_CLUSTER = config.USE_CLUSTER;
@@ -34,6 +35,7 @@ if (false) {
     app.use(passport.initialize());
 
     app.use('/api/user', new UsuariosRouter().start());
+    app.use('/api/config', new ConfigRouter().start());
     app.use('/api/productos', new ProductosRouter().start());
     app.use('/api/carritos', new CarritosRouter().start());
     app.use('/', (req, res) => {

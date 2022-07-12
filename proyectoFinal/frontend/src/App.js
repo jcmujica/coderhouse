@@ -1,5 +1,6 @@
 import { AuthProvider } from "contexts/authContext";
 import { CartProvider } from "contexts/cartContext";
+import { Config } from "pages/Config";
 import { Logout } from "pages/Logout";
 import { ProductDetail } from "pages/ProductDetail";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -17,6 +18,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/logout" element={<Logout />} />
+            <Route path="/config" element={<Config />} />
             <Route path="/detail/:id" element={<ProductDetail />} />
           </Routes>
         </CartProvider>
