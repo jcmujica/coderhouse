@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 export const Card = (props) => {
     const navigate = useNavigate();
-    const { product, getProducts } = props;
+    const { product, getProducts, isDetail } = props;
     const { cart, setCart } = useContext(CartContext);
     const { role, user } = useContext(AuthContext);
     const [show, setShow] = useState(false);
@@ -115,21 +115,69 @@ export const Card = (props) => {
         navigate(`/detail/${product._id}`);
     };
 
+    const handleStyles = () => {
+        let styles = {};
+        if (isDetail) {
+            styles = {
+                box: {
+                    flexDirection: 'column',
+                    boxShadow: 'none',
+                    border: 'none',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                },
+                image: {
+                    height: '500px',
+                    width: '300px',
+                },
+                amountContainer: {
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%',
+                    padding: '0.5rem',
+                    backgroundColor: '#f5f5f5',
+                    borderRadius: '0.5rem',
+                    marginTop: '1rem',
+                },
+                controlsContainer: {
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%',
+                    padding: '0.5rem',
+                    backgroundColor: '#f5f5f5',
+                    borderRadius: '0.5rem',
+                    marginTop: '1rem',
+                },
+
+            }
+        }
+
+        return styles;
+    }
+
     return (
         <>
             <div
                 key={product.sku}
                 className="bg-white rounded-lg flex border border-gray-200 shadow-md my-5 mx-10"
+                style={handleStyles()?.box}
             >
                 <div
                     className="w-40 bg-cover bg-center cursor-pointer"
                     style={{
                         backgroundImage: `url(${product.thumbnail})`,
+                        ...handleStyles()?.image
                     }}
                     onClick={handleProductClick}
                 >
                 </div>
-                <div className="p-5 flex w-full justify-between">
+                <div
+                    className="p-5 flex w-full justify-between"
+                    style={handleStyles()?.controlsContainer}
+                >
                     <div className=''>
                         <a href="#">
                             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">
@@ -143,7 +191,10 @@ export const Card = (props) => {
                             {`USD: ${product.price}`}
                         </p>
                     </div>
-                    <div className='flex '>
+                    <div
+                        className='flex'
+                        style={handleStyles()?.amountContainer}
+                    >
                         <div className='flex flex-column items-center justify-center ml-6'>
                             <div className='flex items-center justify-center mx-auto'>
                                 <a
