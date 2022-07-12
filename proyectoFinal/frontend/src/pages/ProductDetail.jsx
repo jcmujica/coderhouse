@@ -58,12 +58,20 @@ export const ProductDetail = (props) => {
                 productos: updatedProducts
             };
 
-            const newCart = await axios.post(`/api/carrito/${cart?._id}/productos`,
-                updatedCart);
+            const newCart = await axios.post(`/api/carritos/${cart?._id}/productos`,
+                updatedCart, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
             setCart(newCart.data);
         } else {
-            const cart = await axios.post('/api/carrito', {
+            const cart = await axios.post('/api/carritos', {
                 productos: [{ ...product, amount }]
+            }, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
             });
             setCart(cart.data);
         };
@@ -127,7 +135,7 @@ export const ProductDetail = (props) => {
                     className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
                     onClick={handleAdd}
                 >
-                    Anadir al carrito
+                    Anadir al carritos
                 </button>
             </div>
         </Layout>

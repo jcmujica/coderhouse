@@ -24,11 +24,13 @@ export const AuthProvider = ({ children }) => {
             });
 
             const user = response.data?.data;
-            const error = response.data?.date?.error;
+            const error = response.data?.data?.error;
+            console.log({error})
             setUser(user);
 
             if (error) {
                 if (location.pathname !== '/login' && location.pathname !== '/register') {
+                    console.log("redirecting to login")
                     navigate('/login');
                 };
             } else if (!error && (location.pathname === '/login' || location.pathname === '/register')) {
@@ -44,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         getUser()
-    }, [user?._id]);
+    }, [user?.id]);
 
     useEffect(() => {
         const localToken = localStorage.getItem('token');
@@ -74,7 +76,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            const response = await axios.get('/api/user/logout');
+            const response = await axios.post('/api/user/logout');
             localStorage.removeItem('token');
             localStorage.removeItem('userId');
             setUser(null);

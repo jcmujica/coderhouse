@@ -23,7 +23,12 @@ export default class CarritosApi {
     }
 
     async createCart(data) {
-        return await this.carritosDAO.create(data);
+        const carrito = {
+            ...data,
+            timestamp: new Date()
+        }
+        console.log(carrito)
+        return await this.carritosDAO.create(carrito);
     }
 
     async updateCart(id, data) {

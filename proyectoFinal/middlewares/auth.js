@@ -108,7 +108,7 @@ const register = async (req, res, next) => {
                     return next(err);
                 };
 
-                req.user = { useR: jwtPayload, token: `Bearer ${token}` };
+                req.user = { user: jwtPayload, token: `Bearer ${token}` };
 
                 logger.info(`Registro exitoso de usuario: ${config.ADMIN_EMAIL}`);
 
@@ -124,7 +124,6 @@ const register = async (req, res, next) => {
 const isAuth = passport.authenticate('jwt', { session: false });
 
 passport.use(new Strategy(strategyOptions, async (jwt_payload, done) => {
-    console.log({ jwt_payload })
     try {
         const user = await getUser(jwt_payload.username);
         if (!user) {
