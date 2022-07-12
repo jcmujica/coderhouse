@@ -17,7 +17,7 @@ export const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await login(form);
-        if (response.error) {
+        if (response?.error) {
             setError(response.error);
         } else {
             setError(null);
@@ -26,7 +26,7 @@ export const Login = () => {
 
     return (
         <Layout>
-            <div className="bg-grey-lighter min-h-screen flex flex-col">
+            <div className="bg-grey-lighter mt-36 flex flex-col">
                 <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                     <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
                         <h1 className="mb-8 text-3xl text-center">Ingrese a su cuenta</h1>

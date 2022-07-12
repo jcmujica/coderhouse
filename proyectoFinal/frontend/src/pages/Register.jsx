@@ -35,7 +35,7 @@ export const Register = () => {
 
     return (
         <Layout>
-            <div className="bg-grey-lighter min-h-screen flex flex-col">
+            <div className="bg-grey-lighter mt-20 flex flex-col">
                 <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                     <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
                         <h1 className="mb-8 text-3xl text-center">Cree una cuenta</h1>

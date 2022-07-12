@@ -1,12 +1,17 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Card } from './Card'
 import axios from 'axios';
+import { AuthContext } from 'contexts/authContext';
 
 export const ProductsList = () => {
     const [products, setProducts] = useState([]);
 
     const getProducts = async () => {
-        const products = await axios.get('/api/productos/');
+        const products = await axios.get('/api/productos/', {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            }
+        });
         setProducts(products?.data?.data);
     };
 
@@ -16,13 +21,13 @@ export const ProductsList = () => {
 
     return (
         <div className="w-full flex flex-wrap items-start justify-center">
-            <h1 className="font-bold text-3xl mb-10">Productos</h1>
-            <div className='w-full grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 justify-items-center gap-8 p-8'>
+            <h1 className="font-bold text-3xl mb-10 mt-10">Productos</h1>
+            <div className='w-full'>
                 {products.length ?
-                    products.map(product => (
+                    products.map((product, i) => (
                         <Card
                             product={product}
-                            key={product.sku}
+                            key={`${product.sku}-${i}`}
                             getProducts={getProducts}
                         />
                     )) :

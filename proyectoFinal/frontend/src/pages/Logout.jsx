@@ -1,14 +1,17 @@
 import { useEffect, useContext } from 'react'
 import { AuthContext } from 'contexts/authContext';
+import { useNavigate } from 'react-router-dom';
 
 export const Logout = () => {
     const { user, setUser, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const logoutUser = async () => {
         try {
             const response = await logout();
             setTimeout(() => {
                 setUser(null);
+                navigate('/login');
                 return response;
             }, 2000);
         } catch (e) {

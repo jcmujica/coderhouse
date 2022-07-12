@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
+    const [token, setToken] = useState(null);
 
     const getUser = async () => {
         try {
@@ -22,15 +23,15 @@ export const AuthProvider = ({ children }) => {
                 }
             });
 
-            console.log({ response: response?.data?.data }            )
             const user = response.data?.data;
+            const error = response.data?.date?.error;
             setUser(user);
 
-            if (response.error) {
+            if (error) {
                 if (location.pathname !== '/login' && location.pathname !== '/register') {
                     navigate('/login');
                 };
-            } else if (!response.error && (location.pathname === '/login' || location.pathname === '/register')) {
+            } else if (!error && (location.pathname === '/login' || location.pathname === '/register')) {
                 navigate('/');
             } else if (!response && location.pathname === '/logout') {
                 navigate('/login');
@@ -45,13 +46,26 @@ export const AuthProvider = ({ children }) => {
         getUser()
     }, [user?._id]);
 
-    const login = async () => {
+    useEffect(() => {
+        const localToken = localStorage.getItem('token');
+        if (localToken && !token) {
+            setToken(localToken);
+        }
+    }, []);
+
+    const login = async (user) => {
         try {
             const response = await axios.post('/api/user/login', user);
-            const { user, token } = response.data?.data;
+            const resUser = response?.data?.data?.user,
+                token = response?.data?.data?.token,
+                error = response?.data?.error;
+
+            if (error) {
+                return { error };
+            }
             localStorage.setItem('token', token);
-            localStorage.setItem('userId', user?.id);
-            setUser(user);
+            localStorage.setItem('userId', resUser?.id);
+            setUser(resUser);
             return response;
         } catch (e) {
             console.log(e);
@@ -61,6 +75,8 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             const response = await axios.get('/api/user/logout');
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
             setUser(null);
             return response;
         } catch (e) {
@@ -71,10 +87,17 @@ export const AuthProvider = ({ children }) => {
     const register = async (user) => {
         try {
             const response = await axios.post('/api/user/register', user);
-            const { user, token } = response.data?.data;
+            const resUser = response?.data?.data?.user,
+                token = response?.data?.data?.token,
+                error = response?.data?.error;
+
+            if (error) {
+                return { error };
+            }
+
             localStorage.setItem('token', token);
-            localStorage.setItem('userId', user?.id);
-            setUser(user);
+            localStorage.setItem('userId', resUser?.id);
+            setUser(resUser);
             return response.data;
         } catch (e) {
             console.log(e);
@@ -83,7 +106,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, setUser, login, logout, register }}>
+        <AuthContext.Provider value={{ user, setUser, login, logout, register, token }}>
             {children}
         </AuthContext.Provider>
     )

@@ -18,25 +18,6 @@ export default class UsuariosApi {
         return await this.usuariosDAO.getAll();
     }
 
-    async loginUser(data) {
-        try {
-            return { user: { ...data._doc, password: undefined } };
-        } catch (e) {
-            logger.log(e);
-            return { error: -1, error: e, message: 'Error in login' };
-        }
-    }
-
-    async registerUser(data) {
-        try {
-            const user = await this.usuariosDAO.create(data);
-            return user;
-        } catch (e) {
-            logger.log(e);
-            return { error: -1, error: e, message: 'Error in register' };
-        }
-    }
-
     async updateUser(id, data) {
         return await this.usuariosDAO.updateById(id, data);
     }

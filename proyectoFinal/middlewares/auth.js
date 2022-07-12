@@ -26,15 +26,18 @@ const getUser = async (username) => {
 
 const login = async (req, res, next) => {
     try {
-        const { username, password } = req.body;
+        const { username = '', password = '' } = req.body;
+        console.log({ body: req.body })
         const user = await getUser(username);
 
         if (!user) {
-            logger.warn(`Login fallido para usuario ${username}: El usuario no existe`);
-            return next();
+            const error = `Login fallido para usuario ${username}: El usuario no existe`
+            logger.warn(error);
+            res.status(200).json({ error: error });
+            return;
         }
 
-        const match = await bcrypt.compare(password, user.password);
+        const match = await bcrypt.compare(password, user?.password);
         if (!match) {
             logger.warn(
                 `Login fallido para usuario ${username}: La contraseña es incorrecta`,
