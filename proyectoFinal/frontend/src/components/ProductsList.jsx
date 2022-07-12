@@ -27,8 +27,7 @@ export const ProductsList = () => {
     };
 
     const handleRemoveCategory = async (category) => {
-        const response = await getProducts();
-        setProducts(response?.data?.data);
+        await getProducts();
         setSelectedCategory('');
     };
 
