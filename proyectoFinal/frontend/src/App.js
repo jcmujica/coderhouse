@@ -1,5 +1,7 @@
 import { AuthProvider } from "contexts/authContext";
+import { CartProvider } from "contexts/cartContext";
 import { Logout } from "pages/Logout";
+import { ProductDetail } from "pages/ProductDetail";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
@@ -9,12 +11,15 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/logout" element={<Logout />} />
-        </Routes>
+        <CartProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/detail/:id" element={<ProductDetail />} />
+          </Routes>
+        </CartProvider>
       </AuthProvider>
     </BrowserRouter>
   );
