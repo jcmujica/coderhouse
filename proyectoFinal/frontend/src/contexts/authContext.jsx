@@ -21,7 +21,10 @@ export const AuthProvider = ({ children }) => {
                     'Authorization': token
                 }
             });
-            setUser(response);
+
+            console.log({ response: response?.data?.data }            )
+            const user = response.data?.data;
+            setUser(user);
 
             if (response.error) {
                 if (location.pathname !== '/login' && location.pathname !== '/register') {
@@ -40,14 +43,15 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         getUser()
-    }, [user?.id]);
+    }, [user?._id]);
 
-    const login = async (user) => {
+    const login = async () => {
         try {
             const response = await axios.post('/api/user/login', user);
-            localStorage.setItem('token', response?.data?.data?.token);
-            localStorage.setItem('userId', response?.data?.data?.user?.id);
-            setUser(response);
+            const { user, token } = response.data?.data;
+            localStorage.setItem('token', token);
+            localStorage.setItem('userId', user?.id);
+            setUser(user);
             return response;
         } catch (e) {
             console.log(e);
@@ -67,9 +71,10 @@ export const AuthProvider = ({ children }) => {
     const register = async (user) => {
         try {
             const response = await axios.post('/api/user/register', user);
-            localStorage.setItem('token', response?.data?.data?.token);
-            localStorage.setItem('userId', response?.data?.data?.user?.id);
-            setUser(response);
+            const { user, token } = response.data?.data;
+            localStorage.setItem('token', token);
+            localStorage.setItem('userId', user?.id);
+            setUser(user);
             return response.data;
         } catch (e) {
             console.log(e);

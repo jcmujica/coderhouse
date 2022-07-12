@@ -27,9 +27,10 @@ export const Navbar = () => {
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
+        console.log('user', user);
         let linksToShow = allLinks.filter(link => link.path !== location.pathname);
 
-        if (user?._id) {
+        if (user?._id || user?.id) {
             linksToShow = linksToShow.filter(link => link.name !== 'Login' && link.name !== 'Register');
         } else if (!user || user.error) {
             linksToShow = linksToShow.filter(link => link.name !== 'Logout' && link.name !== 'Home');
@@ -37,7 +38,7 @@ export const Navbar = () => {
 
         setLinks(linksToShow);
 
-    }, [location, user?._id]);
+    }, [location, user?._id, user?.id]);
 
     return (
         <nav className="flex items-center justify-between flex-wrap bg-blue-500 p-6 fixed w-full z-10">
