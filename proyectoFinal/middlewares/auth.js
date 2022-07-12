@@ -151,7 +151,7 @@ passport.deserializeUser(async (id, done) => {
 });
 
 const isAdmin = (req, res, next) => {
-    const isAdmin = req?.user?.admin;
+    const isAdmin = req?.user?._doc?.isAdmin;
     if (!isAdmin) {
         throw new Unauthorized('No esta autorizado para realizar esta accion');
     }

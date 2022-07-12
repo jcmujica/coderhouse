@@ -76,7 +76,7 @@ export const Card = (props) => {
     };
 
     const handleDelete = async () => {
-        await axios.delete(`/api/products/${product._id}`, {
+        await axios.delete(`/api/productos/${product._id}`, {
             headers: {
                 'Authorization': localStorage.getItem('token')
             }

@@ -56,7 +56,11 @@ export const Modal = (props) => {
   const canSubmit = () => Object.keys(form).length >= fields.length;
 
   const handleUpdateProduct = async () => {
-    const response = await axios.put(`/api/productos/${form.id}`, form);
+    const response = await axios.put(`/api/productos/${form._id}`, form, {
+      headers: {
+        'Authorization': localStorage.getItem('token')
+      }
+    });
     if (response.status === 200) {
       getProducts();
       setShow(false);
