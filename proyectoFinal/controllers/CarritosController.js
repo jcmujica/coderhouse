@@ -9,6 +9,10 @@ export default class CarritosController {
         return await this.carritosApi.getCart(id);
     }
 
+    async getUserCart(id) {
+        return await this.carritosApi.getUserCart(id);
+    }
+
     async getAllCarts() {
         return await this.carritosApi.getAllCarts();
     }

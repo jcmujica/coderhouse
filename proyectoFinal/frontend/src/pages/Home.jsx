@@ -5,12 +5,10 @@ import { ProductsList } from '../components/ProductsList'
 import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
-    const token = localStorage.getItem('token');
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log({token})
-        if (!token) {
+        if (!localStorage.getItem('token')) {
             navigate('/login');
         }
     });

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const productosCollection = 'productos';
 
-const ProductosSchema = new mongoose.Schema({
+export const ProductosSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true

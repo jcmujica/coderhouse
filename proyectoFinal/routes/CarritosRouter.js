@@ -20,6 +20,11 @@ class CarritosRouter {
             res.json({ data })
         });
 
+        router.get('/user/:id', isAuth, async (req, res, next) => {
+            const data = await this.controller.getUserCart(req.params.id)
+            res.json({ data })
+        });
+
         router.post('/', isAuth, async (req, res, next) => {
             const data = await this.controller.createCart(req.body)
             res.json({ data })

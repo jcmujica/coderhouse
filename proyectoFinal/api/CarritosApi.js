@@ -18,6 +18,10 @@ export default class CarritosApi {
         return await this.carritosDAO.getById(id);
     }
 
+    async getUserCart(id) {
+        return await this.carritosDAO.getUserCart(id);
+    }
+
     async getAllCarts() {
         return await this.carritosDAO.getAll();
     }
@@ -26,8 +30,7 @@ export default class CarritosApi {
         const carrito = {
             ...data,
             timestamp: new Date()
-        }
-        console.log(carrito)
+        };
         return await this.carritosDAO.create(carrito);
     }
 

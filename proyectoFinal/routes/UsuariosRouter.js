@@ -21,7 +21,7 @@ class UsuariosRouter {
             res.json({ data })
         });
 
-        router.get('/:id', isAuth, async (req, res, next) => {
+        router.get('/:id', async (req, res, next) => {
             const data = await this.controller.getUser(req.params.id)
             res.json({ data })
         });

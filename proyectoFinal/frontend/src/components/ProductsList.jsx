@@ -1,7 +1,6 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import { Card } from './Card'
 import axios from 'axios';
-import { AuthContext } from 'contexts/authContext';
 
 export const ProductsList = () => {
     const [products, setProducts] = useState([]);

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { ProductosSchema } from "./productosModel.js";
 
 const carritosCollection = 'carritos';
 
@@ -7,10 +8,13 @@ const CarritosSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    products: {
-        type: Array,
-        required: false
+    user: {
+        type: String,
+        required: true
     },
+    products: [
+        ProductosSchema
+    ],
 });
 
-export const carritosModel = new mongoose.model(carritosCollection, CarritosSchema);
+export const carritosModel = new mongoose.model(carritosCollection, CarritosSchema); 

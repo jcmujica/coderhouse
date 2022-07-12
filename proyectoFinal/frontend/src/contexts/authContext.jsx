@@ -8,7 +8,6 @@ export const AuthProvider = ({ children }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
-    const [token, setToken] = useState(null);
 
     const getUser = async () => {
         try {
@@ -25,7 +24,7 @@ export const AuthProvider = ({ children }) => {
 
             const user = response.data?.data;
             const error = response.data?.data?.error;
-            console.log({ error })
+            console.log({user})
             setUser(user);
 
             if (error) {
@@ -47,13 +46,6 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         getUser()
     }, [user?.id]);
-
-    useEffect(() => {
-        const localToken = localStorage.getItem('token');
-        if (localToken && !token) {
-            setToken(localToken);
-        }
-    }, []);
 
     const login = async (user) => {
         try {
@@ -97,7 +89,6 @@ export const AuthProvider = ({ children }) => {
             const resUser = response?.data?.data?.user,
                 token = response?.data?.data?.token,
                 error = response?.data?.error;
-            console.log(response)
 
             if (error) {
                 return { error };
@@ -118,7 +109,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, setUser, login, logout, register, token }}>
+        <AuthContext.Provider value={{ user, setUser, login, logout, register }}>
             {children}
         </AuthContext.Provider>
     )

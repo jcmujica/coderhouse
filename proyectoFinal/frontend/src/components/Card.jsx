@@ -11,7 +11,7 @@ export const Card = (props) => {
     const navigate = useNavigate();
     const { product, getProducts } = props;
     const { cart, setCart } = useContext(CartContext);
-    const { role } = useContext(AuthContext);
+    const { role, user } = useContext(AuthContext);
     const [show, setShow] = useState(false);
     const [amount, setAmount] = useState(0);
 
@@ -21,12 +21,12 @@ export const Card = (props) => {
 
     const handleAdd = async () => {
         if (cart?._id) {
-            const productList = cart.productos;
+            const productList = cart.products;
             let updatedProducts = [];
             const shouldUpdate = productList.find(product => product._id === props.product._id);
 
             if (shouldUpdate) {
-                updatedProducts = cart.productos.map(product => {
+                updatedProducts = cart.products.map(product => {
                     if (product._id === props.product._id) {
                         return {
                             ...product,
@@ -36,7 +36,7 @@ export const Card = (props) => {
                     return product;
                 });
             } else {
-                updatedProducts = [...cart.productos, {
+                updatedProducts = [...cart.products, {
                     ...props.product,
                     amount
                 }];
@@ -44,24 +44,43 @@ export const Card = (props) => {
 
             const updatedCart = {
                 ...cart,
-                productos: updatedProducts
+                products: updatedProducts
             };
 
-            console.log('updatedCart', updatedCart);
+            const newCart = await axios.post(
+                `/api/carritos/${cart?._id}/products`,
+                updatedCart,
+                {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                }
+            );
 
-            const newCart = await axios.post(`/api/carrito/${cart?._id}/productos`,
-                updatedCart);
+            console.log(newCart);
             setCart(newCart.data);
         } else {
-            const cart = await axios.post('/api/carrito', {
-                productos: [{ ...product, amount }]
+            const body = {
+                user: user._id,
+                products: [{ ...product, amount }]
+            };
+            console.log({ body })
+
+            const cart = await axios.post('/api/carritos', body, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
             });
             setCart(cart.data);
         };
     };
 
     const handleDelete = async () => {
-        await axios.delete(`/api/productos/${product._id}`);
+        await axios.delete(`/api/products/${product._id}`, {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            }
+        });
         getProducts();
     };
 
@@ -77,12 +96,18 @@ export const Card = (props) => {
         };
     };
 
-    const cartHasProduct = cart?.productos?.find(product => product._id === props.product._id);
+    const cartHasProduct = cart?.products?.find(product => product._id === props.product._id);
 
     const handleRemoveFromCart = async () => {
-        const updatedCart = cart.productos.filter(product => product._id !== props.product._id);
-        const response = await axios.put(`/api/carrito/${cart?._id}/productos`,
-            { productos: updatedCart });
+        const updatedCart = cart.products.filter(product => product._id !== props.product._id);
+        const response = await axios.put(
+            `/api/carritos/${cart?._id}/products`,
+            { products: updatedCart },
+            {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
         setCart(response.data);
     };
 
@@ -139,7 +164,7 @@ export const Card = (props) => {
                             </div>
                             <div className='flex flex-col gap-1'>
                                 <button
-                                    className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 disabled:opacity-50 cursor-not-allowed'
+                                    className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 disabled:opacity-50 disabled:cursor-not-allowed'
                                     onClick={handleRemoveFromCart}
                                     disabled={!cartHasProduct}
                                 >
@@ -147,18 +172,18 @@ export const Card = (props) => {
                                 </button>
                                 <button
                                     href="#"
-                                    className="flex items-center justify-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 mb-5 disabled:opacity-50 cursor-not-allowed"
+                                    className="flex items-center justify-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 mb-5 disabled:opacity-50 disabled:cursor-not-allowed"
                                     onClick={handleAdd}
                                     disabled={amount > 0 ? false : true}
                                 >
-                                    Agregar al carrito
+                                    Agregar al carritos
                                 </button>
                             </div>
                         </div>
                         <div className='flex flex-col gap-1'>
                             <button
                                 href="#"
-                                className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 disabled:opacity-50 cursor-not-allowed'
+                                className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 disabled:opacity-50 disabled:cursor-not-allowed'
                                 style={{
                                     visibility: role === ROLES.ADMIN ? 'visible' : 'hidden'
                                 }}
@@ -168,7 +193,7 @@ export const Card = (props) => {
                             </button>
                             <button
                                 href="#"
-                                className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 disabled:opacity-50 cursor-not-allowed'
+                                className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 disabled:opacity-50 disabled:cursor-not-allowed'
                                 style={{
                                     visibility: role === ROLES.ADMIN ? 'visible' : 'hidden'
                                 }}

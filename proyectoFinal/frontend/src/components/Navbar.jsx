@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from 'contexts/authContext';
+import { CartContext } from 'contexts/cartContext';
 
 const allLinks = [
     {
@@ -25,6 +26,12 @@ export const Navbar = () => {
     const location = useLocation();
     const [links, setLinks] = useState([]);
     const { user } = useContext(AuthContext);
+    const { cart } = useContext(CartContext);
+    console.log({cart})
+
+    useEffect(() => {
+
+    }, []);
 
     useEffect(() => {
         let linksToShow = allLinks.filter(link => link.path !== location.pathname);
@@ -52,6 +59,14 @@ export const Navbar = () => {
                             {link.name}
                         </Link>
                     ))}
+                    {cart && cart?.products?.length > 0 && (
+                        <Link
+                            to="/cart"
+                            className="block lg:inline-block lg:mt-0 text-white font-bold hover:text-white hover:bg-blue-700 mr-4 text-right py-2 px-6 rounded"
+                        >
+                            Cart
+                        </Link>
+                    )}
                 </div>
             </div>
         </nav>
