@@ -69,7 +69,7 @@ export const ProductsList = () => {
                     </button>
                     {selectedCategory &&
                         <span
-                            className="text-purple-500 cursor-pointer mx-10 border-4 px-5 py-2 rounded-lg border-purple-500 bold hover:cursor-move flex items-center"
+                            className="text-purple-500 cursor-pointer ml-10 border-4 px-5 py-2 rounded-lg border-purple-500 bold hover:cursor-move flex items-center"
                             onClick={handleRemoveCategory}
                         >
                             {selectedCategory}
