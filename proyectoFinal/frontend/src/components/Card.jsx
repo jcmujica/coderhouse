@@ -62,7 +62,6 @@ export const Card = (props) => {
                 user: user._id,
                 products: [{ ...product, amount }]
             };
-            console.log({ body })
 
             const cart = await axios.post('/api/carritos', body, {
                 headers: {
