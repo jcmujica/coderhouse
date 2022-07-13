@@ -39,6 +39,7 @@ export const AuthProvider = ({ children }) => {
 
         } catch (e) {
             console.log(e);
+            navigate('/login');
         };
     };
 

@@ -23,7 +23,11 @@ const OrdenesSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true
+    },
+    products: {
+        type: Array,
+        required: true
     }
 });
 
-export const ordenesModel = new mongoose.model(ordenesCollection, OrdenesSchema); 
+export const ordenesModel = new mongoose.model(ordenesCollection, OrdenesSchema);

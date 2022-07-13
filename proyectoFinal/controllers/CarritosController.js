@@ -21,7 +21,7 @@ export default class CarritosController {
         const carrito = {
             ...data,
             timestamp: new Date()
-        }; 
+        };
         return await this.carritosApi.createCart(carrito);
     }
 

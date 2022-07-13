@@ -1,4 +1,6 @@
 import OrdenesApi from "../api/OrdenesApi.js";
+import CarritosApi from "../api/CarritosApi.js";
+import UsuariosApi from "../api/UsuariosApi.js";
 import config from "../config.js";
 import UsuariosDAO from "../models/daos/UsuariosDAO.js";
 import { cartToTextBody, completeWithWhatasappPrefix, transporter, twilio } from "../utils/index.js";
@@ -6,6 +8,8 @@ import { cartToTextBody, completeWithWhatasappPrefix, transporter, twilio } from
 export default class OrdenesController {
     constructor() {
         this.ordenesApi = new OrdenesApi();
+        this.carritosApi = new CarritosApi();
+        this.usuariosApi = new UsuariosApi();
     }
 
     async getOrder(id) {
@@ -17,25 +21,33 @@ export default class OrdenesController {
     }
 
     async createOrder(data) {
-        const orderData = {
-            total: data.products.reduce((acc, cur) => acc + cur.price, 0),
-            status: "PENDING",
-            user: data.user,
-            items: data.products.length,
-            cart: data._id,
-            createdAt: new Date()
-        };
-        const order = await this.ordenesApi.createOrder(orderData);
-        console.log({ order })
-        // preform calculations
-        return []
         try {
             if (!data) {
                 return { error: -1, message: 'No se recibieron los datos del carrito' };
             };
-            const user = await UsuariosDAO.findByUsername(body.username);
+            // prepare order data
+            const orderData = {
+                total: data.products.reduce((acc, cur) => acc + cur.price, 0),
+                status: "PENDING",
+                user: data.user,
+                items: data.products.length,
+                products: data.products.map(product => product?._id),
+                cart: data._id,
+                createdAt: new Date()
+            };
+            await this.ordenesApi.createOrder(orderData);
+            // delete order.cart;
+            await this.carritosApi.deleteCart(data._id);
+            // Notify user
+            const user = await this.usuariosApi.getById(data.user);
             const { phone } = user;
+            console.log({ phone })
+            return;
             const adminPhone = config.RECIPIENT_PHONE;
+            await transporter.sendMail({
+                ...config.emailer.options,
+                html: cartToHtmlBody(body)
+            });
             await twilio.sendMessage({
                 to: completeWithWhatasappPrefix(adminPhone),
                 body: cartToTextBody(body, ROLES.ADMIN),
@@ -43,10 +55,6 @@ export default class OrdenesController {
             await twilio.sendMessage({
                 to: completeWithWhatasappPrefix(phone),
                 body: cartToTextBody(body, ROLES.USER),
-            });
-            await transporter.sendMail({
-                ...config.emailer.options,
-                html: cartToHtmlBody(body)
             });
             return await this.ordenesApi.createOrder(data);
         } catch (e) {

@@ -45,7 +45,6 @@ export const Card = (props) => {
                 ...cart,
                 products: updatedProducts
             };
-            console.log({ updatedProducts })
 
             const newCart = await axios.put(
                 `/api/carritos/${cart?._id}`,

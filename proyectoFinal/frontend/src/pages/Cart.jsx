@@ -6,7 +6,7 @@ import { MdDelete } from 'react-icons/md';
 import { AuthContext } from 'contexts/authContext';
 
 export const Cart = () => {
-  const { cart, setCart } = useContext(CartContext);
+  const { cart, setCart, getCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -50,18 +50,17 @@ export const Cart = () => {
       },
     });
     getOrders();
+    getCart();
   };
 
   useEffect(() => {
     if (user) getOrders();
-    if (cart?.products?.length === 0) {
-      setProducts({});
+    if (!cart?.products?.length) {
+      setProducts([]);
     } else {
       setProducts(cart.products);
     }
   }, [cart, user]);
-
-  console.log({ orders })
 
   return (
     <Layout>
@@ -70,7 +69,7 @@ export const Cart = () => {
           products?.length > 0 ?
             <div>
               <h1 className='text-5xl font-bold mb-20'>
-                {/* {`Carrito de ${user.name}`} */}
+                {`Carrito de ${user?.name}`}
               </h1>
               <button
                 className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2'
@@ -147,7 +146,7 @@ export const Cart = () => {
         }
         <div className="flex flex-col mt-6">
           <h1 className='text-5xl my-20 font-bold'>
-            {/* {`Ordenes de ${user.name}`} */}
+            {`Ordenes de ${user?.name}`}
           </h1>
           <div className="flex flex-col mt-6">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
