@@ -1,5 +1,6 @@
 import { AuthProvider } from "contexts/authContext";
 import { CartProvider } from "contexts/cartContext";
+import { Cart } from "pages/Cart";
 import { Config } from "pages/Config";
 import { Logout } from "pages/Logout";
 import { ProductDetail } from "pages/ProductDetail";
@@ -19,6 +20,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/config" element={<Config />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/detail/:id" element={<ProductDetail />} />
           </Routes>
         </CartProvider>

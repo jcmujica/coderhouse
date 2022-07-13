@@ -4,14 +4,13 @@ import axios from 'axios'
 import { CartContext } from '../contexts/cartContext'
 import { AuthContext } from '../contexts/authContext'
 import { MdAddShoppingCart, MdDelete } from 'react-icons/md';
-import { ROLES } from '../constants/auth'
 import { useNavigate } from 'react-router-dom'
 
 export const Card = (props) => {
     const navigate = useNavigate();
     const { product, getProducts, isDetail } = props;
     const { cart, setCart } = useContext(CartContext);
-    const { role, user } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const [show, setShow] = useState(false);
     const [amount, setAmount] = useState(0);
 
@@ -37,7 +36,7 @@ export const Card = (props) => {
                 });
             } else {
                 updatedProducts = [...cart.products, {
-                    ...props.product,
+                    product,
                     amount
                 }];
             };
@@ -46,6 +45,7 @@ export const Card = (props) => {
                 ...cart,
                 products: updatedProducts
             };
+            console.log({updatedProducts})
 
             const newCart = await axios.put(
                 `/api/carritos/${cart?._id}`,
@@ -156,7 +156,7 @@ export const Card = (props) => {
         }
 
         return styles;
-    }
+    };
 
     return (
         <>

@@ -30,6 +30,10 @@ export const ProductosSchema = new mongoose.Schema({
     category: {
         type: String,
         required: false
+    },
+    amount: {
+        type: Number,
+        required: false
     }
 });
 

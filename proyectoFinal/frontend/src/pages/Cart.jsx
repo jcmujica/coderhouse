@@ -3,22 +3,12 @@ import axios from 'axios'
 import { Layout } from '../components/Layout'
 import { CartContext } from '../contexts/cartContext'
 import { MdDelete } from 'react-icons/md';
+import { AuthContext } from 'contexts/authContext';
 
 export const Cart = () => {
   const { cart, setCart } = useContext(CartContext);
-  const [products, setProducts] = useState({});
-
-  const getCart = async () => {
-    // se que es redundante porque el carrito ya esta en el contexto pero es para usar el endpoint
-    const products = await axios.get(`/api/carrito/${cart.id}/productos`);
-    setProducts(products.data);
-  };
-
-  useEffect(() => {
-    if (cart?.id && !products.id) {
-      getCart();
-    }
-  }, [cart]);
+  const { user } = useContext(AuthContext);
+  const [products, setProducts] = useState([]);
 
   const handleRemoveFromCart = async (product) => {
     const updatedProducts = products.filter(
@@ -26,25 +16,39 @@ export const Cart = () => {
     );
     const updatedCart = {
       ...cart,
-      productos: updatedProducts,
+      products: updatedProducts,
     };
     console.log(updatedCart)
     const newCart = await axios.post(`/api/carrito/${cart.id}/productos`, updatedCart);
-    setProducts(newCart.data.productos);
+    setProducts(newCart.data.products);
   };
 
   const handleDeleteCart = async () => {
-    await axios.delete(`/api/carrito/${cart.id}`);
-    setProducts({});
+    await axios.delete(`/api/carrito/${cart.id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    setProducts([]);
     setCart({});
   };
+
+  useEffect(() => {
+    if (cart?.products?.length === 0) {
+      setProducts({});
+    } else {
+      setProducts(cart.products);
+    }
+  }, [cart]);
 
   return (
     <Layout>
       {
-        products.length > 0 ?
+        products?.length > 0 ?
           <div>
-            <h1 className='text-5xl'>Carrito</h1>
+            <h1 className='text-5xl my-20'>
+              {`Carrito de ${user.name}`}
+            </h1>
             <button
               className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2'
               onClick={handleDeleteCart}
