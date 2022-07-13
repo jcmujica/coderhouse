@@ -68,7 +68,12 @@ export const Chat = () => {
                 }}
             >
                 <div className='w-full'>
-                    {messages.map(message => <ChatLine key={message.id} message={message} />)}
+                    {messages.map(message =>
+                        <ChatLine
+                            key={message._id}
+                            message={message}
+                        />
+                    )}
                 </div>
                 <input
                     className='w-full h-10 px-4 border-slate-300 bg-white outline-none'

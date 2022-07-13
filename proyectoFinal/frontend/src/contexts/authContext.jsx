@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
             const error = response.data?.data?.error;
             setUser(user);
 
-            if (error) {
+            if (error || !user) {
                 if (location.pathname !== '/login' && location.pathname !== '/register') {
                     console.log("redirecting to login")
                     navigate('/login');

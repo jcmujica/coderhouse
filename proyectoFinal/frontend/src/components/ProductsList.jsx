@@ -2,19 +2,27 @@ import { useState, useEffect } from 'react'
 import { Card } from './Card'
 import axios from 'axios';
 import { Modal } from './Modal';
+import { Loading } from './Loading';
 
 export const ProductsList = () => {
     const [products, setProducts] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [fetching, setFetching] = useState(true);
 
     const getProducts = async () => {
+        setFetching(true);
         const products = await axios.get('/api/productos/', {
             headers: {
                 'Authorization': localStorage.getItem('token')
             }
         });
-        setProducts(products?.data?.data);
+        const productList = products.data.data;
+
+        if (productList?.length === 0) {
+            setFetching(false);
+        }
+        setProducts(productList);
     };
 
     const getProductsByCategory = async () => {
@@ -23,7 +31,11 @@ export const ProductsList = () => {
                 'Authorization': localStorage.getItem('token')
             }
         });
-        setProducts(products?.data?.data);
+        const productList = products.data.data;
+        if (productList?.length === 0) {
+            setFetching(false);
+        }
+        setProducts(productList);
     };
 
     const handleRemoveCategory = async (category) => {
@@ -69,10 +81,15 @@ export const ProductsList = () => {
                             getProducts={getProducts}
                         />
                     )) :
-                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                        <strong className="font-bold">Ups!</strong>
-                        <span className="block sm:inline">No hay productos.</span>
-                    </div>
+                    <>
+                        {!fetching ?
+                            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-10" role="alert">
+                                <strong className="font-bold">Ups!</strong>
+                                <span className="block sm:inline">No hay productos.</span>
+                            </div> :
+                            <Loading />
+                        }
+                    </>
                 }
             </div>
             <button
