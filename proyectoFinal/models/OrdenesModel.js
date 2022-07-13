@@ -1,7 +1,17 @@
 import mongoose from "mongoose";
-import { ProductosSchema } from "./productosModel.js";
 
 const ordenesCollection = 'ordenes';
+
+const OrderProducts = new mongoose.Schema({
+    product: {
+        type: String,
+        required: true
+    },
+    quantity: {
+        type: Number,
+        required: true
+    }
+});
 
 const OrdenesSchema = new mongoose.Schema({
     createdAt: {
@@ -24,10 +34,7 @@ const OrdenesSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    products: {
-        type: Array,
-        required: true
-    }
+    products: [OrderProducts]
 });
 
 export const ordenesModel = new mongoose.model(ordenesCollection, OrdenesSchema);

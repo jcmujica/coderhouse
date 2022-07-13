@@ -31,7 +31,10 @@ export default class OrdenesController {
                 status: "PENDING",
                 user: data.user,
                 items: data.products.length,
-                products: data.products.map(product => product?._id),
+                products: data.products.map(product => ({
+                    product: product?._id,
+                    quantity: product?.amount,
+                })),
                 cart: data._id,
                 createdAt: new Date()
             };
