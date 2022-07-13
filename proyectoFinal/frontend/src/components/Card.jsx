@@ -132,7 +132,8 @@ export const Card = (props) => {
                 },
                 amountContainer: {
                     display: 'flex',
-                    justifyContent: 'space-between',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
                     alignItems: 'center',
                     width: '100%',
                     padding: '0.5rem',
@@ -175,10 +176,10 @@ export const Card = (props) => {
                 >
                 </div>
                 <div
-                    className="p-5 flex w-full justify-between"
+                    className="p-5 flex w-full justify-between gap-10"
                     style={handleStyles()?.controlsContainer}
                 >
-                    <div className='flex flex-col justify-center'>
+                    <div className='flex flex-col justify-center w-full'>
                         <a href={`/detail/${product._id}`}>
                             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">
                                 {product.name}
@@ -200,8 +201,8 @@ export const Card = (props) => {
                         }
                     </div>
                     <div
-                        className='flex flex-col w-3/12 gap-2'
-                        style={handleStyles()?.amountContainer}
+                        className='flex flex-col w-3/12 gap-2 justify-center'
+                        style={{...handleStyles()?.amountContainer}}
                     >
                         <div className='flex items-center justify-center my-5'>
                             <a

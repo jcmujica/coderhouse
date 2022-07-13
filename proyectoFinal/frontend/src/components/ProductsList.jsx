@@ -50,13 +50,13 @@ export const ProductsList = () => {
 
     return (
         <div className="w-full flex flex-wrap items-start justify-center">
-            <h1 className="font-bold text-3xl mb-10">Productos</h1>
+            <h1 className="font-bold text-5xl mb-20">Productos</h1>
             <div className='w-full'>
-                <div className='w-full flex'>
+                <div className='w-full flex mb-10'>
                     <input
                         type="text"
                         placeholder='Filtar por categoria de producto'
-                        className="p-2 max-w-screen-lg bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                         onChange={(e) => setSelectedCategory(e.target.value)}
                         value={selectedCategory}
                     />
@@ -69,7 +69,7 @@ export const ProductsList = () => {
                     </button>
                     {selectedCategory &&
                         <span
-                            className="text-purple-500 cursor-pointer ml-10 border-4 px-5 py-2 rounded-lg border-purple-500 bold hover:cursor-move flex items-center"
+                            className="text-purple-500 ml-10 border-4 px-5 py-2 rounded-lg border-purple-500 bold hover:cursor-pointer flex items-center"
                             onClick={handleRemoveCategory}
                         >
                             {selectedCategory}

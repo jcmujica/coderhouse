@@ -67,7 +67,7 @@ export const Cart = () => {
         {
           products?.length > 0 ?
             <div>
-              <h1 className='text-5xl my-20'>
+              <h1 className='text-5xl mb-20'>
                 {`Carrito de ${user.name}`}
               </h1>
               <button

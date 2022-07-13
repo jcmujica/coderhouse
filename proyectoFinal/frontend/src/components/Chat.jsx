@@ -57,7 +57,7 @@ export const Chat = () => {
     return (
         <>
             <div
-                className='absolute bottom-20 right-2 w-80 h-2/4
+                className='sticky bottom-20 right-2 w-80 h-2/4
              flex items-center rounded-md border-4 bg-white overflow-y-auto shadow-lg flex-col overflow-x-hidden p-2'
                 style={{
                     display: show ? 'block' : 'none',
