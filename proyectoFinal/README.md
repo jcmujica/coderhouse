@@ -1,5 +1,13 @@
 # Curso Backend - MERN Stack: Proyecto Final
 ## E-commerce project
+
+## Entrega
+### Se adjuntan:
+- URL del video de la entrega `https://drive.google.com/file/d/1hnkyrZybNAxavzPi_L56t4WtYjeLrDZh/view?usp=sharing`
+- URL del testeo del websocket de mensajes (olvide incluirlo ese test en el video principal) `https://drive.google.com/file/d/1XeA-1dRtBR4bWAMJ5ReQzpxGJiTYpPqW/view?usp=sharing`
+- URL deploy en heroku (solo backend) `https://proyecto-final-coder-jc.herokuapp.com/`
+
+## Premisa:
 ## Desarrollarás el backend de una aplicación de e-commerce para poder vender productos de un rubro a elección.
 ### User story/brief: 
 
@@ -87,6 +95,3 @@ Dont’s
 No es necesario ni recomendado.
 - Crear un administrador de stock, dado que puede escaparse del scope y requerir bastante trabajo extra. Podremos gestionar el stock desde la base MongoDB.
 - Implementar el FrontEnd salvo que así sea deseado por parte del estudiante.
-
-# Entrega
-Se adjunta URL del video de la entrega https://drive.google.com/file/d/1hnkyrZybNAxavzPi_L56t4WtYjeLrDZh/view?usp=sharing
