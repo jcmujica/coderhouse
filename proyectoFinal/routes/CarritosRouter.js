@@ -40,11 +40,6 @@ class CarritosRouter {
             res.json({ data })
         });
 
-        router.post('/purchase', isAuth, async (req, res, next) => {
-            const data = await this.controller.purchaseCart(req.body)
-            res.json({ data })
-        });
-
         return router;
     };
 };

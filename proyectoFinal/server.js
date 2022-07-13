@@ -11,8 +11,9 @@ import ProductosRouter from './routes/ProductosRouter.js';
 import CarritosRouter from './routes/CarritosRouter.js';
 import UsuariosRouter from './routes/UsuariosRouter.js';
 import ConfigRouter from './routes/ConfigRouter.js';
-import { logger } from './utils/logger.js';
 import MensajesApi from './api/MensajesApi.js';
+import OrdenesRouter from './routes/OrdenesRouter.js';
+import { logger } from './utils/logger.js';
 
 const USE_CLUSTER = config.USE_CLUSTER;
 const PORT = process.env.PORT || 8080;
@@ -42,6 +43,7 @@ if (cluster.isPrimary && USE_CLUSTER) {
     app.use('/api/config', new ConfigRouter().start());
     app.use('/api/productos', new ProductosRouter().start());
     app.use('/api/carritos', new CarritosRouter().start());
+    app.use('/api/ordenes', new OrdenesRouter().start());
 
     io.on('connection', async (socket) => {
         logger.info('Cliente WS conectado');

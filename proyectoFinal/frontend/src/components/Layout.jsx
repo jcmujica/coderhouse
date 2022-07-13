@@ -1,13 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Navbar } from 'components/Navbar'
+import { Chat } from './Chat'
+import { AuthContext } from 'contexts/authContext';
+import { Loading } from 'components/Loading';
 
 export const Layout = ({ children }) => {
+    const { user } = useContext(AuthContext);
+    const loading = !user && (!['/login', '/register'].includes(window.location.pathname));
+    console.log(loading)
+
     return (
         <>
             <Navbar />
-            <div className='mt-20 px-8'>
-                {children}
-            </div>
+            {!loading ?
+                <div className='mt-20 px-8'>
+                    {children}
+                </div> :
+                <Loading />}
+            {!loading && <Chat />}
         </>
     )
-}
+};

@@ -18,7 +18,11 @@ export default class CarritosController {
     }
 
     async createCart(data) {
-        return await this.carritosApi.createCart(data);
+        const carrito = {
+            ...data,
+            timestamp: new Date()
+        }; 
+        return await this.carritosApi.createCart(carrito);
     }
 
     async updateCart(id, data) {
@@ -27,9 +31,5 @@ export default class CarritosController {
 
     async deleteCart(id) {
         return await this.carritosApi.deleteCart(id);
-    }
-
-    async purchaseCart(data) {
-        return await this.carritosApi.purchaseCart(data);
     }
 }

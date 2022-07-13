@@ -51,15 +51,6 @@ export const Navbar = () => {
                             Config
                         </Link>
                     )}
-                    {links.map(link => (
-                        <Link
-                            key={link.name}
-                            to={link.path}
-                            className="block lg:inline-block lg:mt-0 text-white font-bold hover:text-white hover:bg-blue-700 mr-4 text-right py-2 px-6 rounded"
-                        >
-                            {link.name}
-                        </Link>
-                    ))}
                     <Link
                         to="/cart"
                         className="block lg:inline-block lg:mt-0 text-white font-bold hover:text-white hover:bg-blue-700 mr-4 text-right py-2 px-6 rounded"
@@ -69,12 +60,24 @@ export const Navbar = () => {
                         >
                             {(cart && cart?.products?.length > 0) ?
                                 <>
-                                    <MdOutlineShoppingCart />{cart?.products?.length}
+                                    <MdOutlineShoppingCart />
+                                    <span className='bg-red-500 rounded-lg w-5 h-5 flex items-center justify-center'>
+                                        {cart?.products?.length}
+                                    </span>
                                 </> :
                                 'Ordenes'
                             }
                         </span>
                     </Link>
+                    {links.map(link => (
+                        <Link
+                            key={link.name}
+                            to={link.path}
+                            className="block lg:inline-block lg:mt-0 text-white font-bold hover:text-white hover:bg-blue-700 mr-4 text-right py-2 px-6 rounded"
+                        >
+                            {link.name}
+                        </Link>
+                    ))}
                 </div>
             </div>
         </nav>

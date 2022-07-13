@@ -35,7 +35,7 @@ export const Cart = () => {
   };
 
   const getOrders = async () => {
-    const orders = await axios.post(`/api/ordenes/${user.id}`, {
+    const orders = await axios.get(`/api/ordenes/user/${user.id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
