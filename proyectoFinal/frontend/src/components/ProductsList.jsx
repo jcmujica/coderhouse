@@ -3,6 +3,7 @@ import { Card } from './Card'
 import axios from 'axios';
 import { Modal } from './Modal';
 import { Loading } from './Loading';
+import { MdClose } from 'react-icons/md';
 
 export const ProductsList = () => {
     const [products, setProducts] = useState([]);
@@ -49,30 +50,35 @@ export const ProductsList = () => {
 
     return (
         <div className="w-full flex flex-wrap items-start justify-center">
-            <h1 className="font-bold text-3xl mb-10 mt-10">Productos</h1>
+            <h1 className="font-bold text-3xl my-10">Productos</h1>
             <div className='w-full'>
-                <input
-                    type="text"
-                    placeholder='Filtar por categoria de producto'
-                    className="p-2 max-w-screen-lg ml-10 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    value={selectedCategory}
-                />
-                <button
-                    className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:cursor-not-allowed disabled:opacity-50"
-                    onClick={getProductsByCategory}
-                    disabled={!selectedCategory}
-                >
-                    Fitrar
-                </button>
-                {selectedCategory &&
-                    <span
-                        className="text-purple-500 cursor-pointer mx-10 border-4 px-5 py-2 rounded-lg border-purple-500 bold hover:cursor-move"
-                        onClick={handleRemoveCategory}
+                <div className='w-full flex'>
+                    <input
+                        type="text"
+                        placeholder='Filtar por categoria de producto'
+                        className="p-2 max-w-screen-lg bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                        value={selectedCategory}
+                    />
+                    <button
+                        className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:cursor-pointer disabled:opacity-50"
+                        onClick={getProductsByCategory}
+                        disabled={!selectedCategory}
                     >
-                        {selectedCategory}
-                    </span>
-                }
+                        Fitrar
+                    </button>
+                    {selectedCategory &&
+                        <span
+                            className="text-purple-500 cursor-pointer mx-10 border-4 px-5 py-2 rounded-lg border-purple-500 bold hover:cursor-move flex items-center"
+                            onClick={handleRemoveCategory}
+                        >
+                            {selectedCategory}
+                            <span className='ml-2'>
+                                <MdClose />
+                            </span>
+                        </span>
+                    }
+                </div>
                 {products.length ?
                     products.map((product, i) => (
                         <Card

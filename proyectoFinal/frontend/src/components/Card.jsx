@@ -162,7 +162,7 @@ export const Card = (props) => {
         <>
             <div
                 key={product.sku}
-                className="bg-white rounded-lg flex border border-gray-200 shadow-md my-5 mx-10"
+                className="bg-white rounded-lg flex border border-gray-200 shadow-md my-5"
                 style={handleStyles()?.box}
             >
                 <div
