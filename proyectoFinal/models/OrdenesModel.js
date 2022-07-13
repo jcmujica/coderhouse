@@ -12,9 +12,6 @@ const OrdenesSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    products: [
-        ProductosSchema
-    ],
     total: {
         type: Number,
         required: true

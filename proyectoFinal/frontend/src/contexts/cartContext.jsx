@@ -10,7 +10,6 @@ export const CartProvider = ({ children }) => {
 
     useEffect(() => {
         const userId = user?._id;
-        console.log({ userId })
         if (userId) {
             const getCart = async () => {
                 try {
@@ -20,7 +19,6 @@ export const CartProvider = ({ children }) => {
                         }
                     });
 
-                    console.log({ cartctx: response?.data?.data })
                     const cart = response?.data?.data;
                     setCart(cart);
                 } catch (e) {

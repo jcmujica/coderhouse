@@ -16,7 +16,7 @@ class OrdenesRouter {
         });
 
         router.get('/user/:id', isAuth, async (req, res, next) => {
-            const data = await this.controller.getUserOrder(req.params.id)
+            const data = await this.controller.getUserOrders(req.params.id)
             res.json({ data })
         });
 

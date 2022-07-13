@@ -9,13 +9,12 @@ export default class OrdenesApi {
         return await this.ordenesDAO.getById(id);
     }
 
-    async getUserOrder(id) {
-        return await this.ordenesDAO.getUserOrder(id);
+    async getUserOrders(id) {
+        return await this.ordenesDAO.getUserOrders(id);
     }
 
     async createOrder(data) {
-
-        return await this.ordenesDAO.create(carrito);
+        return await this.ordenesDAO.create(data);
     }
 
     async updateOrder(id, data) {

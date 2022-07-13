@@ -12,12 +12,23 @@ export default class OrdenesController {
         return await this.ordenesApi.getOrder(id);
     }
 
-    async getUserOrder(id) {
-        return await this.ordenesApi.getUserOrder(id);
+    async getUserOrders(id) {
+        return await this.ordenesApi.getUserOrders(id) || [];
     }
 
     async createOrder(data) {
+        const orderData = {
+            total: data.products.reduce((acc, cur) => acc + cur.price, 0),
+            status: "PENDING",
+            user: data.user,
+            items: data.products.length,
+            cart: data._id,
+            createdAt: new Date()
+        };
+        const order = await this.ordenesApi.createOrder(orderData);
+        console.log({ order })
         // preform calculations
+        return []
         try {
             if (!data) {
                 return { error: -1, message: 'No se recibieron los datos del carrito' };

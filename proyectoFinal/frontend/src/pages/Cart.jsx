@@ -13,21 +13,21 @@ export const Cart = () => {
 
   const handleRemoveFromCart = async (product) => {
     const updatedProducts = products.filter(
-      (p) => p.id !== product.id
+      (p) => p._id !== product._id
     );
     const updatedCart = {
       ...cart,
       products: updatedProducts,
     };
     console.log(updatedCart)
-    const newCart = await axios.post(`/api/carrito/${cart.id}/productos`, updatedCart);
+    const newCart = await axios.post(`/api/carrito/${cart._id}/productos`, updatedCart);
     setProducts(newCart.data.products);
   };
 
   const handleDeleteCart = async () => {
-    await axios.delete(`/api/carrito/${cart.id}`, {
+    await axios.delete(`/api/carrito/${cart._id}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: localStorage.getItem('token'),
       },
     });
     setProducts([]);
@@ -35,31 +35,33 @@ export const Cart = () => {
   };
 
   const getOrders = async () => {
-    const orders = await axios.get(`/api/ordenes/user/${user.id}`, {
+    const orders = await axios.get(`/api/ordenes/user/${user._id}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: localStorage.getItem('token'),
       },
     });
     setOrders(orders?.data?.data);
   };
 
   const handleBuy = async () => {
-    const order = await axios.post(`/api/ordenes/${user.id}`, cart, {
+    const order = await axios.post(`/api/ordenes/`, cart, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: localStorage.getItem('token'),
       },
     });
-    setOrders(order?.data?.data);
+    getOrders();
   };
 
   useEffect(() => {
-    getOrders();
+    if (user) getOrders();
     if (cart?.products?.length === 0) {
       setProducts({});
     } else {
       setProducts(cart.products);
     }
-  }, [cart]);
+  }, [cart, user]);
+
+  console.log({ orders })
 
   return (
     <Layout>
@@ -67,8 +69,8 @@ export const Cart = () => {
         {
           products?.length > 0 ?
             <div>
-              <h1 className='text-5xl mb-20'>
-                {`Carrito de ${user.name}`}
+              <h1 className='text-5xl font-bold mb-20'>
+                {/* {`Carrito de ${user.name}`} */}
               </h1>
               <button
                 className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2'
@@ -95,14 +97,14 @@ export const Cart = () => {
                             <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
                               Precio
                             </th>
-                            <th scope="col" className="relative py-3 px-6">
-                              <span className="sr-only">Eliminar</span>
+                            <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase flex justify-center">
+                              Acciones
                             </th>
                           </tr>
                         </thead>
                         <tbody>
                           {products.map(product => (
-                            <tr key={product.id} className="bg-white border-b">
+                            <tr key={product._id} className="bg-white border-b">
                               <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap">
                                 {product.name}
                               </td>
@@ -115,7 +117,7 @@ export const Cart = () => {
                               <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
                                 {product.price}
                               </td>
-                              <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
+                              <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap flex justify-center">
                                 <a
                                   href="#"
                                   className="text-blue-600  hover:underline"
@@ -144,8 +146,8 @@ export const Cart = () => {
             </div>
         }
         <div className="flex flex-col mt-6">
-          <h1 className='text-5xl my-20'>
-            {`Ordenes de ${user.name}`}
+          <h1 className='text-5xl my-20 font-bold'>
+            {/* {`Ordenes de ${user.name}`} */}
           </h1>
           <div className="flex flex-col mt-6">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -169,22 +171,22 @@ export const Cart = () => {
                         <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
                           Estado
                         </th>
-                        <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+                        <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase flex justify-center">
                           Acciones
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {orders.map(order => (
-                        <tr key={order.id} className="bg-white border-b">
+                      {orders?.map(order => (
+                        <tr key={order._id} className="bg-white border-b">
                           <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap">
-                            {order.id}
+                            {order._id}
                           </td>
                           <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
-                            {order.amount}
+                            {order.items}
                           </td>
                           <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
-                            {order.price}
+                            {order.total}
                           </td>
                           <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
                             {order.createdAt}
@@ -192,7 +194,7 @@ export const Cart = () => {
                           <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
                             {order.status}
                           </td>
-                          <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
+                          <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap flex justify-center">
                             <a
                               href="#"
                               className="text-blue-600  hover:underline"

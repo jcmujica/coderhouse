@@ -6,11 +6,11 @@ export default class OrdenesDAO extends GenericDAO {
         super(ordenesModel, "ordenes");
     }
 
-    async updateCart(id, data) {
+    async updateOrder(id, data) {
         return await this.model.findOneAndUpdate({ _id: id }, data, { new: true });
     }
 
-    async getUserCart(id) {
-        return await this.model.findOne({ user: id });
+    async getUserOrders(id) {
+        return await this.model.find({ user: id });
     }
 }

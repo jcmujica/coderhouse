@@ -6,7 +6,7 @@ import { Loading } from 'components/Loading';
 
 export const Layout = ({ children }) => {
     const { user } = useContext(AuthContext);
-    const loading = !user && (!['/login', '/register'].includes(window.location.pathname));
+    const loading = !user?._id && (!['/login', '/register'].includes(window.location.pathname));
 
     return (
         <>
