@@ -51,4 +51,7 @@ export default {
     JWT_EXPIRATION_TIME: process.env.JWT_EXPIRATION_TIME,
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
     ADMIN_PHONE: process.env.ADMIN_PHONE,
+    TWILIO_SID: process.env.TWILIO_SID,
+    TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN,
+    TWILIO_FROM: process.env.TWILIO_FROM,
 };

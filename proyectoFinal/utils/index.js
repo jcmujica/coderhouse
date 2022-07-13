@@ -4,6 +4,11 @@ import { logger } from './logger.js';
 import { hashPassword } from './hash.js';
 import { comparePassword } from './hash.js';
 
+const ROLES = {
+    ADMIN: 'admin',
+    USER: 'user'
+};
+
 const completeWithWhatasappPrefix = (phone) => {
     // if phone starts with +, add whatasapp prefix
     if (phone.startsWith('+')) {

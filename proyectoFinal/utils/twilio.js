@@ -1,18 +1,15 @@
 import twilio from 'twilio';
+import config from '../config.js';
 import { logger } from './logger.js';
 
-const accountSid = process.env.TWILIO_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const from = process.env.TWILIO_FROM;
-
-const client = twilio(accountSid, authToken)
+const client = twilio(config.TWILIO_SID, config.TWILIO_AUTH_TOKEN)
 
 export const sendMessage = async ({ to, body }) => {
     try {
         if (!to || !body) return null;
         await client.messages.create({
             body: body,
-            from: from,
+            from: config.TWILIO_FROM,
             to: to
         });
     } catch (e) {

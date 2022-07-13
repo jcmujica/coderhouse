@@ -4,6 +4,11 @@ import UsuariosApi from "../api/UsuariosApi.js";
 import config from "../config.js";
 import { cartToHtmlBody, cartToTextBody, completeWithWhatasappPrefix, logger, transporter, twilio } from "../utils/index.js";
 
+const ROLES = {
+    ADMIN: 'admin',
+    USER: 'user'
+};
+
 export default class OrdenesController {
     constructor() {
         this.ordenesApi = new OrdenesApi();
@@ -43,19 +48,23 @@ export default class OrdenesController {
             // Notify user
             const user = await this.usuariosApi.getById(data.user);
             const { phone } = user;
+            const userPhone = completeWithWhatasappPrefix(phone);
             const adminPhone = config.ADMIN_PHONE;
+            const userBody = cartToTextBody(data, ROLES.USER);
+            const adminBody = cartToTextBody(data, ROLES.ADMIN);
             await transporter.sendMail({
                 ...config.emailer.options,
                 html: cartToHtmlBody(data)
             });
             await twilio.sendMessage({
                 to: completeWithWhatasappPrefix(adminPhone),
-                body: cartToTextBody(data, ROLES.ADMIN),
+                body: adminBody,
             });
             await twilio.sendMessage({
-                to: completeWithWhatasappPrefix(phone),
-                body: cartToTextBody(data, ROLES.USER),
+                to: completeWithWhatasappPrefix(userPhone),
+                body: userBody,
             });
+            return true;
         } catch (e) {
             logger.error(e);
             return { error: 'error in message', message: e.message };

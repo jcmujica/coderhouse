@@ -49,6 +49,7 @@ export const Cart = () => {
         Authorization: localStorage.getItem('token'),
       },
     });
+    console.log({ order })
     getOrders();
     getCart();
   };
