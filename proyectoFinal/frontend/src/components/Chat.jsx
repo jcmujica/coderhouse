@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { io } from "socket.io-client";
-import { MdChat } from 'react-icons/md';
+import { MdChat, MdClose } from 'react-icons/md';
 import { AuthContext } from 'contexts/authContext';
 
 const socket = io();
@@ -57,7 +57,7 @@ export const Chat = () => {
     return (
         <>
             <div
-                className='sticky bottom-20 right-2 w-80 h-2/4
+                className='fixed bottom-20 right-2 w-80 h-2/4
              flex items-center rounded-md border-4 bg-white overflow-y-auto shadow-lg flex-col overflow-x-hidden p-2'
                 style={{
                     display: show ? 'block' : 'none',
@@ -89,10 +89,10 @@ export const Chat = () => {
                 />
             </div>
             <div
-                className='absolute bottom-2 right-2 bg-blue-500 rounded-full w-12 h-12 flex items-center justify-center text-white cursor-pointer'
+                className='fixed bottom-2 right-2 bg-blue-500 rounded-full w-12 h-12 flex items-center justify-center text-white cursor-pointer'
                 onClick={handleClick}
             >
-                <MdChat />
+                {show ? <MdClose /> : <MdChat />}
             </div>
         </>
     )
