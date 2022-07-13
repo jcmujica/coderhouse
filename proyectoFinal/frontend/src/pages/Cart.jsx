@@ -43,7 +43,17 @@ export const Cart = () => {
     setOrders(orders?.data?.data);
   };
 
+  const handleBuy = async () => {
+    const order = await axios.post(`/api/ordenes/${user.id}`, cart, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    setOrders(order?.data?.data);
+  };
+
   useEffect(() => {
+    getOrders();
     if (cart?.products?.length === 0) {
       setProducts({});
     } else {
@@ -122,83 +132,84 @@ export const Cart = () => {
                   </div>
                 </div>
               </div>
+              <button
+                className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 my-5'
+                onClick={handleBuy}
+              >
+                Comprar
+              </button>
             </div> :
             <div className="flex flex-col mt-6">
               No hay elementos en el carrito
             </div>
         }
-        {true ?
+        <div className="flex flex-col mt-6">
+          <h1 className='text-5xl my-20'>
+            {`Ordenes de ${user.name}`}
+          </h1>
           <div className="flex flex-col mt-6">
-            <h1 className='text-5xl my-20'>
-              {`Ordenes de ${user.name}`}
-            </h1>
-            <div className="flex flex-col mt-6">
-              <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className="inline-block py-2 min-w-full sm:px-6 lg:px-8">
-                  <div className="overflow-hidden shadow-md sm:rounded-lg">
-                    <table className="min-w-full">
-                      <thead className="bg-gray-50 ">
-                        <tr>
-                          <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
-                            ID
-                          </th>
-                          <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
-                            Items
-                          </th>
-                          <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
-                            Total
-                          </th>
-                          <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
-                            Fecha
-                          </th>
-                          <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
-                            Estado
-                          </th>
-                          <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
-                            Acciones
-                          </th>
+            <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="inline-block py-2 min-w-full sm:px-6 lg:px-8">
+                <div className="overflow-hidden shadow-md sm:rounded-lg">
+                  <table className="min-w-full">
+                    <thead className="bg-gray-50 ">
+                      <tr>
+                        <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+                          ID
+                        </th>
+                        <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+                          Items
+                        </th>
+                        <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+                          Total
+                        </th>
+                        <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+                          Fecha
+                        </th>
+                        <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+                          Estado
+                        </th>
+                        <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+                          Acciones
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orders.map(order => (
+                        <tr key={order.id} className="bg-white border-b">
+                          <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap">
+                            {order.id}
+                          </td>
+                          <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
+                            {order.amount}
+                          </td>
+                          <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
+                            {order.price}
+                          </td>
+                          <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
+                            {order.createdAt}
+                          </td>
+                          <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
+                            {order.status}
+                          </td>
+                          <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
+                            <a
+                              href="#"
+                              className="text-blue-600  hover:underline"
+                              onClick={() => handleRemoveFromCart(order)}
+                            >
+                              <MdDelete />
+                            </a>
+                          </td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {orders.map(order => (
-                          <tr key={order.id} className="bg-white border-b">
-                            <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap">
-                              {order.id}
-                            </td>
-                            <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
-                              {order.amount}
-                            </td>
-                            <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
-                              {order.price}
-                            </td>
-                            <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
-                              {order.createdAt}
-                            </td>
-                            <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
-                              {order.status}
-                            </td>
-                            <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
-                              <a
-                                href="#"
-                                className="text-blue-600  hover:underline"
-                                onClick={() => handleRemoveFromCart(order)}
-                              >
-                                <MdDelete />
-                              </a>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
-          </div> :
-          <div className="flex flex-col mt-6">
-            No hay ordenes
           </div>
-        }
+        </div>
       </>
     </Layout>
   )
