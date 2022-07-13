@@ -24,7 +24,7 @@ const cartToHtmlBody = (cart) => {
 
 
     return `
-        <h1>Nueva compra de: ${cart.username}</h1>
+        <h1>Nueva compra</h1>
         <ul>
             ${cartListToString}
         </ul>
@@ -39,7 +39,7 @@ const cartToTextBody = (cart, role) => {
     const title = role === ROLES.ADMIN ? 'Nueva compra de: ' : 'Pedido recibido y en proceso: ';
 
     return `
-        ${title} ${cart.username}
+        ${title}
         ${cartListToString}
     `;
 };

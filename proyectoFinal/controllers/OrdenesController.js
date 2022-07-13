@@ -2,8 +2,7 @@ import OrdenesApi from "../api/OrdenesApi.js";
 import CarritosApi from "../api/CarritosApi.js";
 import UsuariosApi from "../api/UsuariosApi.js";
 import config from "../config.js";
-import UsuariosDAO from "../models/daos/UsuariosDAO.js";
-import { cartToTextBody, completeWithWhatasappPrefix, transporter, twilio } from "../utils/index.js";
+import { cartToHtmlBody, cartToTextBody, completeWithWhatasappPrefix, logger, transporter, twilio } from "../utils/index.js";
 
 export default class OrdenesController {
     constructor() {
@@ -44,22 +43,19 @@ export default class OrdenesController {
             // Notify user
             const user = await this.usuariosApi.getById(data.user);
             const { phone } = user;
-            console.log({ phone })
-            return;
-            const adminPhone = config.RECIPIENT_PHONE;
+            const adminPhone = config.ADMIN_PHONE;
             await transporter.sendMail({
                 ...config.emailer.options,
-                html: cartToHtmlBody(body)
+                html: cartToHtmlBody(data)
             });
             await twilio.sendMessage({
                 to: completeWithWhatasappPrefix(adminPhone),
-                body: cartToTextBody(body, ROLES.ADMIN),
+                body: cartToTextBody(data, ROLES.ADMIN),
             });
             await twilio.sendMessage({
                 to: completeWithWhatasappPrefix(phone),
-                body: cartToTextBody(body, ROLES.USER),
+                body: cartToTextBody(data, ROLES.USER),
             });
-            return await this.ordenesApi.createOrder(data);
         } catch (e) {
             logger.error(e);
             return { error: 'error in message', message: e.message };

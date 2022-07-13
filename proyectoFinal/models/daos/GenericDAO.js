@@ -12,7 +12,6 @@ export default class GenericDAO {
     async create(data) {
         try {
             let item = await this.model.create(data);
-            console.log(item);
             return item;
         } catch (e) {
             logger.error(e);

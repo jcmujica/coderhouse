@@ -25,7 +25,6 @@ export const Config = () => {
         getConfig();
     }, [user?._id]);
 
-    console.log({ config })
     return (
         <Layout>
             <pre

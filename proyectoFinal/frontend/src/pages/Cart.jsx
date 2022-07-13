@@ -20,7 +20,6 @@ export const Cart = () => {
       ...cart,
       products: updatedProducts,
     };
-    console.log(updatedCart)
     const newCart = await axios.post(`/api/carrito/${cart._id}/productos`, updatedCart);
     setProducts(newCart.data.products);
   };

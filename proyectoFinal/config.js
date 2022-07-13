@@ -42,7 +42,7 @@ export default {
         },
         options: {
             from: process.env.SENDER_EMAIL,
-            to: process.env.RECIPIENT_EMAIL,
+            to: process.env.ADMIN_EMAIL,
             subject: 'Hola!',
             html: '<h1 style="color: blue;">Contenido de prueba desde <span style="color: green;">Node.js con Nodemailer</span></h1>'
         }
@@ -50,6 +50,5 @@ export default {
     JWT_SECRET: process.env.JWT_SECRET,
     JWT_EXPIRATION_TIME: process.env.JWT_EXPIRATION_TIME,
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
-    ADMIN_PHONE: process.env.ADMIN_PASSWORD,
-
+    ADMIN_PHONE: process.env.ADMIN_PHONE,
 };
