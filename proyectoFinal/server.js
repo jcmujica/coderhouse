@@ -3,7 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { Server as HttpServer } from 'http';
 import { Server as IOServer } from 'socket.io';
-import { passport } from './middlewares/auth.js';
+import { isAuth, passport } from './middlewares/auth.js';
 import cluster from 'cluster';
 import os from 'os';
 import config from './config.js';
@@ -58,6 +58,10 @@ if (cluster.isPrimary && USE_CLUSTER) {
         } catch (e) {
             logger.error(e);
         }
+    });
+
+    app.get('/', (req, res) => {
+        res.send('Welcome! Please make sure you are logged in to access the API.');
     });
 
     app.get('*', function (req, res) {
