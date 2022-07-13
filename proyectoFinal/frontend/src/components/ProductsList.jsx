@@ -50,7 +50,7 @@ export const ProductsList = () => {
 
     return (
         <div className="w-full flex flex-wrap items-start justify-center">
-            <h1 className="font-bold text-3xl my-10">Productos</h1>
+            <h1 className="font-bold text-3xl mb-10">Productos</h1>
             <div className='w-full'>
                 <div className='w-full flex'>
                     <input

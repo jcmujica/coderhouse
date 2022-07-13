@@ -10,13 +10,10 @@ export const Chat = () => {
     const [show, setShow] = useState(false);
     const [messages, setMessages] = useState([]);
     const handleClick = () => setShow(!show);
-    console.log(socket)
 
     useEffect(() => {
         const getMessages = async () => {
             socket.on('listMessages', (msgs) => {
-                console.log("listMessages", msgs);
-                console.log({ msgs })
                 setMessages(msgs);
             });
         };
@@ -42,15 +39,14 @@ export const Chat = () => {
     const ChatLine = (props) => {
         const { message } = props;
         return (
-            <div className="flex w-full my-2">
+            <div className="flex w-full my-2 items-center">
                 <img
                     className='rounded-full w-10 h-10 mr-2'
-                    src={message.user.avatar}
-                    alt={message.user.name}
+                    src={message.user.avatar || 'https://avatars.dicebear.com/api/adventurer/ecommerce-image-a.svg'}
                 />
                 <div className="flex w-full pb-2 border-b-2 border-slate-100 mr-2 text-xs items-start">
                     <div className="text-slate-600">
-                        <span className="mr-2">{message.user.name}:</span>
+                        <span className="mr-2">{message.userName}:</span>
                     </div>
                     <p className="chat-line__message-text">{message.message}</p>
                 </div>
@@ -61,13 +57,18 @@ export const Chat = () => {
     return (
         <>
             <div
-                className='absolute bottom-20 right-2 w-72 h-2/4
-             flex items-center border-dashed border-2 bg-white overflow-y-auto shadow-md flex-col overflow-x-hidden p-2'
+                className='absolute bottom-20 right-2 w-80 h-2/4
+             flex items-center rounded-md border-4 bg-white overflow-y-auto shadow-lg flex-col overflow-x-hidden p-2'
                 style={{
                     display: show ? 'block' : 'none',
                 }}
             >
-                <div className='w-full'>
+                <div
+                    className='w-full flex-grow'
+                    style={{
+                        height: '90%'
+                    }}
+                >
                     {messages.map(message =>
                         <ChatLine
                             key={message._id}
