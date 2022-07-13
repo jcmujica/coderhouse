@@ -9,6 +9,7 @@ export const Cart = () => {
   const { cart, setCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   const handleRemoveFromCart = async (product) => {
     const updatedProducts = products.filter(
@@ -33,6 +34,15 @@ export const Cart = () => {
     setCart({});
   };
 
+  const getOrders = async () => {
+    const orders = await axios.post(`/api/ordenes/${user.id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    setOrders(orders?.data?.data);
+  };
+
   useEffect(() => {
     if (cart?.products?.length === 0) {
       setProducts({});
@@ -43,18 +53,85 @@ export const Cart = () => {
 
   return (
     <Layout>
-      {
-        products?.length > 0 ?
-          <div>
+      <>
+        {
+          products?.length > 0 ?
+            <div>
+              <h1 className='text-5xl my-20'>
+                {`Carrito de ${user.name}`}
+              </h1>
+              <button
+                className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2'
+                onClick={handleDeleteCart}
+              >
+                Vaciar carrito
+              </button>
+              <div className="flex flex-col mt-6">
+                <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                  <div className="inline-block py-2 min-w-full sm:px-6 lg:px-8">
+                    <div className="overflow-hidden shadow-md sm:rounded-lg">
+                      <table className="min-w-full">
+                        <thead className="bg-gray-50 ">
+                          <tr>
+                            <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+                              Nombre
+                            </th>
+                            <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+                              SKU
+                            </th>
+                            <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+                              Cantidad
+                            </th>
+                            <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+                              Precio
+                            </th>
+                            <th scope="col" className="relative py-3 px-6">
+                              <span className="sr-only">Eliminar</span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {products.map(product => (
+                            <tr key={product.id} className="bg-white border-b">
+                              <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap">
+                                {product.name}
+                              </td>
+                              <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
+                                {product.sku}
+                              </td>
+                              <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
+                                {product.amount}
+                              </td>
+                              <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
+                                {product.price}
+                              </td>
+                              <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
+                                <a
+                                  href="#"
+                                  className="text-blue-600  hover:underline"
+                                  onClick={() => handleRemoveFromCart(product)}
+                                >
+                                  <MdDelete />
+                                </a>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> :
+            <div className="flex flex-col mt-6">
+              No hay elementos en el carrito
+            </div>
+        }
+        {true ?
+          <div className="flex flex-col mt-6">
             <h1 className='text-5xl my-20'>
-              {`Carrito de ${user.name}`}
+              {`Ordenes de ${user.name}`}
             </h1>
-            <button
-              className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2'
-              onClick={handleDeleteCart}
-            >
-              Vaciar carrito
-            </button>
             <div className="flex flex-col mt-6">
               <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block py-2 min-w-full sm:px-6 lg:px-8">
@@ -63,42 +140,48 @@ export const Cart = () => {
                       <thead className="bg-gray-50 ">
                         <tr>
                           <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
-                            Nombre
+                            ID
                           </th>
                           <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
-                            SKU
+                            Items
                           </th>
                           <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
-                            Cantidad
+                            Total
                           </th>
                           <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
-                            Precio
+                            Fecha
                           </th>
-                          <th scope="col" className="relative py-3 px-6">
-                            <span className="sr-only">Eliminar</span>
+                          <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+                            Estado
+                          </th>
+                          <th scope="col" className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+                            Acciones
                           </th>
                         </tr>
                       </thead>
                       <tbody>
-                        {products.map(product => (
-                          <tr key={product.id} className="bg-white border-b">
+                        {orders.map(order => (
+                          <tr key={order.id} className="bg-white border-b">
                             <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap">
-                              {product.name}
+                              {order.id}
                             </td>
                             <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
-                              {product.sku}
+                              {order.amount}
                             </td>
                             <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
-                              {product.amount}
+                              {order.price}
                             </td>
-                            <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
-                              {product.price}
+                            <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
+                              {order.createdAt}
+                            </td>
+                            <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
+                              {order.status}
                             </td>
                             <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
                               <a
                                 href="#"
                                 className="text-blue-600  hover:underline"
-                                onClick={() => handleRemoveFromCart(product)}
+                                onClick={() => handleRemoveFromCart(order)}
                               >
                                 <MdDelete />
                               </a>
@@ -113,9 +196,10 @@ export const Cart = () => {
             </div>
           </div> :
           <div className="flex flex-col mt-6">
-            No hay elementos en el carrito
+            No hay ordenes
           </div>
-      }
+        }
+      </>
     </Layout>
   )
 }

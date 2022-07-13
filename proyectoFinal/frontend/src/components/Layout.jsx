@@ -5,7 +5,9 @@ export const Layout = ({ children }) => {
     return (
         <>
             <Navbar />
-            {children}
+            <div className='mt-20 px-8'>
+                {children}
+            </div>
         </>
     )
 }

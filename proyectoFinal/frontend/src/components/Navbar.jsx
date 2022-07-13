@@ -60,19 +60,21 @@ export const Navbar = () => {
                             {link.name}
                         </Link>
                     ))}
-                    {cart && cart?.products?.length > 0 && (
-                        <Link
-                            to="/cart"
-                            className="block lg:inline-block lg:mt-0 text-white font-bold hover:text-white hover:bg-blue-700 mr-4 text-right py-2 px-6 rounded"
+                    <Link
+                        to="/cart"
+                        className="block lg:inline-block lg:mt-0 text-white font-bold hover:text-white hover:bg-blue-700 mr-4 text-right py-2 px-6 rounded"
+                    >
+                        <span
+                            className='flex items-center gap-2 justify-center'
                         >
-                            <span
-                                className='flex items-center gap-2 justify-center'
-                            >
-                                <MdOutlineShoppingCart />
-                                {cart?.products?.length}
-                            </span>
-                        </Link>
-                    )}
+                            {(cart && cart?.products?.length > 0) ?
+                                <>
+                                    <MdOutlineShoppingCart />{cart?.products?.length}
+                                </> :
+                                'Ordenes'
+                            }
+                        </span>
+                    </Link>
                 </div>
             </div>
         </nav>
