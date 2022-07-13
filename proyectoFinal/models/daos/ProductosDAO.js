@@ -1,4 +1,4 @@
-import { productosModel } from "../productosModel.js";
+import { productosModel } from "../ProductosModel.js";
 import GenericDAO from "./GenericDAO.js";
 
 export default class ProductosDAO extends GenericDAO {

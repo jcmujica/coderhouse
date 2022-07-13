@@ -1,5 +1,5 @@
 import GenericDAO from "./GenericDAO.js";
-import { usuariosModel } from "../usuariosModel.js";
+import { usuariosModel } from "../UsuariosModel.js";
 
 export default class UsuariosDAO extends GenericDAO {
     constructor() {

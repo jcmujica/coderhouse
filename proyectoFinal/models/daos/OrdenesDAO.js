@@ -1,4 +1,4 @@
-import { ordenesModel } from "../ordenesModel.js";
+import { ordenesModel } from "../OrdenesModel.js";
 import GenericDAO from "./GenericDAO.js";
 
 export default class OrdenesDAO extends GenericDAO {

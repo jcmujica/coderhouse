@@ -1,4 +1,4 @@
-import { carritosModel } from "../carritosModel.js";
+import { carritosModel } from "../CarritosModel.js";
 import GenericDAO from "./GenericDAO.js";
 
 export default class CarritosDAO extends GenericDAO {
