@@ -70,13 +70,22 @@ export const Cart = () => {
           <h1 className='text-5xl font-bold mb-20'>
             {`Carrito de ${user?.name}`}
           </h1>
-          <button
-            className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 disabled:opacity-50'
-            onClick={handleDeleteCart}
-            disabled={!hasProducts}
-          >
-            Vaciar carrito
-          </button>
+          <div className='flex justify-between items-center'>
+            <button
+              className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg h-10 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 disabled:opacity-50'
+              onClick={handleDeleteCart}
+              disabled={!hasProducts}
+            >
+              Vaciar carrito
+            </button>
+            <button
+              className='flex justify-center items-center h-10 gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 my-5 disabled:opacity-50'
+              onClick={handleBuy}
+              disabled={!hasProducts}
+            >
+              Comprar
+            </button>
+          </div>
           <div className="flex flex-col mt-6">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block py-2 min-w-full sm:px-6 lg:px-8">
@@ -133,13 +142,6 @@ export const Cart = () => {
               </div>
             </div>
           </div>
-          <button
-            className='flex justify-center items-center gap-2 py-2 px-3 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 mx-2 my-5 disabled:opacity-50'
-            onClick={handleBuy}
-            disabled={!hasProducts}
-          >
-            Comprar
-          </button>
         </div>
         <div className="flex flex-col mt-6">
           <h1 className='text-5xl my-20 font-bold'>
