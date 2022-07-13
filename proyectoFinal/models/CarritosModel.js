@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ProductosSchema } from "./productosModel.js";
+import { ProductosSchema } from "./ProductosModel.js";
 
 const carritosCollection = 'carritos';
 
