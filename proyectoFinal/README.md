@@ -87,3 +87,6 @@ Dont’s
 No es necesario ni recomendado.
 - Crear un administrador de stock, dado que puede escaparse del scope y requerir bastante trabajo extra. Podremos gestionar el stock desde la base MongoDB.
 - Implementar el FrontEnd salvo que así sea deseado por parte del estudiante.
+
+# Entrega
+Se adjunta URL del video de la entrega https://drive.google.com/file/d/1hnkyrZybNAxavzPi_L56t4WtYjeLrDZh/view?usp=sharing
