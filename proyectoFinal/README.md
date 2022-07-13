@@ -1,11 +1,11 @@
 # Curso Backend - MERN Stack: Proyecto Final
 ## E-commerce project
 
-## Entrega
+## Entrega 🔥
 ### Se adjuntan:
-- URL del video de la entrega `https://drive.google.com/file/d/1hnkyrZybNAxavzPi_L56t4WtYjeLrDZh/view?usp=sharing`
-- URL del testeo del websocket de mensajes (olvide incluirlo ese test en el video principal) `https://drive.google.com/file/d/1XeA-1dRtBR4bWAMJ5ReQzpxGJiTYpPqW/view?usp=sharing`
-- URL deploy en heroku (solo backend) `https://proyecto-final-coder-jc.herokuapp.com/`
+- URL del video de la entrega [Video full](https://drive.google.com/file/d/1hnkyrZybNAxavzPi_L56t4WtYjeLrDZh/view?usp=sharing) ✅
+- URL del testeo del websocket de mensajes (olvide incluirlo ese test en el video principal) [Video mensajes](https://drive.google.com/file/d/1XeA-1dRtBR4bWAMJ5ReQzpxGJiTYpPqW/view?usp=sharing) ✅
+- URL deploy en heroku (solo backend) [Backend en heroku](https://proyecto-final-coder-jc.herokuapp.com/) ✅
 
 ## Premisa:
 ## Desarrollarás el backend de una aplicación de e-commerce para poder vender productos de un rubro a elección.
